@@ -1,0 +1,6 @@
+include ':Login'
+include ':BaseMvp'
+include ':Service'
+include ':Base'
+include ':app'
+rootProject.name = "ShopperManager"

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lay_title"
+    android:layout_width="match_parent"
+    android:background="@color/colorPrimary"
+    android:layout_height="match_parent"
+    android:minHeight="@dimen/size_55">
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_title_left"
+        android:layout_width="@dimen/size_32"
+        android:layout_height="@dimen/size_32"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/size_5"
+        android:padding="@dimen/size_8"
+        android:src="@drawable/return_key_while" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_title_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/iv_title_left"
+        android:gravity="center"
+        android:padding="@dimen/size_10"
+        android:textColor="@color/colorWrite"
+        android:textSize="@dimen/text_16"
+        android:visibility="gone" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_title_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:maxWidth="320dp"
+        android:textColor="@color/colorWrite"
+        android:textSize="@dimen/text_18" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_title_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:paddingBottom="@dimen/size_5"
+            android:paddingTop="@dimen/size_5"
+            android:textColor="@color/colorWrite"
+            android:textSize="@dimen/text_16"
+            android:visibility="gone" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_title_right"
+            android:layout_width="@dimen/size_32"
+            android:layout_height="@dimen/size_32"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:layout_marginRight="@dimen/size_5"
+            android:padding="@dimen/size_8"
+             />
+
+
+
+    </LinearLayout>
+</RelativeLayout>
+

@@ -1,0 +1,17 @@
+<resources>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">请输入账号</string>
+    <string name="account">账号</string>
+    <string name="password">密码</string>
+    <string name="shopper_license">请输入商家许可证</string>
+    <string name="prompt_password">请输入密码</string>
+    <string name="confirm_password">请确认密码</string>
+    <string name="action_sign_in">登录</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">请输入用户名</string>
+    <string name="invalid_password">请输入密码</string>
+    <string name="registered">注册</string>
+    <string name="verification_code">获取验证码</string>
+    <string name="input_verification_code">请输入获取验证码</string>
+</resources>

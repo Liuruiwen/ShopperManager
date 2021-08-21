@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.VerificationCodeActivity">
+    <EditText
+        android:id="@+id/user_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="24dp"
+        android:autofillHints="@string/prompt_email"
+        android:hint="@string/prompt_email"
+        android:inputType="textEmailAddress"
+        android:selectAllOnFocus="true"
+        android:theme="@style/Et_Bg_Color"
+        android:maxLength="11"
+        android:textStyle="normal"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="36dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_code"
+        app:layout_constraintTop_toBottomOf="@id/user_name"
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints">
+        <EditText
+            android:id="@+id/verification_code"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="20dp"
+            android:hint="@string/input_verification_code"
+            android:inputType="textEmailAddress"
+            android:selectAllOnFocus="true"
+            android:theme="@style/Et_Bg_Color"
+            android:text=""
+            android:textStyle="normal"
+            android:textColor="@color/colorPrimary"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:textSize="14sp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/colorWrite"
+            android:text="@string/verification_code"
+            android:background="@drawable/login_button_bg_blue"
+            android:id="@+id/tv_verification_code"
+            android:layout_marginEnd="16dp"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:id="@+id/tv_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="48dp"
+        android:textSize="16sp"
+        android:textColor="@color/colorWrite"
+        android:background="@drawable/login_button_bg_blue"
+        android:layout_marginBottom="64dp"
+        android:text="@string/action_sign_in"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/layout_code"
+         />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
