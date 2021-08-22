@@ -1,10 +1,13 @@
 package com.rw.login.until
 
-import java.util.concurrent.TimeUnit
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.observers.ResourceObserver
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
+
 
 /**
  * Created by Amuse
@@ -12,86 +15,39 @@ import io.reactivex.disposables.Disposable
  * Desc:
  */
 class RxTimerUtil {
+
     private var mDisposable: Disposable? = null
-
-    /** milliseconds毫秒后执行next操作
-     *
-     * @param milliseconds
-     * @param next
-     */
-    fun timer(milliseconds: Long, next: IRxNext?) {
-
-        Observable.timer(milliseconds, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object :Observer<Long?>{
-                override fun onComplete() {
-
-                }
-
-                override fun onSubscribe(d: Disposable) {
-                    mDisposable = d
-                }
-
-                override fun onNext(t: Long) {
-                    next?.doNext(t)
-                }
-
-                override fun onError(e: Throwable) {
-                    cancel()
-                }
-
-            })
-
-
-
+    fun interval(totalTime:Long,observer:Observer<Long?>){
+         Observable.interval(totalTime,TimeUnit.SECONDS)
+             .observeOn(AndroidSchedulers.mainThread())
+             .subscribe(observer)
     }
 
 
-    /**
-     *每隔milliseconds毫秒后执行next操作
-     * @param milliseconds
-     * @param next
-     */
-    fun interval(milliseconds: Long, next: IRxNext?) {
-        Observable.interval(milliseconds, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object :Observer<Long?>{
-                override fun onComplete() {
-
-                }
-
-                override fun onSubscribe(d: Disposable) {
-                    mDisposable = d
-                }
-
-                override fun onNext(t: Long) {
-                    next?.doNext(t)
-                }
-
-                override fun onError(e: Throwable) {
-
-                }
-
-            })
-
-
-
-    }
-
-
-    /**
-     * 取消订阅
-     */
-    fun cancel() {
-        mDisposable?.apply {
-            if (!isDisposed){
-                dispose()
+    fun interval(totalTime:Long,resourceObserver: ResourceObserver<Long?>){
+        Observable.interval(0, 1, TimeUnit.SECONDS)
+            .take(totalTime + 1)
+            .map { takeValue -> totalTime - takeValue }
+            .doOnSubscribe { disposable ->
+                mDisposable=disposable
             }
-
-        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(resourceObserver)
     }
 
-    interface IRxNext {
-        fun doNext(number: Long)
+
+    fun cancel(){
+        mDisposable?.let {
+           if (it.isDisposed){
+               it.dispose()
+           }
+       }
     }
+
+
+
+
 }
+
+

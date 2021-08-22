@@ -1,11 +1,11 @@
 package com.rw.login.ui
 
-import android.opengl.Visibility
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import androidx.core.widget.addTextChangedListener
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.rw.basemvp.BaseActivity
@@ -14,13 +14,22 @@ import com.rw.basemvp.widget.TitleView
 import com.rw.login.HttpApi
 import com.rw.login.R
 import com.rw.login.bean.LoginBean
+import com.rw.login.model.LoginViewModel
 import com.rw.login.presenter.LoginPresenter
 import com.rw.login.until.RxTimerUtil
 import com.rw.service.ServiceViewModule
 import com.rw.service.bean.AccountBean
+import io.reactivex.Observable
+import io.reactivex.ObservableSource
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.observers.ResourceObserver
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_verification_code.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
+import java.util.concurrent.TimeUnit
+
 
 @Route(path = "/login/LoginActivity")
 class VerificationCodeActivity : BaseActivity<LoginPresenter>() {
@@ -29,6 +38,7 @@ class VerificationCodeActivity : BaseActivity<LoginPresenter>() {
         RxTimerUtil()
     }
 
+    private var mDisposable: Disposable? = null
     override fun getPresenter(): LoginPresenter {
         return LoginPresenter()
     }
@@ -39,8 +49,8 @@ class VerificationCodeActivity : BaseActivity<LoginPresenter>() {
 
     override fun initData(savedInstanceState: Bundle?, titleView: TitleView) {
         titleView.setTitle("登录/注册")
-        titleView.setVisible(R.id.tv_title_right,true)
-        titleView.setText(R.id.tv_title_right,"登录")
+        titleView.setVisible(R.id.tv_title_right, true)
+        titleView.setText(R.id.tv_title_right, "密码登录")
         titleView.setChildClickListener(R.id.tv_title_right) {
             startActivity<LoginActivity>()
         }
@@ -51,41 +61,25 @@ class VerificationCodeActivity : BaseActivity<LoginPresenter>() {
     override fun onDestroy() {
         super.onDestroy()
         rxTimerUtil.cancel()
+        LoginViewModel.destroy()
     }
 
     private fun listener() {
         //获取验证码
         tv_verification_code.setOnClickListener {
-            if (isInput()) {
-                mPresenter?.postBodyData(
-                    0,
-                    HttpApi.GET_VERIFICATION_CODE, BaseBean::class.java, true,
-                    GetVerificationCode(user_name.text.toString().trim())
-                )
-                tv_verification_code.isEnabled = false
-                tv_verification_code.setBackgroundResource(R.drawable.login_button_bg_gray)
-                rxTimerUtil.timer(60000, object : RxTimerUtil.IRxNext {
-                    override fun doNext(number: Long) {
-                        tv_verification_code.text = "${number}秒"
-                        if (number.equals(0)) {
-                            tv_verification_code?.text = "重新获取"
-                            tv_verification_code.isEnabled = true
-                            tv_verification_code.setBackgroundResource(R.drawable.login_button_bg_blue)
-                        }
-                    }
-
-                })
-            }
+            countTime()
         }
 
-        user_name.addTextChangedListener(object :TextWatcher{
+        //账号输入监听
+        user_name.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                   if (!s.isNullOrEmpty()&&s.length<11){
-                       tv_verification_code.isEnabled = true
-                       tv_login.visibility= View.GONE
-                       tv_verification_code.text="获取验证码"
-                       tv_verification_code.setBackgroundResource(R.drawable.login_button_bg_blue)
-                   }
+                if (!s.isNullOrEmpty() && s.length < 11) {
+                    tv_verification_code.isEnabled = true
+                    tv_login.visibility = View.GONE
+                    tv_verification_code.text = "获取验证码"
+                    tv_verification_code.setTextColor(ContextCompat.getColor(this@VerificationCodeActivity,R.color.colorWrite))
+                    tv_verification_code.setBackgroundResource(R.drawable.login_button_bg_blue)
+                }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -97,16 +91,20 @@ class VerificationCodeActivity : BaseActivity<LoginPresenter>() {
             }
         })
 
+        //登录/注册按钮处理
         tv_login.setOnClickListener {
-            if (isInput(1)){
-                if (tv_login.text.toString()=="登录"){
+            if (isInput(1)) {
+                if (tv_login.text.toString() == "登录") {
                     mPresenter?.postBodyData(
                         0,
-                        HttpApi.VERIFICATION_CODE_LOGIN, LoginBean::class.java, true,
-                        VerificationCodeBean(user_name.text.toString().trim(),verification_code.text.toString().trim())
+                        HttpApi.HTTP_VERIFICATION_CODE_LOGIN, LoginBean::class.java, true,
+                        VerificationCodeBean(
+                            user_name.text.toString().trim(),
+                            verification_code.text.toString().trim()
+                        )
                     )
-                }else{
-                    startActivity<RegisteredActivity>("account" to  user_name.text.toString().trim())
+                } else {
+                    startActivity<RegisteredActivity>("account" to user_name.text.toString().trim())
                 }
 
             }
@@ -119,7 +117,7 @@ class VerificationCodeActivity : BaseActivity<LoginPresenter>() {
 
     data class VerificationCodeBean(
         val account: String,
-        val verificationCode:String
+        val verificationCode: String
     )
 
 
@@ -145,18 +143,31 @@ class VerificationCodeActivity : BaseActivity<LoginPresenter>() {
     /**
      * 请求结果处理
      */
-    private fun reqResult(){
+    private fun reqResult() {
+        LoginViewModel.get()?.isFinish?.observe(this, Observer {
+            it?.let {
+                if (it == 1) {
+                    finish()
+                }
+            }
+        })
+
         getViewModel()?.baseBean?.observe(this, Observer {
             when (it?.requestType) {
-                HttpApi.GET_VERIFICATION_CODE -> {
-                    tv_login.text="登录"
-                    tv_login.visibility= View.VISIBLE
+                HttpApi.HTTP_GET_VERIFICATION_CODE -> {
+                    tv_login.text = "登录"
+                    tv_login.visibility = View.VISIBLE
 
                 }
-                HttpApi.VERIFICATION_CODE_LOGIN -> {
+                HttpApi.HTTP_VERIFICATION_CODE_LOGIN -> {
                     val bean = it as LoginBean
                     showToast("登录成功")
-                    ServiceViewModule.get()?.loginService?.value= AccountBean(bean.data.userName,bean.data.userId,bean.data.account,bean.data.token)
+                    ServiceViewModule.get()?.loginService?.value = AccountBean(
+                        bean.data.userName,
+                        bean.data.userId,
+                        bean.data.account,
+                        bean.data.token
+                    )
                     finish()
                 }
                 else -> showToast("让我说点什么好")
@@ -164,13 +175,13 @@ class VerificationCodeActivity : BaseActivity<LoginPresenter>() {
         })
 
         getViewModel()?.errorBean?.observe(this, Observer {
-            it?.let {bean->
-                when(bean.url){
-                    HttpApi.GET_VERIFICATION_CODE->{
-                        tv_login.text="注册"
-                        tv_login.visibility= View.VISIBLE
+            it?.let { bean ->
+                when (bean.url) {
+                    HttpApi.HTTP_GET_VERIFICATION_CODE -> {
+                        tv_login.text = "注册"
+                        tv_login.visibility = View.VISIBLE
                     }
-                    else->{
+                    else -> {
                         bean.message?.let { message -> toast(message) }
                     }
                 }
@@ -180,4 +191,98 @@ class VerificationCodeActivity : BaseActivity<LoginPresenter>() {
         })
     }
 
+
+    /**
+     * 验证码处理
+     */
+    @SuppressLint("SetTextI18n")
+    private fun countTime() {
+        val count = 59
+        if (isInput()) {
+            mPresenter?.postBodyData(
+                0,
+                HttpApi.HTTP_GET_VERIFICATION_CODE, BaseBean::class.java, true,
+                GetVerificationCode(user_name.text.toString().trim())
+            )
+            tv_verification_code.isEnabled = false
+            tv_verification_code.text = "60s"
+            tv_verification_code.setTextColor(ContextCompat.getColor(this@VerificationCodeActivity,R.color.colorPrimary))
+            tv_verification_code.setBackgroundResource(R.drawable.login_button_bg_gray)
+            rxTimerUtil.interval(59,object :ResourceObserver<Long?>(){
+                override fun onComplete() {
+
+                }
+
+                override fun onNext(t: Long) {
+
+                    if (t <1.toLong()) {//当倒计时小于0,计时结束
+                        tv_verification_code?.text = "重新获取"
+                        tv_verification_code.isEnabled = true
+                        tv_verification_code.setTextColor(ContextCompat.getColor(this@VerificationCodeActivity,R.color.colorWrite))
+                        tv_verification_code.setBackgroundResource(R.drawable.login_button_bg_blue)
+                        rxTimerUtil.cancel()
+                        return//使用标记跳出方法
+                    }
+                    tv_verification_code.text = "${t}s"
+                }
+
+                override fun onError(e: Throwable) {
+                    rxTimerUtil.cancel()
+                }
+
+            })
+//            rxTimerUtil.interval(1, object : io.reactivex.Observer<Long?> {
+
+//                override fun onComplete() {
+//
+//                }
+//
+//                override fun onSubscribe(d: Disposable) {
+//                    mDisposable = d
+//                }
+//
+//                override fun onNext(it: Long) {
+//                    val show = count - it
+//                    if (show <1.toLong()) {//当倒计时小于0,计时结束
+//                        tv_verification_code?.text = "重新获取"
+//                        tv_verification_code.isEnabled = true
+//                        tv_verification_code.setTextColor(ContextCompat.getColor(this@VerificationCodeActivity,R.color.colorWrite))
+//                        tv_verification_code.setBackgroundResource(R.drawable.login_button_bg_blue)
+//                        rxTimerUtil.cancel(mDisposable)
+//                        return//使用标记跳出方法
+//                    }
+//                    tv_verification_code.text = "${show}s"
+//                }
+//
+//                override fun onError(e: Throwable) {
+//
+//                }
+//
+//            })
+        }
+    }
+
+    private fun ccccc(){
+
+        var totalTime=60.toLong()
+        Observable.interval(0, 1, TimeUnit.SECONDS)
+            .take(totalTime + 1)
+            .map({ takeValue -> totalTime - takeValue })
+            .doOnSubscribe({ disposable ->
+
+            })
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : ResourceObserver<Long?>() {
+                override fun onComplete() {
+
+                }
+
+                override fun onError(e: Throwable) {}
+                override fun onNext(value: Long) {
+                    val cc=value
+                    tv_login.text="${value}秒"
+                }
+            })
+    }
 }

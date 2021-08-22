@@ -8,11 +8,11 @@ import com.rw.basemvp.widget.TitleView
 import com.rw.login.HttpApi
 import com.rw.login.R
 import com.rw.login.bean.LoginBean
+import com.rw.login.model.LoginViewModel
 import com.rw.login.presenter.LoginPresenter
 import com.rw.service.ServiceViewModule
 import com.rw.service.bean.AccountBean
 import kotlinx.android.synthetic.main.activity_login.*
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 
@@ -41,16 +41,17 @@ class LoginActivity : BaseActivity<LoginPresenter>() {
     }
 
     override fun initData(savedInstanceState: Bundle?, titleView: TitleView) {
-        titleView.setTitle("登录")
+        titleView.setTitle("密码登录")
         getViewModel()?.baseBean?.observe(this, Observer {
             when (it?.requestType) {
-                HttpApi.LOGIN_URL -> {
+                HttpApi.HTTP_LOGIN_URL -> {
                     val bean = it as LoginBean
-                    showToast("登录成功${bean.data.token}")
+                    showToast("登录成功")
                     ServiceViewModule.get()?.loginService?.value= AccountBean(bean.data.userName,bean.data.userId,bean.data.account,bean.data.token)
-//                    finish()
+                    finish()
+                    LoginViewModel.get()?.isFinish?.value=1
                 }
-                else -> showToast("让我说点什么好")
+                else -> showToast("系统异常")
             }
         })
 
@@ -67,7 +68,7 @@ class LoginActivity : BaseActivity<LoginPresenter>() {
             val user = username.text.toString().trim()
             val psd = password.text.toString().trim()
             mPresenter?.postBodyData(0,
-                HttpApi.LOGIN_URL, LoginBean::class.java, true
+                HttpApi.HTTP_LOGIN_URL, LoginBean::class.java, true
                 ,
                 LoginReq(user, psd)
             )

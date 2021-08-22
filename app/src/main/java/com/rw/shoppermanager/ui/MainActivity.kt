@@ -1,10 +1,11 @@
-package com.rw.shoppermanager
+package com.rw.shoppermanager.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.launcher.ARouter
 import com.rw.service.ServiceViewModule
+import com.rw.shoppermanager.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
