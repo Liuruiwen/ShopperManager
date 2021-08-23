@@ -14,7 +14,9 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Base" />
             <option value="$PROJECT_DIR$/BaseMvp" />
+            <option value="$PROJECT_DIR$/HomePage" />
             <option value="$PROJECT_DIR$/Login" />
+            <option value="$PROJECT_DIR$/PersonalCenter" />
             <option value="$PROJECT_DIR$/Service" />
             <option value="$PROJECT_DIR$/app" />
           </set>

@@ -4,16 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    tools:context="ui.MainActivity">
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/view_line"
+        tools:ignore="MissingConstraints" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/view_line"
+        app:layout_constraintBottom_toTopOf="@id/tv_main"
+        android:background="@drawable/main_line_ccc"
+        />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:id="@+id/tv_login"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewpager"
+        android:layout_width="0dp"
+        android:id="@+id/tv_main"
+        android:layout_height="65dp"
+        android:text="首页"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/tv_pc"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:id="@+id/tv_pc"
+        app:layout_constraintTop_toBottomOf="@id/viewpager"
+        app:layout_constraintLeft_toRightOf="@id/tv_main"
+        android:layout_height="65dp"
+        android:text="我的"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textColor="@color/textGray"
+        android:gravity="center"
+        app:layout_constraintHorizontal_weight="1"
+        tools:ignore="MissingConstraints" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

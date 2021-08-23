@@ -19,16 +19,10 @@ import com.rw.login.presenter.LoginPresenter
 import com.rw.login.until.RxTimerUtil
 import com.rw.service.ServiceViewModule
 import com.rw.service.bean.AccountBean
-import io.reactivex.Observable
-import io.reactivex.ObservableSource
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.observers.ResourceObserver
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_verification_code.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
-import java.util.concurrent.TimeUnit
 
 
 @Route(path = "/login/LoginActivity")
@@ -38,7 +32,6 @@ class VerificationCodeActivity : BaseActivity<LoginPresenter>() {
         RxTimerUtil()
     }
 
-    private var mDisposable: Disposable? = null
     override fun getPresenter(): LoginPresenter {
         return LoginPresenter()
     }
@@ -197,7 +190,6 @@ class VerificationCodeActivity : BaseActivity<LoginPresenter>() {
      */
     @SuppressLint("SetTextI18n")
     private fun countTime() {
-        val count = 59
         if (isInput()) {
             mPresenter?.postBodyData(
                 0,
@@ -231,58 +223,8 @@ class VerificationCodeActivity : BaseActivity<LoginPresenter>() {
                 }
 
             })
-//            rxTimerUtil.interval(1, object : io.reactivex.Observer<Long?> {
-
-//                override fun onComplete() {
-//
-//                }
-//
-//                override fun onSubscribe(d: Disposable) {
-//                    mDisposable = d
-//                }
-//
-//                override fun onNext(it: Long) {
-//                    val show = count - it
-//                    if (show <1.toLong()) {//当倒计时小于0,计时结束
-//                        tv_verification_code?.text = "重新获取"
-//                        tv_verification_code.isEnabled = true
-//                        tv_verification_code.setTextColor(ContextCompat.getColor(this@VerificationCodeActivity,R.color.colorWrite))
-//                        tv_verification_code.setBackgroundResource(R.drawable.login_button_bg_blue)
-//                        rxTimerUtil.cancel(mDisposable)
-//                        return//使用标记跳出方法
-//                    }
-//                    tv_verification_code.text = "${show}s"
-//                }
-//
-//                override fun onError(e: Throwable) {
-//
-//                }
-//
-//            })
         }
     }
 
-    private fun ccccc(){
 
-        var totalTime=60.toLong()
-        Observable.interval(0, 1, TimeUnit.SECONDS)
-            .take(totalTime + 1)
-            .map({ takeValue -> totalTime - takeValue })
-            .doOnSubscribe({ disposable ->
-
-            })
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : ResourceObserver<Long?>() {
-                override fun onComplete() {
-
-                }
-
-                override fun onError(e: Throwable) {}
-                override fun onNext(value: Long) {
-                    val cc=value
-                    tv_login.text="${value}秒"
-                }
-            })
-    }
 }

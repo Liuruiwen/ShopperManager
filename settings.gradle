@@ -1,3 +1,5 @@
+include ':PersonalCenter'
+include ':HomePage'
 include ':Login'
 include ':BaseMvp'
 include ':Service'
