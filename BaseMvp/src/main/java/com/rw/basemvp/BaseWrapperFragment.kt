@@ -33,10 +33,6 @@ abstract class BaseWrapperFragment<P : MvpPresenter<BaseView>> : Fragment(), Bas
      */
     private var isViewInitiated: Boolean = false
 
-    /**
-     * 当前界面是否可见
-     */
-    private var isVisibleToUser: Boolean = false
 
     /**
      * 是否加载过数据
@@ -102,11 +98,11 @@ abstract class BaseWrapperFragment<P : MvpPresenter<BaseView>> : Fragment(), Bas
         super.onActivityCreated(savedInstanceState)
         isViewInitiated = true
         //加载数据
-        prepareFetchData(false)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        isLoaded = false
         onHideLoading()
         mLoadingDialog = null
         mPresenter?.apply {
@@ -116,13 +112,6 @@ abstract class BaseWrapperFragment<P : MvpPresenter<BaseView>> : Fragment(), Bas
 //        mPresenter = null
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        this.isVisibleToUser = isVisibleToUser
-        if (isVisibleToUser) {
-            prepareFetchData(false)
-        }
-    }
 
     override fun onShowLoading() {
         Log.d("是否进来了弹窗", "========${mLoadingDialog?.isShowing}")
@@ -173,17 +162,19 @@ abstract class BaseWrapperFragment<P : MvpPresenter<BaseView>> : Fragment(), Bas
 
     abstract fun getPresenter(): P
 
-    /**
-     * 判断懒加载条件
-     *
-     * @param forceUpdate 强制更新，好像没什么用？
-     */
-    fun prepareFetchData(forceUpdate: Boolean) {
-        if (isVisibleToUser && isViewInitiated && (!isDataInitiated || forceUpdate)) {
+
+    private var isLoaded = false
+
+    override fun onResume() {
+        super.onResume()
+        if (!isLoaded) {
             lazyData()
-            isDataInitiated = true
+            isLoaded = true
         }
     }
+
+
+
 
     /**
      * 数据懒加载

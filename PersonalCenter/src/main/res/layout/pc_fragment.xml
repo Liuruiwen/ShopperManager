@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:background="@drawable/personal_bg_gradient_blue"
         android:paddingTop="16dp"
         tools:ignore="MissingConstraints">
         <ImageView
@@ -25,7 +24,7 @@
             android:id="@+id/iv_header"
             tools:ignore="MissingConstraints" />
         <TextView
-            android:textColor="@color/colorWrite"
+            android:textColor="@color/textMain"
             android:textSize="16sp"
             android:layout_marginStart="16dp"
             android:id="@+id/tv_account"
@@ -38,7 +37,7 @@
             />
 
         <TextView
-            android:textColor="@color/colorWrite"
+            android:textColor="@color/textMain"
             android:textSize="16sp"
             android:layout_marginStart="16dp"
             android:id="@+id/tv_nickname"
@@ -87,7 +86,7 @@
         <TextView
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            tools:text="员工管理"
+            android:text="员工管理"
             android:textSize="16sp"
             android:id="@+id/tv_employees"
             android:textColor="@color/textMain"
@@ -110,7 +109,7 @@
         <TextView
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            tools:text="店铺地址"
+            android:text="店铺地址"
             android:textSize="16sp"
             android:id="@+id/tv_address"
             android:textColor="@color/textMain"
@@ -134,7 +133,7 @@
         <TextView
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            tools:text="设置"
+            android:text="设置"
             android:textSize="16sp"
             android:id="@+id/tv_set"
             android:textColor="@color/textMain"

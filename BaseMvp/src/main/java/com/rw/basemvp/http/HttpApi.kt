@@ -70,6 +70,15 @@ interface HttpApi {
      */
     @POST
     fun rxBodyPost(@Url url: String, @Body req:  RequestBody):  Observable<Response<ResponseBody>>
+
+    /**
+     * post请求
+     * @param url
+     * @param fieldMap
+     * @return
+     */
+    @POST
+    fun rxBodyPost(@Url url: String,@HeaderMap headMap: Map<String,@JvmSuppressWildcards Any>, @Body req:  RequestBody):  Observable<Response<ResponseBody>>
     /**
      * post请求
      * @param url

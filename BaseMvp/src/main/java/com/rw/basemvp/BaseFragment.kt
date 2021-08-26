@@ -9,9 +9,7 @@ import com.rw.basemvp.presenter.MvpPresenter
  * Desc:
  */
 abstract  class BaseFragment<P:MvpPresenter<BaseView>> :BaseWrapperFragment<P>(){
-    override fun onShowLoading() {
-        super.onShowLoading()
-    }
+
 
     override fun lazyData() {
 //       showToast("第一次加载哦")

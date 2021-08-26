@@ -56,4 +56,8 @@ dependencies {
     api project(path: ':BaseMvp')
     implementation project(path: ':Base')
     kapt 'com.alibaba:arouter-compiler:1.5.1'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
+    implementation 'org.jetbrains.anko:anko-sdk25:0.10.4'
+    implementation 'org.jetbrains.anko:anko-support-v4:0.10.4'
 }
