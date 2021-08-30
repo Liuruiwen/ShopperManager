@@ -1,5 +1,6 @@
 package com.rw.homepage
 
+import android.annotation.SuppressLint
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.rw.basemvp.BaseWrapperFragment
 import com.rw.homepage.presenter.HomePagePresenter
@@ -17,13 +18,15 @@ import kotlinx.android.synthetic.main.homepage_fragment.*
         return R.layout.homepage_fragment
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initView() {
 
         ServiceViewModule.get()?.loginService?.observeForever {
-            login_state.text="用户${it.userName}"
+            login_state?.text="用户${it?.userName}"
         }
         ServiceViewModule.get()?.loginOutService?.observeForever {
-            login_state.text="未登录"
+            login_state?.text="未登录"
+            mContext?.finish()
         }
     }
 

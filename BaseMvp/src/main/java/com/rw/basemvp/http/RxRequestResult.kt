@@ -93,6 +93,8 @@ class RxRequestResult<T : BaseBean, V : BaseView?> constructor(p: Int, bean: Cla
         try {
             baseView?.onHideLoading()
             if (e is SocketTimeoutException) {//请求超时
+                baseView?.getViewModel()?.errorBean?.value=ErrorBean(456,"请求超时",
+                    "")
             } else if (e is ConnectException) {//网络连接超时
                 //                ToastManager.showShortToast("网络连接超时");
                 baseView?.getViewModel()?.errorBean?.value=ErrorBean(456,"服务器地址不正确",
@@ -128,6 +130,8 @@ class RxRequestResult<T : BaseBean, V : BaseView?> constructor(p: Int, bean: Cla
         } catch (e2: Exception) {
             e2.printStackTrace()
         } finally {
+            baseView?.getViewModel()?.errorBean?.value=ErrorBean(456,e.message,
+                "")
             Log.e("OnSuccessAndFaultSub", "error:" + e.message)
             //            mOnSuccessAndFaultListener.onFault("error:" + e.getMessage());
             //            dismissProgressDialog();

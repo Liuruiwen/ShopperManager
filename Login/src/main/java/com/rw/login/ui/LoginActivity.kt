@@ -48,8 +48,10 @@ class LoginActivity : BaseActivity<LoginPresenter>() {
                     val bean = it as LoginBean
                     showToast("登录成功")
                     ServiceViewModule.get()?.loginService?.value= AccountBean(bean.data.userName,bean.data.userId,bean.data.account,bean.data.token)
-                    finish()
+                    ARouter.getInstance().build("/main/MainActivity").navigation()
                     LoginViewModel.get()?.isFinish?.value=1
+                    finish()
+
                 }
                 else -> showToast("系统异常")
             }

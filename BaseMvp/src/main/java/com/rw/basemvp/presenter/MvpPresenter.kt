@@ -91,6 +91,22 @@ abstract class MvpPresenter<V :BaseView> :RetrofitPresenter<V>(){
     }
 
 
+    /**
+     * post请求
+     * @param position 请求序列号
+     * @param url 地址
+     * @param bean 请求实体类
+     * @param isShow 是否需要弹窗
+     * @param <T>
+    </T> */
+    fun <T : BaseBean> postBodyData(position: Int, url: String, bean: Class<T>, isShow: Boolean,map:Map<String,@JvmSuppressWildcards Any>) {
+        if (isShow) {
+            getView()?.onShowLoading()
+        }
+        toSubscribe(getApi().rxBodyPost(url,map), RxRequestResult(position, bean, getView()), position)
+    }
+
+
     fun getRequestBody(objects: Any):RequestBody{
        return RequestBody.create(MediaType.parse("application/json; charset=utf-8"),Gson().toJson(objects))
     }

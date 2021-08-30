@@ -1,4 +1,4 @@
-package com.rw.personalcenter
+package com.rw.personalcenter.ui.fragment
 
 import android.annotation.SuppressLint
 import android.view.View
@@ -6,9 +6,14 @@ import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.rw.basemvp.BaseFragment
+import com.rw.personalcenter.HttpApi
+import com.rw.personalcenter.R
+import com.rw.personalcenter.bean.UserInfoBean
 import com.rw.personalcenter.presenter.PersonalCenterPresenter
+import com.rw.personalcenter.ui.activity.SetActivity
 import com.rw.service.ServiceViewModule
 import kotlinx.android.synthetic.main.pc_fragment.*
+import org.jetbrains.anko.startActivity
 
 /**
  * Created by Amuse
@@ -36,9 +41,10 @@ class PersonalCenterFragment : BaseFragment<PersonalCenterPresenter>() {
                reqUserData(it.token)
            }
         }
-
-
-
+        click()
+        ServiceViewModule.get()?.loginOutService?.observeForever {
+            mContext?.finish()
+        }
 
     }
 
@@ -48,6 +54,7 @@ class PersonalCenterFragment : BaseFragment<PersonalCenterPresenter>() {
         if (loginBean!=null){
             reqUserData(loginBean.token)
         }else{
+            showToast("这是lazyData")
             ARouter.getInstance().build("/login/LoginActivity").navigation()
         }
 
@@ -59,9 +66,6 @@ class PersonalCenterFragment : BaseFragment<PersonalCenterPresenter>() {
 
     }
 
-     class PersonalReq {
-
-     }
 
     override fun getPresenter(): PersonalCenterPresenter {
         return PersonalCenterPresenter()
@@ -87,7 +91,8 @@ class PersonalCenterFragment : BaseFragment<PersonalCenterPresenter>() {
         getViewModel()?.errorBean?.observe(this, Observer {
             it?.let {bean->
                 when(it.type){
-                    HttpApi.ERROR_TOKEN_CODE->{
+                    HttpApi.ERROR_TOKEN_CODE ->{
+                        showToast("这是token问题")
                         ARouter.getInstance().build("/login/LoginActivity").navigation()
                     }
                     else->{bean.message?.let {message->
@@ -101,9 +106,20 @@ class PersonalCenterFragment : BaseFragment<PersonalCenterPresenter>() {
         })
     }
 
+    /**
+     * 获取个人中心数据
+     */
     private fun reqUserData(token:String){
         mPresenter?.postBodyData(0,
-            HttpApi.HTTP_GET_USER_INFO, UserInfoBean::class.java, true, mapOf("token" to token), PersonalReq()
-        )
+            HttpApi.HTTP_GET_USER_INFO, UserInfoBean::class.java, true, mapOf("token" to token))
+    }
+
+    /**
+     * 点击事件处理
+     */
+    private fun click(){
+        tv_set.setOnClickListener {
+            mContext?.startActivity<SetActivity>()
+        }
     }
 }

@@ -8,6 +8,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.rw.basemvp.BaseActivity
 import com.rw.basemvp.bean.BaseBean
 import com.rw.basemvp.widget.TitleView
@@ -97,7 +98,11 @@ class VerificationCodeActivity : BaseActivity<LoginPresenter>() {
                         )
                     )
                 } else {
-                    startActivity<RegisteredActivity>("account" to user_name.text.toString().trim())
+                    startActivity<RegisteredActivity>(
+                        "account" to user_name.text.toString().trim(),
+                        "title" to "注册",
+                        "type" to 1
+                          )
                 }
 
             }
@@ -161,6 +166,7 @@ class VerificationCodeActivity : BaseActivity<LoginPresenter>() {
                         bean.data.account,
                         bean.data.token
                     )
+                    ARouter.getInstance().build("/main/MainActivity").navigation()
                     finish()
                 }
                 else -> showToast("让我说点什么好")

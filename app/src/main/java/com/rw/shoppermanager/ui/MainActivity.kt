@@ -7,11 +7,12 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.rw.basemvp.adapter.TabAdapter
 import com.rw.shoppermanager.R
 import kotlinx.android.synthetic.main.activity_main.*
-
+@Route(path = "/main/MainActivity")
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

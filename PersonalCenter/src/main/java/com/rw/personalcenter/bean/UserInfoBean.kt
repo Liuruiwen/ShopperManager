@@ -1,4 +1,4 @@
-package com.rw.personalcenter
+package com.rw.personalcenter.bean
 
 import com.rw.basemvp.bean.BaseBean
 
@@ -16,8 +16,8 @@ data class UserBean(
     val age: Int?,
     val account: String,
     val userId: Int,
-    val  employees:Employees?,
-    val shopAddress :ShopAddress?
+    val  employees: Employees?,
+    val shopAddress : ShopAddress?
     )
 
 data class Employees(
