@@ -30,14 +30,14 @@ abstract class BaseWrapperActivity : AppCompatActivity() {
     /**
      * 处理创建布局之前操作
      */
-    protected fun processBeforeLayout() {
+    protected open fun processBeforeLayout() {
 
     }
 
     abstract fun setLayout(): Int
     abstract fun initData(savedInstanceState: Bundle?,titleView: TitleView)
 
-    fun intiBaseView() {
+  open  fun intiBaseView() {
         base_title_view.setChildClickListener(R.id.iv_title_left, ({
             beforeFinish()
             finish()

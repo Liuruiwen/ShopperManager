@@ -19,8 +19,9 @@ abstract class BaseActivity<P : MvpPresenter<BaseView>> : BaseWrapperActivity(),
 
     protected var mPresenter: P? = null
     private var mLoadingDialog: LoadingDialog? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+    override fun intiBaseView() {
+        super.intiBaseView()
         mPresenter=getPresenter()
         mPresenter?.attachView(this)
         mPresenter?.apply {

@@ -10,6 +10,7 @@ import com.rw.personalcenter.HttpApi
 import com.rw.personalcenter.R
 import com.rw.personalcenter.bean.UserInfoBean
 import com.rw.personalcenter.presenter.PersonalCenterPresenter
+import com.rw.personalcenter.ui.activity.EmployeesManagerActivity
 import com.rw.personalcenter.ui.activity.SetActivity
 import com.rw.service.ServiceViewModule
 import kotlinx.android.synthetic.main.pc_fragment.*
@@ -120,6 +121,10 @@ class PersonalCenterFragment : BaseFragment<PersonalCenterPresenter>() {
     private fun click(){
         tv_set.setOnClickListener {
             mContext?.startActivity<SetActivity>()
+        }
+
+        tv_employees.setOnClickListener {
+            mContext?.startActivity<EmployeesManagerActivity>()
         }
     }
 }

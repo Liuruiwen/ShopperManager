@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingStart="16dp"
+    android:paddingTop="16dp"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_account"
+        android:textSize="16sp"
+        android:textColor="@color/textMain"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="账号：133333333333"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:id="@+id/tv_title"
+        app:layout_constraintLeft_toRightOf="@id/tv_account"
+        android:layout_marginStart="20dp"
+        tools:text="职称:高级店员"
+        android:textColor="@color/textLight"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_delete"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="40dp"
+        tools:text="删除"
+        android:textStyle="bold"
+        android:paddingEnd="16dp"
+        android:textSize="14sp"
+        android:textColor="@color/colorPrimary"
+        tools:ignore="MissingConstraints" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_account"
+        android:layout_marginTop="6dp"
+        tools:text="姓名:张三"
+        android:textColor="@color/textGray"
+        tools:ignore="MissingConstraints" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/tv_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_account"
+        android:layout_marginTop="6dp"
+        android:id="@+id/tv_sex"
+        android:layout_marginStart="20dp"
+        tools:text="性别：男"
+        android:textColor="@color/textGray"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/tv_sex"
+        app:layout_constraintTop_toBottomOf="@id/tv_account"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="20dp"
+        android:id="@+id/tv_age"
+        tools:text="年龄：22"
+        android:textColor="@color/textGray"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="20dp"
+        android:paddingEnd="16dp"
+        android:id="@+id/tv_desc"
+        tools:text="地址：江西省吉安市区永新县"
+        android:textColor="@color/textGray"
+        tools:ignore="MissingConstraints" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorLine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_desc"
+        tools:ignore="MissingConstraints" />
+</androidx.constraintlayout.widget.ConstraintLayout>
