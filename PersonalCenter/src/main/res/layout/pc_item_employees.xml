@@ -33,6 +33,7 @@
         android:id="@+id/tv_delete"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginStart="40dp"
+        android:text="@string/pc_delete"
         tools:text="删除"
         android:textStyle="bold"
         android:paddingEnd="16dp"
