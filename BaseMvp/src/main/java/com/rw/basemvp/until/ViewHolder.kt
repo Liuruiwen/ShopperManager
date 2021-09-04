@@ -208,8 +208,8 @@ class ViewHolder constructor(var mConvertView:View){
         viewId: Int,
         listener: View.OnClickListener?
     ): ViewHolder? {
-        val view = getView<View>(viewId)!!
-        view.setOnClickListener(listener)
+        val view = getView<View>(viewId)
+        view?.setOnClickListener(listener)
         return this
     }
 

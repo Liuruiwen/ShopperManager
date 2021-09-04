@@ -21,4 +21,15 @@ class PersonalManagerAdapter :BaseQuickAdapter<EmployeesBean,BaseViewHolder>(R.l
         addChildClickViewIds(R.id.tv_delete)
 
     }
+
+    fun deleteItem(position:Int){
+        if (data.size==0){
+            data.removeAt(position)
+            notifyDataSetChanged()
+        }else{
+            data.removeAt(position)
+            notifyItemRemoved(position)
+            notifyItemRangeRemoved(position,data.size-position)
+        }
+    }
 }

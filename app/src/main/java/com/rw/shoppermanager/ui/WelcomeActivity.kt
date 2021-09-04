@@ -20,10 +20,10 @@ class WelcomeActivity : AppCompatActivity() {
             override fun onComplete() {
 
             }
-
             override fun onNext(t: Long) {
 
                 if (t <1.toLong()) {//当倒计时小于0,计时结束
+
                     ARouter.getInstance().build("/login/LoginActivity").navigation()
                     finish()
                 }
