@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.pc_activity_set.*
 class SetActivity : BaseActivity<PersonalCenterPresenter>() {
 
 
+    private var isClose=0;
     override fun getPresenter(): PersonalCenterPresenter {
        return PersonalCenterPresenter()
     }
@@ -60,12 +61,19 @@ class SetActivity : BaseActivity<PersonalCenterPresenter>() {
 
 
     private fun reqResult(){
+        ServiceViewModule.get()?.loginOutService?.observe(this, Observer {
+            if (it!=null){
+                ARouter.getInstance().build("/login/LoginActivity").navigation()
+                finish()
+            }
+        })
         getViewModel()?.baseBean?.observe(this, Observer {
             when (it?.requestType) {
                 HttpApi.HTTP_LOGIN_OUT -> {
+                    isClose=1
+                    ServiceViewModule.get()?.loginService?.postValue(null)
                     ServiceViewModule.get()?.loginOutService?.value= LoginOutBean()
-                    ARouter.getInstance().build("/login/LoginActivity").navigation()
-                    finish()
+
                 }
                 else -> showToast("系统异常")
             }

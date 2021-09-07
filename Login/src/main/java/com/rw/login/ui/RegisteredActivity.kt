@@ -136,7 +136,8 @@ class RegisteredActivity : BaseActivity<LoginPresenter>() {
                     finish()
                 }
                 HttpApi.HTTP_UPDATE_PASSWORD->{
-                    ServiceViewModule.get()?.loginOutService?.value= LoginOutBean()
+                    ServiceViewModule.get()?.loginOutService?.postValue(LoginOutBean())
+//                    ServiceViewModule.get()?.loginService?.postValue(null)
                     toast("修改密码成功")
                     ARouter.getInstance().build("/login/LoginActivity").navigation()
                     finish()

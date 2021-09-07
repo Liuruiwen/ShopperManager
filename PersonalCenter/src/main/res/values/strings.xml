@@ -6,4 +6,8 @@
     <string name="pc_input_password">请输入员工初次密码</string>
     <string name="pc_confirm">确认</string>
     <string name="pc_cancel">取消</string>
+    <string name="pc_header">头像</string>
+    <string name="pc_nickname">昵称</string>
+    <string name="pc_age">年龄</string>
+    <string name="pc_address">我的地址</string>
 </resources>

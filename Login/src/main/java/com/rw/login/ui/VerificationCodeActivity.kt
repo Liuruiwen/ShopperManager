@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.rw.basemvp.BaseActivity
@@ -20,8 +21,10 @@ import com.rw.login.presenter.LoginPresenter
 import com.rw.login.until.RxTimerUtil
 import com.rw.service.ServiceViewModule
 import com.rw.service.bean.AccountBean
+import com.rw.service.bean.LoginOutBean
 import io.reactivex.observers.ResourceObserver
 import kotlinx.android.synthetic.main.activity_verification_code.*
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
@@ -166,7 +169,9 @@ class VerificationCodeActivity : BaseActivity<LoginPresenter>() {
                         bean.data.account,
                         bean.data.token
                     )
+                    ServiceViewModule.get()?.loginOutService?.postValue(null)
                     ARouter.getInstance().build("/main/MainActivity").navigation()
+
                     finish()
                 }
                 else -> showToast("让我说点什么好")

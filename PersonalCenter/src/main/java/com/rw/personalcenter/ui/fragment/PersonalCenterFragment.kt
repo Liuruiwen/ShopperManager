@@ -1,6 +1,8 @@
 package com.rw.personalcenter.ui.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -12,6 +14,7 @@ import com.rw.personalcenter.bean.UserInfoBean
 import com.rw.personalcenter.presenter.PersonalCenterPresenter
 import com.rw.personalcenter.ui.activity.EmployeesManagerActivity
 import com.rw.personalcenter.ui.activity.SetActivity
+import com.rw.personalcenter.ui.activity.UserInfoActivity
 import com.rw.service.ServiceViewModule
 import kotlinx.android.synthetic.main.pc_fragment.*
 import org.jetbrains.anko.startActivity
@@ -23,12 +26,12 @@ import org.jetbrains.anko.startActivity
  */
 @Route(path = "/pc/PersonalCenterFragment")
 class PersonalCenterFragment : BaseFragment<PersonalCenterPresenter>() {
+    private var userBean:UserInfoBean?=null
     override fun getViewLayout(): Int {
        return R.layout.pc_fragment
     }
 
     override fun initView() {
-
 
 //        login_state.setOnClickListener {
 //            ARouter.getInstance().build("/login/LoginActivity").navigation()
@@ -37,30 +40,41 @@ class PersonalCenterFragment : BaseFragment<PersonalCenterPresenter>() {
 //        login_out.setOnClickListener {
 //            ServiceViewModule.get()?.loginOutService?.value= LoginOutBean()
 //        }
-        ServiceViewModule.get()?.loginService?.observeForever {
-           it?.let {
-               reqUserData(it.token)
-           }
-        }
+        ServiceViewModule.get()?.loginService?.observe(this, Observer {
+            if (it!=null&&userBean==null){
+
+                reqUserData(it.token)
+            }
+//            else if(it==null){
+//                mContext?.finish()
+//            }
+        })
         click()
-        ServiceViewModule.get()?.loginOutService?.observeForever {
-            mContext?.finish()
-        }
+        ServiceViewModule.get()?.loginOutService?.observe(this, Observer {
+            if (it!=null){
+                mContext?.finish()
+            }
+        })
+//        ServiceViewModule.get()?.loginOutService?.observeForever {
+//            if (it!=null){
+//                mContext?.finish()
+//            }
+//
+//        }
 
     }
 
-    override fun lazyData() {
-        super.lazyData()
-        val loginBean=ServiceViewModule.get()?.loginService?.value
-        if (loginBean!=null){
-            reqUserData(loginBean.token)
-        }else{
-            showToast("这是lazyData")
-            ARouter.getInstance().build("/login/LoginActivity").navigation()
-        }
-
-
-    }
+//    override fun lazyData() {
+//        super.lazyData()
+//        if (userBean==null){
+//            val loginBean=ServiceViewModule.get()?.loginService?.value
+//            if (loginBean!=null){
+//                reqUserData(loginBean.token)
+//            }
+//        }
+//
+//
+//    }
 
     override fun loadData() {
         reqResult()
@@ -111,6 +125,7 @@ class PersonalCenterFragment : BaseFragment<PersonalCenterPresenter>() {
      * 获取个人中心数据
      */
     private fun reqUserData(token:String){
+
         mPresenter?.postBodyData(0,
             HttpApi.HTTP_GET_USER_INFO, UserInfoBean::class.java, true, mapOf("token" to token))
     }
@@ -125,6 +140,10 @@ class PersonalCenterFragment : BaseFragment<PersonalCenterPresenter>() {
 
         tv_employees.setOnClickListener {
             mContext?.startActivity<EmployeesManagerActivity>()
+        }
+
+        layout_user?.setOnClickListener {
+            mContext?.startActivity<UserInfoActivity>()
         }
     }
 }

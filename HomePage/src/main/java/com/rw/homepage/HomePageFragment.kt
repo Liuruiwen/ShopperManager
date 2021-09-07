@@ -24,10 +24,7 @@ import kotlinx.android.synthetic.main.homepage_fragment.*
         ServiceViewModule.get()?.loginService?.observeForever {
             login_state?.text="用户${it?.userName}"
         }
-        ServiceViewModule.get()?.loginOutService?.observeForever {
-            login_state?.text="未登录"
-            mContext?.finish()
-        }
+
     }
 
     override fun loadData() {
