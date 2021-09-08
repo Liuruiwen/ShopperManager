@@ -6,5 +6,5 @@ package com.rw.basemvp.until
  * Desc:
  */
 interface OnViewHolder {
-    fun helper(helper: ViewHolder)
+    fun helper(helper: ViewHolder?)
 }

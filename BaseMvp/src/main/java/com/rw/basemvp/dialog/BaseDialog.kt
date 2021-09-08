@@ -15,15 +15,18 @@ import java.lang.ref.WeakReference
  * Date:2020/3/29.
  * Desc:
  */
-abstract class BaseDialog(context: Context, viewHelper: OnViewHolder) :
+abstract class BaseDialog(context: Context, viewHelper: OnViewHolder?) :
     Dialog(context, R.style.AlertTipsDialogTheme) {
     var viewReference:WeakReference<Context>?=null
 
     init {
         viewReference = WeakReference(context)
-        getHelperView(null, getViewLayout(), viewHelper)?.apply {
-            setContentView(this)
+        viewHelper?.let {
+            getHelperView(null, getViewLayout(), it)?.apply {
+                setContentView(this)
+            }
         }
+
     }
 
     abstract fun getViewLayout(): Int

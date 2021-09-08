@@ -7,6 +7,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.google.gson.Gson
 import com.rw.basemvp.BaseFragment
 import com.rw.personalcenter.HttpApi
 import com.rw.personalcenter.R
@@ -92,6 +93,7 @@ class PersonalCenterFragment : BaseFragment<PersonalCenterPresenter>() {
             when (it?.requestType) {
                 HttpApi.HTTP_GET_USER_INFO -> {
                     val bean = it as UserInfoBean
+                    userBean=bean
                     tv_account.text=bean.data.account
                     tv_nickname.text=bean.data.employees?.nickName
                     tv_desc.text="职责：${bean.data.employees?.content}"
@@ -143,7 +145,12 @@ class PersonalCenterFragment : BaseFragment<PersonalCenterPresenter>() {
         }
 
         layout_user?.setOnClickListener {
-            mContext?.startActivity<UserInfoActivity>()
+            var desc=""
+            userBean?.let {
+                desc=Gson().toJson(it)
+            }
+
+            mContext?.startActivity<UserInfoActivity>("user" to desc)
         }
     }
 }

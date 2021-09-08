@@ -13,4 +13,5 @@ object HttpApi {
     const val HTTP_EMPLOYEES_LEVEL_LIST="/s1/index/selectEmployeeLevel"//员工级别列表
     const val HTTP_ADD_EMPLOYEES="/s1/index/employees/registered"//注册员工
     const val HTTP_DELETE_EMPLOYEES="/s1/index/deleteEmployees"//删除员工
+    const val HTTP_EDIT_USER="/s1/index/updateUserInfo"//编辑用户
 }

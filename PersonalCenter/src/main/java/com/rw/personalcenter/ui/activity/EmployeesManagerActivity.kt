@@ -192,10 +192,10 @@ class EmployeesManagerActivity : BaseActivity<PersonalCenterPresenter>() {
 
             mDialog = AddEmployeesDialog(this, object : OnViewHolder {
 
-                override fun helper(helper: ViewHolder) {
-                    val etAccount = helper.getView<EditText>(R.id.et_account)
-                    val etPassword = helper.getView<EditText>(R.id.et_password)
-                    val sp = helper.getView<Spinner>(R.id.spinner)
+                override fun helper(helper: ViewHolder?) {
+                    val etAccount = helper?.getView<EditText>(R.id.et_account)
+                    val etPassword = helper?.getView<EditText>(R.id.et_password)
+                    val sp = helper?.getView<Spinner>(R.id.spinner)
                     val adapter = SpinnerAdapter(this@EmployeesManagerActivity, list)
                     sp?.adapter = adapter
                     level = list[0].level
@@ -215,7 +215,7 @@ class EmployeesManagerActivity : BaseActivity<PersonalCenterPresenter>() {
 
                     }
 
-                    helper.setOnClickListener(View.OnClickListener {
+                    helper?.setOnClickListener(View.OnClickListener {
                         when (it.id) {
                             R.id.tv_cancel -> {
                                 mDialog?.dismiss()
