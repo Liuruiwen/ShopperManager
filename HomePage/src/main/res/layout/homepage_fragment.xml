@@ -3,29 +3,117 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#eeeeee"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/tv_mark"
-        android:text="这是首页"
-        android:textColor="@color/colorMain"
-        android:textSize="20sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints" />
+   <TextView
+       android:textSize="18sp"
+       android:textStyle="bold"
+       android:paddingStart="16dp"
+       android:gravity="center_vertical"
+       tools:text="店铺名称：大瑞文奶茶店"
+       android:layout_width="match_parent"
+       android:background="@color/colorWrite"
+       app:layout_constraintTop_toTopOf="parent"
+       android:layout_height="55dp"
+       android:id="@+id/tv_shop_title"
+       android:textColor="@color/textMain"
+       tools:ignore="MissingConstraints" />
 
-
-    <TextView
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/colorMain"
-        android:textSize="33sp"
-        android:id="@+id/login_state"
-        android:text="未登录"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="MissingConstraints" />
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="16dp"
+        android:padding="16dp"
+        android:background="@drawable/hp_dialog_bg_white"
+        app:layout_constraintTop_toBottomOf="@id/tv_shop_title"
+        tools:ignore="MissingConstraints">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_order_today"
+            android:textColor="@color/textLight"
+            android:text="今日订单"
+            android:gravity="center"
+            android:textSize="16sp"
+            app:layout_constraintRight_toLeftOf="@id/tv_order_month"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_order_month"
+            android:textColor="@color/textLight"
+            android:text="本月订单"
+            android:textSize="16sp"
+            android:gravity="center"
+            app:layout_constraintRight_toLeftOf="@id/tv_order_turnover"
+            app:layout_constraintLeft_toRightOf="@id/tv_order_today"
+            app:layout_constraintHorizontal_weight="1"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_order_turnover"
+            android:textColor="@color/textLight"
+            android:text="今日收银"
+            app:layout_constraintRight_toRightOf="parent"
+            android:textSize="16sp"
+            android:gravity="center"
+            app:layout_constraintLeft_toRightOf="@id/tv_order_month"
+            app:layout_constraintHorizontal_weight="1"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_today_count"
+            android:textColor="@color/textMain"
+            tools:text="1000"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintRight_toLeftOf="@id/tv_month_order"
+            app:layout_constraintTop_toBottomOf="@id/tv_order_today"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_month_order"
+            android:textColor="@color/textMain"
+            tools:text="2000"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintRight_toLeftOf="@id/tv_turnover_count"
+            app:layout_constraintLeft_toRightOf="@id/tv_today_count"
+            app:layout_constraintTop_toBottomOf="@id/tv_order_today"
+            app:layout_constraintHorizontal_weight="1"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_turnover_count"
+            android:textColor="@color/textMain"
+            tools:text="10万元"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tv_month_order"
+            app:layout_constraintTop_toBottomOf="@id/tv_order_today"
+            app:layout_constraintHorizontal_weight="1"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

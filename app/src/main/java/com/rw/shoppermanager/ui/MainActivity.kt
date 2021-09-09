@@ -19,14 +19,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val homeFragment=ARouter.getInstance().build("/home/homePageFragment").navigation()
         val pcFragment=ARouter.getInstance().build("/pc/PersonalCenterFragment").navigation()
+        val mcFragment=ARouter.getInstance().build("/message/MessageCenter").navigation()
         val list= arrayListOf<Fragment>()
         if (homeFragment is Fragment){
             list.add(homeFragment)
         }
-
+        if (mcFragment is Fragment){
+            list.add(mcFragment)
+        }
         if (pcFragment is Fragment){
             list.add(pcFragment)
         }
+
         val adapter=TabAdapter(supportFragmentManager,list)
         viewpager.adapter=adapter
         viewpager.addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
@@ -47,9 +51,13 @@ class MainActivity : AppCompatActivity() {
             viewpager.currentItem=0
             setCurrent(0)
         }
-        tv_pc.setOnClickListener {
+        tv_message.setOnClickListener {
             viewpager.currentItem=1
             setCurrent(1)
+        }
+        tv_pc.setOnClickListener {
+            viewpager.currentItem=2
+            setCurrent(2)
         }
 
 
@@ -62,11 +70,18 @@ class MainActivity : AppCompatActivity() {
         when(position){
             0->{
                 setTextState(1,tv_main)
+                setTextState(0,tv_message)
                 setTextState(0,tv_pc)
             }
             1->{
+                setTextState(1,tv_message)
                 setTextState(0,tv_main)
+                setTextState(0,tv_pc)
+            }
+            2->{
                 setTextState(1,tv_pc)
+                setTextState(0,tv_main)
+                setTextState(0,tv_message)
             }
         }
     }

@@ -44,6 +44,7 @@ class UserInfoActivity : BaseActivity<PersonalCenterPresenter>() {
             val bean= Gson().fromJson(user, UserInfoBean::class.java)
            tv_get_age.text= bean?.data?.age.toString()
             tv_get_nickname.text= bean?.data?.userName
+            tv_get_address.text=bean?.data?.address
         }
 
     }

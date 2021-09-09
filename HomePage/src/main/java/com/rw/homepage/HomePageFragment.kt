@@ -21,9 +21,7 @@ import kotlinx.android.synthetic.main.homepage_fragment.*
     @SuppressLint("SetTextI18n")
     override fun initView() {
 
-        ServiceViewModule.get()?.loginService?.observeForever {
-            login_state?.text="用户${it?.userName}"
-        }
+
 
     }
 

@@ -1,9 +1,6 @@
 package com.rw.personalcenter.ui.fragment
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.util.Log
-import android.view.View
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -16,6 +13,7 @@ import com.rw.personalcenter.presenter.PersonalCenterPresenter
 import com.rw.personalcenter.ui.activity.EmployeesManagerActivity
 import com.rw.personalcenter.ui.activity.SetActivity
 import com.rw.personalcenter.ui.activity.UserInfoActivity
+import com.rw.personalcenter.until.setVisible
 import com.rw.service.ServiceViewModule
 import kotlinx.android.synthetic.main.pc_fragment.*
 import org.jetbrains.anko.startActivity
@@ -97,9 +95,7 @@ class PersonalCenterFragment : BaseFragment<PersonalCenterPresenter>() {
                     tv_account.text=bean.data.account
                     tv_nickname.text=bean.data.employees?.nickName
                     tv_desc.text="职责：${bean.data.employees?.content}"
-                    tv_employees.visibility=if (bean.data.employees?.level==1) View.VISIBLE else View.GONE
-                    tv_address.visibility=if (bean.data.employees?.level==1) View.VISIBLE else View.GONE
-
+                    layout_employess.setVisible(bean.data.employees?.level==1)
                 }
                 else -> showToast("系统异常")
             }

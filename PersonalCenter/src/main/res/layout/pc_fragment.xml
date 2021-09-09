@@ -80,6 +80,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:id="@+id/layout_employess"
         app:layout_constraintTop_toBottomOf="@id/layout_user"
         android:background="@color/colorWrite"
         tools:ignore="MissingConstraints">
@@ -125,30 +126,23 @@
             android:layout_height="55dp"
             />
 
-        <View
-            android:layout_width="match_parent"
-            android:background="@color/colorLine"
-            android:id="@+id/line_address"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_address"
-            android:layout_height="16dp"/>
-
-        <TextView
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:text="设置"
-            android:textSize="16sp"
-            android:id="@+id/tv_set"
-            android:textColor="@color/textMain"
-            android:drawableRight="@drawable/ic_right"
-            android:gravity="center_vertical"
-            android:background="@color/colorWrite"
-            app:layout_constraintTop_toBottomOf="@id/line_address"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="设置"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        android:id="@+id/tv_set"
+        android:textColor="@color/textMain"
+        android:drawableRight="@drawable/ic_right"
+        android:gravity="center_vertical"
+        android:background="@color/colorWrite"
+        app:layout_constraintTop_toBottomOf="@id/layout_employess"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

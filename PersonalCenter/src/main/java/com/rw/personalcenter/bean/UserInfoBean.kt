@@ -17,7 +17,8 @@ data class UserBean(
     val account: String,
     val userId: Int,
     val  employees: Employees?,
-    val shopAddress : ShopAddress?
+    val shopAddress : ShopAddress?,
+    val address:String?
     )
 
 data class Employees(
