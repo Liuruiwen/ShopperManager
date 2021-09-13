@@ -1,11 +1,13 @@
-package com.rw.homepage
+package com.rw.homepage.ui.fragment
 
 import android.annotation.SuppressLint
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.rw.basemvp.BaseWrapperFragment
+import com.rw.homepage.R
 import com.rw.homepage.presenter.HomePagePresenter
-import com.rw.service.ServiceViewModule
+import com.rw.homepage.ui.activity.GoodsManagerActivity
 import kotlinx.android.synthetic.main.homepage_fragment.*
+import org.jetbrains.anko.startActivity
 
 /**
  * Created by Amuse
@@ -22,6 +24,7 @@ import kotlinx.android.synthetic.main.homepage_fragment.*
     override fun initView() {
 
 
+        click()
 
     }
 
@@ -35,5 +38,12 @@ import kotlinx.android.synthetic.main.homepage_fragment.*
 
     override fun lazyData() {
 
+    }
+
+
+    private fun click(){
+        tv_goods_manager.setOnClickListener {
+            mContext?.startActivity<GoodsManagerActivity>()
+        }
     }
 }

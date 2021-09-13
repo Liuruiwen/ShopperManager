@@ -2,4 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rw.homepage">
 
+    <application>
+        <activity android:name=".ui.activity.GoodsManagerActivity"></activity>
+    </application>
+
 </manifest>

@@ -27,6 +27,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginRight="16dp"
         android:padding="16dp"
+        android:id="@+id/layout_state"
         android:background="@drawable/hp_dialog_bg_white"
         app:layout_constraintTop_toBottomOf="@id/tv_shop_title"
         tools:ignore="MissingConstraints">
@@ -115,5 +116,21 @@
             app:layout_constraintHorizontal_weight="1"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:background="@drawable/hp_circle_bg_white"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp"
+        android:id="@+id/tv_goods_manager"
+        android:gravity="center"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@color/textMain"
+        android:text="商品管理"
+        app:layout_constraintTop_toBottomOf="@id/layout_state"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
