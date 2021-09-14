@@ -1,27 +1,33 @@
 package com.rw.homepage.ui.activity
 
 import android.os.Bundle
+import android.view.View
+import android.widget.EditText
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rw.basemvp.BaseActivity
-import com.rw.basemvp.bean.BaseBean
+import com.rw.basemvp.until.ViewHolder
 import com.rw.basemvp.widget.TitleView
 import com.rw.homepage.HttpApi
 import com.rw.homepage.R
 import com.rw.homepage.adapter.MenuAdapter
 import com.rw.homepage.bean.CategoryBean
-import com.rw.homepage.presenter.HomePagePresenter
+import com.rw.homepage.bean.ReqAddCategory
+import com.rw.homepage.presenter.GoodsManagerPresenter
+import com.rw.homepage.ui.dialog.AddCategoryDialog
 import com.rw.personalcenter.until.setVisible
-import com.rw.service.ServiceViewModule
 import kotlinx.android.synthetic.main.hp_activity_goods_manager.*
 import kotlinx.android.synthetic.main.hp_activity_goods_manager.layout_empty
 import kotlinx.android.synthetic.main.hp_empty_state.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
-class GoodsManagerActivity : BaseActivity<HomePagePresenter>() {
+class GoodsManagerActivity : BaseActivity<GoodsManagerPresenter>() {
    private val mAdapter: MenuAdapter by lazy {
        MenuAdapter()
    }
+    private var tvRight:TextView?=null
 
     override fun setLayout(): Int {
        return R.layout.hp_activity_goods_manager
@@ -29,19 +35,25 @@ class GoodsManagerActivity : BaseActivity<HomePagePresenter>() {
 
     override fun initData(savedInstanceState: Bundle?, titleView: TitleView) {
        titleView.setTitle("商品管理")
-        titleView.setVisible(R.id.tv_title_right, true)
-        titleView.setText(R.id.tv_title_right, "管理")
-        titleView.setChildClickListener(R.id.tv_title_right) {
-
+        tvRight=titleView.getView(R.id.tv_title_right)
+        tvRight?.setVisible(true)
+        tvRight?.text="添加品类"
+        tvRight?.setOnClickListener {
+            if (tvRight?.text.toString()=="添加品类"){
+                showAddCategory()
+            }else{
+                startActivity<EditCategoryActivity>()
+            }
         }
+
         initView()
         click()
-        reqCategory()
+        mPresenter?.reqCategory()
         reqResult()
     }
 
-    override fun getPresenter(): HomePagePresenter {
-       return HomePagePresenter()
+    override fun getPresenter(): GoodsManagerPresenter {
+       return GoodsManagerPresenter()
     }
 
 
@@ -60,7 +72,7 @@ class GoodsManagerActivity : BaseActivity<HomePagePresenter>() {
 
     private fun click(){
         tv_add.setOnClickListener {
-           toast("让我说点什么好")
+            showAddCategory()
         }
     }
 
@@ -73,10 +85,14 @@ class GoodsManagerActivity : BaseActivity<HomePagePresenter>() {
             when (it?.requestType) {
                 HttpApi.HTTP_GET_CATEGORY_LIST -> {
                    val data=it as CategoryBean
-                    layout_empty.setVisible(!data.data.isNullOrEmpty())
+                    layout_empty.setVisible(data.data.isNullOrEmpty())
                     rv_menu.setVisible(!data.data.isNullOrEmpty())
+                    mAdapter.setNewInstance(it.data)
+//                    tvRight?.text=if (!data.data.isNullOrEmpty()) "管理" else "添加品类"
                 }
-
+                HttpApi.HTTP_ADD_CATEGORY -> {
+                    mPresenter?.reqCategory()
+                }
                 else -> showToast("系统异常")
             }
         })
@@ -91,18 +107,49 @@ class GoodsManagerActivity : BaseActivity<HomePagePresenter>() {
 
         })
     }
-    /**
-     * 获取品类信息
-     */
-    private fun reqCategory() {
 
-        ServiceViewModule.get()?.loginService?.value?.let { bean ->
-            mPresenter?.postBodyData(
-                0,
-                HttpApi.HTTP_GET_CATEGORY_LIST, CategoryBean::class.java, true,
-                mapOf("token" to bean.token)
-            )
-        }
+
+    private fun showAddCategory(){
+
+
+            object : AddCategoryDialog(this){
+                override fun helper(helper: ViewHolder?) {
+                    super.helper(helper)
+                    val etName=helper?.getView<EditText>(R.id.et_name)
+                    val etDesc=helper?.getView<EditText>(R.id.et_desc)
+                    val etPosition=helper?.getView<EditText>(R.id.et_position)
+
+                    helper?.setOnClickListener(View.OnClickListener {
+
+                        when(it?.id){
+                            R.id.tv_cancel->{
+                                dismiss()
+                            }
+                            R.id.tv_confirm->{
+                                val name=etName?.text.toString().trim()
+                                if (name.isEmpty()){
+                                    toast(getString(R.string.hp_input_category_name))
+                                    return@OnClickListener
+                                }
+                                val desc=etDesc?.text.toString().trim()
+                                if (desc.isEmpty()){
+                                    toast(getString(R.string.hp_input_category_desc))
+                                    return@OnClickListener
+                                }
+                                val position=etPosition?.text.toString().trim()
+                                if (position.isEmpty()){
+                                    toast(getString(R.string.hp_input_position))
+                                    return@OnClickListener
+                                }
+
+                                 mPresenter?.addCategory(ReqAddCategory(name,desc,position.toInt()))
+
+                                dismiss()
+                            }
+                        }
+                    }, R.id.tv_cancel, R.id.tv_confirm)
+                }
+            }.show()
 
     }
 

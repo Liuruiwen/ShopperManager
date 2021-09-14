@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWrite"
+    android:background="@color/colorLightGrey"
     android:id="@+id/layout_empty"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -24,7 +24,7 @@
             />
 
         <TextView
-            android:textColor="@color/colorWrite"
+            android:textColor="@color/textMain"
             android:id="@+id/tv_add"
             android:layout_marginTop="30dp"
             android:layout_width="150dp"
@@ -34,7 +34,7 @@
             android:gravity="center"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:background="@drawable/hp_button_bg_blue"
+            android:background="@drawable/hp_circle_bg_white"
             app:layout_constraintTop_toBottomOf="@id/iv_state"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
