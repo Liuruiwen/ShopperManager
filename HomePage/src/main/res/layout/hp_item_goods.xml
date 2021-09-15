@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="16dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+         android:id="@+id/iv_goods"
+        tools:background="@color/textMain"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        app:layout_constraintLeft_toRightOf="@id/iv_goods"
+        android:layout_width="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_name"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="@color/textMain"
+        app:layout_constraintRight_toLeftOf="@id/tv_delete"
+        tools:text="让我说点什么好"
+        app:layout_constraintHorizontal_weight="1"
+        tools:ignore="MissingConstraints" />
+    <TextView
+        app:layout_constraintLeft_toRightOf="@id/iv_goods"
+        android:layout_width="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_desc"
+        android:textSize="14sp"
+        android:textColor="@color/textGray"
+        app:layout_constraintRight_toLeftOf="@id/tv_delete"
+        tools:text="清凉夏季，来一杯干爽下"
+        app:layout_constraintHorizontal_weight="1"
+        tools:ignore="MissingConstraints" />
+
+
+    <TextView
+        app:layout_constraintLeft_toRightOf="@id/iv_goods"
+        android:layout_width="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_desc"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_price"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintRight_toLeftOf="@id/tv_Ranking"
+        tools:text="￥1660"
+        app:layout_constraintHorizontal_weight="1"
+        tools:ignore="MissingConstraints" />
+    <TextView
+        app:layout_constraintLeft_toRightOf="@id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="6dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_desc"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_Ranking"
+        android:textSize="16sp"
+        android:paddingEnd="16dp"
+        android:textColor="@color/textMain"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="上架"
+        tools:ignore="MissingConstraints" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_delete"
+        android:text="删除"
+        android:textStyle="bold"
+        android:paddingEnd="16dp"
+        android:textColor="@color/textLight"
+        app:layout_constraintTop_toTopOf="@id/iv_goods"
+        app:layout_constraintBottom_toBottomOf="@id/iv_goods"
+        app:layout_constraintLeft_toRightOf="@id/tv_name"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:ignore="MissingConstraints" />
+</androidx.constraintlayout.widget.ConstraintLayout>
