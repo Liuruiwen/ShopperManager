@@ -1,8 +1,14 @@
 package com.rw.homepage.ui.activity
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,13 +43,9 @@ class GoodsManagerActivity : BaseActivity<GoodsManagerPresenter>() {
        titleView.setTitle("商品管理")
         tvRight=titleView.getView(R.id.tv_title_right)
         tvRight?.setVisible(true)
-        tvRight?.text="添加品类"
+        tvRight?.text="管理"
         tvRight?.setOnClickListener {
-            if (tvRight?.text.toString()=="添加品类"){
-                showAddCategory()
-            }else{
-                startActivity<EditCategoryActivity>()
-            }
+            showPw(it)
         }
 
         initView()
@@ -111,7 +113,6 @@ class GoodsManagerActivity : BaseActivity<GoodsManagerPresenter>() {
 
     private fun showAddCategory(){
 
-
             object : AddCategoryDialog(this){
                 override fun helper(helper: ViewHolder?) {
                     super.helper(helper)
@@ -153,5 +154,44 @@ class GoodsManagerActivity : BaseActivity<GoodsManagerPresenter>() {
 
     }
 
+   private var popupWindow :PopupWindow?=null
+    private fun showPw(tv:View){
+
+        if (popupWindow==null){
+            popupWindow =  PopupWindow(this)
+
+            //设置宽高
+            popupWindow?.width = ViewGroup.LayoutParams.WRAP_CONTENT
+            popupWindow?.height = ViewGroup.LayoutParams.WRAP_CONTENT
+// 获取布局
+            val view= LayoutInflater.from(this.applicationContext).inflate(R.layout.hp_pw_manager, null)
+            val tvAddCategory=view.findViewById<TextView>(R.id.tv_add_category)
+            val tvManager=view.findViewById<TextView>(R.id.tv_manager_category)
+            tvAddCategory?.setOnClickListener {
+                showAddCategory()
+                popupWindow?.dismiss()
+            }
+            tvManager?.setOnClickListener {
+                startActivity<EditCategoryActivity>()
+                popupWindow?.dismiss()
+            }
+            popupWindow?.contentView = view
+// 点击区域外使对话框消失
+            popupWindow?.isOutsideTouchable = false
+            popupWindow?.isFocusable = true
+            popupWindow?.isTouchable = true
+            popupWindow?.setBackgroundDrawable( ColorDrawable(Color.WHITE))
+
+        }
+         val loc= arrayOf(0,1)
+        val x=loc[0]
+        val y=loc[1]
+        popupWindow?.let {
+           it.showAsDropDown(tv, it.width, 0)
+        }
+
+
+
+    }
 
 }

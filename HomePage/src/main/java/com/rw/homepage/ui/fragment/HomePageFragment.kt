@@ -6,7 +6,7 @@ import com.rw.basemvp.BaseWrapperFragment
 import com.rw.homepage.R
 import com.rw.homepage.presenter.HomePagePresenter
 import com.rw.homepage.ui.activity.GoodsManagerActivity
-import kotlinx.android.synthetic.main.homepage_fragment.*
+import kotlinx.android.synthetic.main.hp_fragment_home.*
 import org.jetbrains.anko.startActivity
 
 /**
@@ -17,7 +17,7 @@ import org.jetbrains.anko.startActivity
 @Route(path = "/home/homePageFragment")
  class HomePageFragment : BaseWrapperFragment<HomePagePresenter>() {
     override fun getViewLayout(): Int {
-        return R.layout.homepage_fragment
+        return R.layout.hp_fragment_home
     }
 
     @SuppressLint("SetTextI18n")
