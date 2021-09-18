@@ -19,6 +19,7 @@ data class EmployeesBean(
     val address:String,
     val level:Int,
     val account:String,
+    val nickName:String,
     val businessLicense:String
 
 )

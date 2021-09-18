@@ -13,7 +13,7 @@ import com.rw.personalcenter.bean.EmployeesBean
 class PersonalManagerAdapter :BaseQuickAdapter<EmployeesBean,BaseViewHolder>(R.layout.pc_item_employees) {
     override fun convert(holder: BaseViewHolder, item: EmployeesBean) {
         holder.setText(R.id.tv_account,"账号：${item.account}")
-        holder.setText(R.id.tv_title,"职称：${item.level}")
+        holder.setText(R.id.tv_title,"职称：${item.nickName}")
         holder.setText(R.id.tv_name,"姓名：${item.userName}")
         holder.setText(R.id.tv_sex,"性别：${item.sex}")
         holder.setText(R.id.tv_age,"账号：${item.age}")
