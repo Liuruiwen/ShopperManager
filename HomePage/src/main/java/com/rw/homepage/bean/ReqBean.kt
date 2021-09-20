@@ -11,3 +11,6 @@ data class ReqAddCategory(
    val  categoryDesc:String,
    val  categoryPosition:Int
 )
+data class ReqGoodsList(
+   val id:Int
+)
