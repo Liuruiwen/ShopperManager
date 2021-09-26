@@ -21,13 +21,14 @@ data class GoodsListBean(
     val goodsPrice:String,
     val goodsRanking:Int,
     val shelvesType:Int,
-    val list:List<AttributeBean>
+    val list:List<AttributeBean>,
+    var isShow:Boolean
 )
 
 data class AttributeBean(
    val type:Int,
    val attributeName:String,
-   val listAttribute:List<ListAttributeBean>
+   val listAttribute:List<ListAttributeBean>?
 )
 data class ListAttributeBean(
     val id:Int,

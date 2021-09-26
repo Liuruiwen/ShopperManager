@@ -16,6 +16,7 @@ import org.jetbrains.anko.startActivity
  */
 @Route(path = "/home/homePageFragment")
  class HomePageFragment : BaseWrapperFragment<HomePagePresenter>() {
+
     override fun getViewLayout(): Int {
         return R.layout.hp_fragment_home
     }

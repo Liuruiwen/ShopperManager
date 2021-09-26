@@ -1,27 +1,32 @@
 package com.rw.homepage.ui.activity
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupWindow
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager.widget.ViewPager
 import com.rw.basemvp.BaseActivity
+import com.rw.basemvp.adapter.TabAdapter
 import com.rw.basemvp.until.ViewHolder
 import com.rw.basemvp.widget.TitleView
 import com.rw.homepage.HttpApi
 import com.rw.homepage.R
 import com.rw.homepage.adapter.MenuAdapter
 import com.rw.homepage.bean.CategoryBean
+import com.rw.homepage.bean.CategoryResultBean
 import com.rw.homepage.bean.ReqAddCategory
 import com.rw.homepage.presenter.GoodsManagerPresenter
 import com.rw.homepage.ui.dialog.AddCategoryDialog
+import com.rw.homepage.ui.fragment.GoodsListFragment
 import com.rw.personalcenter.until.setVisible
 import kotlinx.android.synthetic.main.hp_activity_goods_manager.*
 import kotlinx.android.synthetic.main.hp_activity_goods_manager.layout_empty
@@ -33,6 +38,7 @@ class GoodsManagerActivity : BaseActivity<GoodsManagerPresenter>() {
    private val mAdapter: MenuAdapter by lazy {
        MenuAdapter()
    }
+    private  var listFragment:ArrayList<Fragment>?=null
     private var tvRight:TextView?=null
 
     override fun setLayout(): Int {
@@ -69,6 +75,7 @@ class GoodsManagerActivity : BaseActivity<GoodsManagerPresenter>() {
                 setOnItemClickListener { _, _, position -> setOnItem(position) }
             }
         }
+
     }
 
 
@@ -79,6 +86,7 @@ class GoodsManagerActivity : BaseActivity<GoodsManagerPresenter>() {
     }
 
     private fun setOnItem(position:Int){
+        vp_body.currentItem = position
         mAdapter.setSelectItem(position)
     }
 
@@ -86,10 +94,16 @@ class GoodsManagerActivity : BaseActivity<GoodsManagerPresenter>() {
         getViewModel()?.baseBean?.observe(this, Observer {
             when (it?.requestType) {
                 HttpApi.HTTP_GET_CATEGORY_LIST -> {
-                   val data=it as CategoryBean
-                    layout_empty.setVisible(data.data.isNullOrEmpty())
-                    rv_menu.setVisible(!data.data.isNullOrEmpty())
-                    mAdapter.setNewInstance(it.data)
+                    if (it is CategoryBean){
+                        layout_empty.setVisible(it.data.isNullOrEmpty())
+                        rv_menu.setVisible(!it.data.isNullOrEmpty())
+                        if (!it.data.isNullOrEmpty()){
+                            mAdapter.setNewInstance(it.data)
+                            initFragment( it.data!!)
+                        }
+                    }
+
+
 //                    tvRight?.text=if (!data.data.isNullOrEmpty()) "管理" else "添加品类"
                 }
                 HttpApi.HTTP_ADD_CATEGORY -> {
@@ -155,6 +169,7 @@ class GoodsManagerActivity : BaseActivity<GoodsManagerPresenter>() {
     }
 
    private var popupWindow :PopupWindow?=null
+    @SuppressLint("InflateParams")
     private fun showPw(tv:View){
 
         if (popupWindow==null){
@@ -183,14 +198,44 @@ class GoodsManagerActivity : BaseActivity<GoodsManagerPresenter>() {
             popupWindow?.setBackgroundDrawable( ColorDrawable(Color.WHITE))
 
         }
-         val loc= arrayOf(0,1)
-        val x=loc[0]
-        val y=loc[1]
         popupWindow?.let {
            it.showAsDropDown(tv, it.width, 0)
         }
 
 
+
+    }
+
+    /**
+     * 初始化Fragment list
+     */
+    private fun initFragment( listData :MutableList<CategoryResultBean>){
+        listFragment= arrayListOf()
+        listData.forEach {
+            val fragment= GoodsListFragment()
+            fragment.arguments=Bundle().apply {
+                 putInt("id",it.id)
+            }
+            listFragment?.add(fragment)
+        }
+        listFragment?.let {
+            val adapter= TabAdapter(supportFragmentManager,it)
+            vp_body.adapter=adapter
+            vp_body.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+                override fun onPageScrollStateChanged(state: Int) {
+
+                }
+
+                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+
+                }
+
+                override fun onPageSelected(position: Int) {
+                   mAdapter.setSelectItem(position)
+                }
+
+            })
+        }
 
     }
 

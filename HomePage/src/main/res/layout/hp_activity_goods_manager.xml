@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorLightGrey"
     tools:context=".ui.activity.GoodsManagerActivity">
-  <androidx.recyclerview.widget.RecyclerView
-      android:layout_width="match_parent"
-      android:id="@+id/rv_menu"
-      android:layout_height="wrap_content"
-      android:background="@color/colorWrite"
-      tools:ignore="MissingConstraints" />
 
-  <include
-    android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:id="@+id/layout_empty"
-      android:visibility="gone"
-      layout="@layout/hp_empty_state"
-      />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWrite"
+        tools:ignore="MissingConstraints" />
+    <View
+        app:layout_constraintTop_toBottomOf="@id/rv_menu"
+        android:layout_width="match_parent"
+        android:id="@+id/rv_line"
+        android:background="@color/colorLightGrey"
+        android:layout_height="0.5dp"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_body"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rv_line" />
+
+    <include
+        android:id="@+id/layout_empty"
+        layout="@layout/hp_empty_state"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

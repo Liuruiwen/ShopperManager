@@ -1,9 +1,15 @@
 package com.rw.homepage.adapter
 
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.rw.homepage.R
+import com.rw.homepage.bean.AttributeBean
 import com.rw.homepage.bean.GoodsListBean
+import com.rw.personalcenter.until.setVisible
 
 /**
  * Created by Amuse
@@ -13,5 +19,51 @@ import com.rw.homepage.bean.GoodsListBean
 class GoodsListAdapter :BaseQuickAdapter<GoodsListBean,BaseViewHolder>(R.layout.hp_item_goods){
     override fun convert(holder: BaseViewHolder, item: GoodsListBean) {
 
+        holder.setText(R.id.tv_name,item.goodsName)
+
+        holder.setText(R.id.tv_desc,item.goodsDesc)
+        holder.setText(R.id.tv_price,"价格:${item.goodsPrice}")
+        holder.setText(R.id.tv_shelves,if (item.shelvesType==1) "下架" else "上架")
+        val layoutAdd=holder.getView<LinearLayout>(R.id.layout_add)
+        layoutAdd.setVisible(item.isShow)
+        initAttr(layoutAdd,item.list)
+        addChildClickViewIds(R.id.tv_shelves)
+        addChildClickViewIds(R.id.tv_delete)
+        addChildClickViewIds(R.id.tv_show)
+
+    }
+
+    private fun initAttr(layoutAdd:LinearLayout,list:List<AttributeBean>?){
+        if (layoutAdd.childCount>0){
+            layoutAdd.removeAllViews()
+        }
+        list?.forEach {
+            layoutAdd.addView(getHeaderView(it.attributeName))
+            it.listAttribute?.forEach{item->
+                layoutAdd.addView(getAttrView(item.name))
+            }
+        }
+
+    }
+
+    private fun getHeaderView(name:String):View{
+        val textView=LayoutInflater.from(context).inflate(R.layout.hp_item_header,null)
+         if (textView is  TextView){
+             textView.text=name
+         }
+        return textView
+    }
+
+    private fun getAttrView(attr:String):View{
+        val textView=LayoutInflater.from(context).inflate(R.layout.hp_item_attr,null)
+        if (textView is  TextView){
+            textView.text=attr
+        }
+        return textView
+    }
+
+    fun updateShow(position:Int){
+        data[position].isShow= !data[position].isShow
+        notifyItemChanged(position)
     }
 }

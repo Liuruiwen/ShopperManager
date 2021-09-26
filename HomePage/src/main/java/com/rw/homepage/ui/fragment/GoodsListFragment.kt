@@ -1,5 +1,6 @@
 package com.rw.homepage.ui.fragment
 
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rw.basemvp.BaseFragment
@@ -36,6 +37,7 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
 
     override fun loadData() {
         reqResult()
+        mAdapter.setOnItemChildClickListener { _, view, position ->  childClick(view,position) }
     }
 
     override fun getPresenter(): GoodsListPresenter {
@@ -56,8 +58,8 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
             when (it?.requestType) {
                 HttpApi.HTTP_GET_GOODS_LIST -> {
                     val data=it as GoodsBean
-                    layout_empty.setVisible(data.data.isNullOrEmpty())
-                    rv_menu.setVisible(!data.data.isNullOrEmpty())
+                    goods_empty.setVisible(data.data.isNullOrEmpty())
+                    rv_goods.setVisible(!data.data.isNullOrEmpty())
                     mAdapter.setNewInstance(it.data)
 //                    tvRight?.text=if (!data.data.isNullOrEmpty()) "管理" else "添加品类"
                 }
@@ -74,5 +76,19 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
             }
 
         })
+    }
+
+    private fun childClick(view : View, position:Int){
+        when(view.id){
+            R.id.tv_shelves->{//上下架
+
+            }
+            R.id.tv_delete->{//删除
+
+            }
+            R.id.tv_show->{//展开、收起
+              mAdapter.updateShow(position)
+            }
+        }
     }
 }
