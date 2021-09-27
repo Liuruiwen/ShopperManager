@@ -13,6 +13,7 @@ import com.rw.homepage.presenter.GoodsListPresenter
 import com.rw.personalcenter.until.setVisible
 import kotlinx.android.synthetic.main.hp_activity_goods_manager.*
 import kotlinx.android.synthetic.main.hp_fragment_goods_list.*
+import org.jetbrains.anko.toast
 
 /**
  * Created by Amuse
@@ -38,6 +39,11 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
     override fun loadData() {
         reqResult()
         mAdapter.setOnItemChildClickListener { _, view, position ->  childClick(view,position) }
+
+        mAdapter.addChildClickViewIds(R.id.tv_shelves)
+        mAdapter.addChildClickViewIds(R.id.tv_delete)
+        mAdapter. addChildClickViewIds(R.id.tv_show)
+        mAdapter.setOnItemClickListener { adapter, view, position ->mContext?.toast("让我说点什么好")  }
     }
 
     override fun getPresenter(): GoodsListPresenter {

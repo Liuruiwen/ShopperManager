@@ -27,9 +27,6 @@ class GoodsListAdapter :BaseQuickAdapter<GoodsListBean,BaseViewHolder>(R.layout.
         val layoutAdd=holder.getView<LinearLayout>(R.id.layout_add)
         layoutAdd.setVisible(item.isShow)
         initAttr(layoutAdd,item.list)
-        addChildClickViewIds(R.id.tv_shelves)
-        addChildClickViewIds(R.id.tv_delete)
-        addChildClickViewIds(R.id.tv_show)
 
     }
 
