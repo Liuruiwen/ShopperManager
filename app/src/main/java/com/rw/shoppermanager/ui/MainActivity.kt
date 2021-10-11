@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         val adapter=TabAdapter(supportFragmentManager,list)
         viewpager.adapter=adapter
+        viewpager.offscreenPageLimit=list.size
         viewpager.addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
             override fun onPageScrollStateChanged(state: Int) {
 
