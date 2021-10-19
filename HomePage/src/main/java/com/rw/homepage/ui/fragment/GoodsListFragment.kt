@@ -10,9 +10,13 @@ import com.rw.homepage.adapter.GoodsListAdapter
 import com.rw.homepage.bean.CategoryBean
 import com.rw.homepage.bean.GoodsBean
 import com.rw.homepage.presenter.GoodsListPresenter
+import com.rw.homepage.ui.activity.GOODS_EDIT_TYPE_ADD
+import com.rw.homepage.ui.activity.GoodsEditActivity
 import com.rw.personalcenter.until.setVisible
 import kotlinx.android.synthetic.main.hp_activity_goods_manager.*
+import kotlinx.android.synthetic.main.hp_empty_state.*
 import kotlinx.android.synthetic.main.hp_fragment_goods_list.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 /**
@@ -21,6 +25,7 @@ import org.jetbrains.anko.toast
  * Desc:商品列表
  */
 class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
+    private var categoryId=0
     private val mAdapter: GoodsListAdapter by lazy {
         GoodsListAdapter()
     }
@@ -39,11 +44,13 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
     override fun loadData() {
         reqResult()
         mAdapter.setOnItemChildClickListener { _, view, position ->  childClick(view,position) }
-
         mAdapter.addChildClickViewIds(R.id.tv_shelves)
         mAdapter.addChildClickViewIds(R.id.tv_delete)
         mAdapter. addChildClickViewIds(R.id.tv_show)
         mAdapter.setOnItemClickListener { adapter, view, position ->mContext?.toast("让我说点什么好")  }
+        tv_add?.setOnClickListener {
+            mContext?.startActivity<GoodsEditActivity>("type" to GOODS_EDIT_TYPE_ADD,"id" to categoryId)
+        }
     }
 
     override fun getPresenter(): GoodsListPresenter {
@@ -53,8 +60,8 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
     override fun lazyData() {
         super.lazyData()
         arguments?.apply {
-            val id= getInt("id",0)
-            mPresenter?.reqGoodsList(id)
+            categoryId= getInt("id",0)
+            mPresenter?.reqGoodsList(categoryId)
         }
 
     }
@@ -67,7 +74,7 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
                     goods_empty.setVisible(data.data.isNullOrEmpty())
                     rv_goods.setVisible(!data.data.isNullOrEmpty())
                     mAdapter.setNewInstance(it.data)
-//                    tvRight?.text=if (!data.data.isNullOrEmpty()) "管理" else "添加品类"
+                    tv_add?.text=if (!data.data.isNullOrEmpty()) "管理" else "添加商品"
                 }
                 else -> showToast("系统异常")
             }

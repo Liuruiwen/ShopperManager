@@ -4,4 +4,8 @@
     <string name="hp_input_category_name">请输入品类名称</string>
     <string name="hp_input_position">请输入序列号</string>
     <string name="hp_input_category_desc">请输入品类描述</string>
+
+    <string name="hp_input_goods_name">请输入商品名称</string>
+    <string name="hp_input_goods_desc">请输入商品描述</string>
+    <string name="hp_input_goods_price">请输入价格</string>
 </resources>

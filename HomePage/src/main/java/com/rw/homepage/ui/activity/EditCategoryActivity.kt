@@ -1,6 +1,5 @@
 package com.rw.homepage.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.rw.basemvp.BaseActivity
 import com.rw.basemvp.widget.TitleView

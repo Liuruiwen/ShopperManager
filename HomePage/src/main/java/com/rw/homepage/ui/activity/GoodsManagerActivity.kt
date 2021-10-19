@@ -221,6 +221,7 @@ class GoodsManagerActivity : BaseActivity<GoodsManagerPresenter>() {
         listFragment?.let {
             val adapter= TabAdapter(supportFragmentManager,it)
             vp_body.adapter=adapter
+            vp_body.offscreenPageLimit=it.size
             vp_body.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
                 override fun onPageScrollStateChanged(state: Int) {
 
