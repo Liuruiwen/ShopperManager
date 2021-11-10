@@ -7,8 +7,18 @@ import com.rw.basemvp.bean.BaseBean
  * Date:2021/9/13.
  * Desc:
  */
-data class CategoryBean (
+/**
+ * 获取品类列表
+ */
+data class CategoryListBean (
     var data: MutableList<CategoryResultBean>?
+) : BaseBean()
+
+/**
+ * 增加品类
+ */
+data class CategoryBean (
+    var data: CategoryResultBean
 ) : BaseBean()
 
 data class CategoryResultBean(

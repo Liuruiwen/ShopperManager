@@ -1,6 +1,8 @@
 package com.rw.homepage.ui.activity
 
 import android.os.Bundle
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +15,8 @@ import com.rw.homepage.HttpApi
 import com.rw.homepage.R
 import com.rw.homepage.adapter.CategoryListAdapter
 import com.rw.homepage.bean.CategoryBean
+import com.rw.homepage.bean.CategoryListBean
+import com.rw.homepage.bean.ReqGoodsList
 import com.rw.homepage.presenter.GoodsManagerPresenter
 import com.rw.personalcenter.until.setVisible
 import kotlinx.android.synthetic.main.hp_activity_edit_category.*
@@ -20,6 +24,7 @@ import kotlinx.android.synthetic.main.hp_activity_goods_manager.*
 
 class EditCategoryActivity : BaseActivity<GoodsManagerPresenter>() {
 
+    private var selectPosition=-1
     private val mAdapter: CategoryListAdapter by lazy{
         CategoryListAdapter()
     }
@@ -30,6 +35,13 @@ class EditCategoryActivity : BaseActivity<GoodsManagerPresenter>() {
 
     override fun initData(savedInstanceState: Bundle?, titleView: TitleView) {
         titleView.setTitle("品类管理")
+      val  tvRight=titleView.getView<TextView>(R.id.tv_title_right)
+        tvRight?.setVisible(true)
+        tvRight?.text="添加品类"
+        tvRight?.setOnClickListener {
+            mPresenter?.showAddCategory(this@EditCategoryActivity)
+        }
+
         initView()
         request()
     }
@@ -43,26 +55,6 @@ class EditCategoryActivity : BaseActivity<GoodsManagerPresenter>() {
            layoutManager=LinearLayoutManager(this@EditCategoryActivity)
             adapter=mAdapter
         }
-//        mAdapter.draggableModule.isDragEnabled=true
-//        mAdapter.draggableModule.setOnItemDragListener(object : OnItemDragListener {
-//            override fun onItemDragMoving(
-//                source: RecyclerView.ViewHolder?,
-//                from: Int,
-//                target: RecyclerView.ViewHolder?,
-//                to: Int
-//            ) {
-//
-//            }
-//
-//            override fun onItemDragStart(viewHolder: RecyclerView.ViewHolder?, pos: Int) {
-//
-//            }
-//
-//            override fun onItemDragEnd(viewHolder: RecyclerView.ViewHolder?, pos: Int) {
-//                showToast("${mAdapter.getItem(pos).categoryName}")
-//            }
-//
-//        })
         mAdapter.apply {
             draggableModule.isDragEnabled=true
             draggableModule.setOnItemDragListener(object : OnItemDragListener {
@@ -80,30 +72,49 @@ class EditCategoryActivity : BaseActivity<GoodsManagerPresenter>() {
                 }
 
                 override fun onItemDragEnd(viewHolder: RecyclerView.ViewHolder?, pos: Int) {
-                    showToast("${mAdapter.getItem(pos).categoryName}")
+
                 }
 
             })
-            setOnItemClickListener { _, _, position ->  showToast("${mAdapter.getItem(position).categoryName}")}
+            addChildClickViewIds(R.id.tv_edit)
+            addChildClickViewIds(R.id.tv_delete)
+            setOnItemChildClickListener { _, view, position -> childClick(position,view) }
         }
         getViewModel()?.baseBean?.observe(this, Observer {
             when (it?.requestType) {
                 HttpApi.HTTP_GET_CATEGORY_LIST -> {
-                    if (it is CategoryBean){
+                    if (it is CategoryListBean){
                           mAdapter.setNewInstance(it.data)
                     }
-
-
-//                    tvRight?.text=if (!data.data.isNullOrEmpty()) "管理" else "添加品类"
+                }
+                HttpApi.HTTP_DELETE_CATEGORY -> {
+                    if (selectPosition>-1){
+                       mAdapter.remove(mAdapter.getItem(selectPosition))
+                    }
                 }
                 HttpApi.HTTP_ADD_CATEGORY -> {
-                    mPresenter?.reqCategory()
+                    if (it is CategoryBean){
+                        mAdapter.addData(it.data)
+                    }
+
                 }
                 else -> showToast("系统异常")
             }
         })
     }
 
+    private fun childClick(position:Int,view: View?){
+        selectPosition=position
+         when(view?.id){
+             R.id.tv_edit->{//编辑
+
+             }
+             R.id.tv_delete->{//删除
+                mPresenter?.deleteCategory(ReqGoodsList(mAdapter.getItem(selectPosition).id))
+             }
+         }
+
+    }
     private fun request(){
            mPresenter?.reqCategory()
     }

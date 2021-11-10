@@ -21,7 +21,7 @@ import com.rw.basemvp.widget.TitleView
 import com.rw.homepage.HttpApi
 import com.rw.homepage.R
 import com.rw.homepage.adapter.MenuAdapter
-import com.rw.homepage.bean.CategoryBean
+import com.rw.homepage.bean.CategoryListBean
 import com.rw.homepage.bean.CategoryResultBean
 import com.rw.homepage.bean.ReqAddCategory
 import com.rw.homepage.presenter.GoodsManagerPresenter
@@ -94,7 +94,7 @@ class GoodsManagerActivity : BaseActivity<GoodsManagerPresenter>() {
         getViewModel()?.baseBean?.observe(this, Observer {
             when (it?.requestType) {
                 HttpApi.HTTP_GET_CATEGORY_LIST -> {
-                    if (it is CategoryBean){
+                    if (it is CategoryListBean){
                         layout_empty.setVisible(it.data.isNullOrEmpty())
                         rv_menu.setVisible(!it.data.isNullOrEmpty())
                         if (!it.data.isNullOrEmpty()){
@@ -182,11 +182,11 @@ class GoodsManagerActivity : BaseActivity<GoodsManagerPresenter>() {
             val view= LayoutInflater.from(this.applicationContext).inflate(R.layout.hp_pw_manager, null)
             val tvAddCategory=view.findViewById<TextView>(R.id.tv_add_category)
             val tvManager=view.findViewById<TextView>(R.id.tv_manager_category)
-            tvAddCategory?.setOnClickListener {
+            tvAddCategory?.setOnClickListener {//添加品类
                 showAddCategory()
                 popupWindow?.dismiss()
             }
-            tvManager?.setOnClickListener {
+            tvManager?.setOnClickListener {//管理品类
                 startActivity<EditCategoryActivity>()
                 popupWindow?.dismiss()
             }

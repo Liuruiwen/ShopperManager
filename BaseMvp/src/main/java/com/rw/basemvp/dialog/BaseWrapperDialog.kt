@@ -35,7 +35,7 @@ abstract class BaseWrapperDialog(context: Context) : Dialog(context, R.style.Ale
 
     }
 
-    protected open fun getHelperView(
+    protected fun getHelperView(
         group: ViewGroup?,
         layoutId: Int,
         listener: OnViewHolder?

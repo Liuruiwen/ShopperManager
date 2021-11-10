@@ -20,6 +20,17 @@ class CategoryListAdapter :BaseQuickAdapter<CategoryResultBean,BaseViewHolder>(R
         holder.setText(R.id.tv_category_name,item.categoryName)
         holder.setText(R.id.tv_category_desc,item.categoryDesc)
         holder.setTextColor(R.id.tv_position,ContextCompat.getColor(context,R.color.colorWrite))
+
+    }
+
+    fun moveItem(position:Int){
+        data.removeAt(position)
+        if (data.size==0){
+            notifyDataSetChanged()
+        }else{
+            notifyItemRemoved(position)
+            notifyItemRangeRemoved(position,data.size-position)
+        }
     }
 
 

@@ -8,4 +8,6 @@
     <string name="hp_input_goods_name">请输入商品名称</string>
     <string name="hp_input_goods_desc">请输入商品描述</string>
     <string name="hp_input_goods_price">请输入价格</string>
+    <string name="hp_delete">删除</string>
+    <string name="hp_edit">编辑</string>
 </resources>
