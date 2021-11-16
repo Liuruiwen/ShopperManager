@@ -7,10 +7,7 @@ import com.rw.basemvp.bean.BaseBean
 import com.rw.basemvp.until.ViewHolder
 import com.rw.homepage.HttpApi
 import com.rw.homepage.R
-import com.rw.homepage.bean.CategoryBean
-import com.rw.homepage.bean.CategoryListBean
-import com.rw.homepage.bean.ReqAddCategory
-import com.rw.homepage.bean.ReqGoodsList
+import com.rw.homepage.bean.*
 import com.rw.homepage.ui.activity.GoodsEditActivity
 import com.rw.homepage.ui.dialog.AddCategoryDialog
 import com.rw.service.ServiceViewModule
@@ -41,7 +38,7 @@ class GoodsManagerPresenter : HomePagePresenter() {
     /**
      * 添加品类
      */
-    fun addCategory(category: ReqAddCategory) {
+    fun addCategory(category: AddCategoryReq) {
 
         ServiceViewModule.get()?.loginService?.value?.let { bean ->
             postBodyData(
@@ -56,7 +53,7 @@ class GoodsManagerPresenter : HomePagePresenter() {
     /**
      * 删除品类
      */
-    fun deleteCategory(category: ReqGoodsList) {
+    fun deleteCategory(category: GoodsListReq) {
 
         ServiceViewModule.get()?.loginService?.value?.let { bean ->
             postBodyData(
@@ -68,8 +65,23 @@ class GoodsManagerPresenter : HomePagePresenter() {
 
     }
 
+    /**
+     * 编辑品类
+     */
+    fun editCategory(category: EditCategoryReq) {
 
-     fun showAddCategory(context: Context){
+        ServiceViewModule.get()?.loginService?.value?.let { bean ->
+            postBodyData(
+                3,
+                HttpApi.HTTP_EDIT_CATEGORY, EditCategoryResultBean::class.java, true,
+                mapOf("token" to bean.token),category
+            )
+        }
+
+    }
+
+
+     fun showAddCategory(context: Context,categoryReq:CategoryResultBean?=null){
 
         object : AddCategoryDialog(context){
             override fun helper(helper: ViewHolder?) {
@@ -77,7 +89,10 @@ class GoodsManagerPresenter : HomePagePresenter() {
                 val etName=helper?.getView<EditText>(R.id.et_name)
                 val etDesc=helper?.getView<EditText>(R.id.et_desc)
                 val etPosition=helper?.getView<EditText>(R.id.et_position)
-
+                categoryReq?.let { req->
+                    etName?.setText(req.categoryName)
+                    etDesc?.setText(req.categoryDesc)
+                }
                 helper?.setOnClickListener(View.OnClickListener {
 
                     when(it?.id){
@@ -95,12 +110,17 @@ class GoodsManagerPresenter : HomePagePresenter() {
                                 context .toast(context.getString(R.string.hp_input_category_desc))
                                 return@OnClickListener
                             }
-                            val position=etPosition?.text.toString().trim()
-                            if (position.isEmpty()){
-                                context.toast(context.getString(R.string.hp_input_position))
-                                return@OnClickListener
+//                            val position=etPosition?.text.toString().trim()
+//                            if (position.isEmpty()){
+//                                context.toast(context.getString(R.string.hp_input_position))
+//                                return@OnClickListener
+//                            }
+                            if (categoryReq!=null){
+                                editCategory(EditCategoryReq(categoryReq.id,name,desc))
+                            }else{
+                                addCategory(AddCategoryReq(name,desc))
                             }
-                           addCategory(ReqAddCategory(name,desc,position.toInt()))
+
                             dismiss()
                         }
                     }

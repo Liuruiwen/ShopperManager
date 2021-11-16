@@ -16,7 +16,8 @@ import com.rw.homepage.R
 import com.rw.homepage.adapter.CategoryListAdapter
 import com.rw.homepage.bean.CategoryBean
 import com.rw.homepage.bean.CategoryListBean
-import com.rw.homepage.bean.ReqGoodsList
+import com.rw.homepage.bean.EditCategoryResultBean
+import com.rw.homepage.bean.GoodsListReq
 import com.rw.homepage.presenter.GoodsManagerPresenter
 import com.rw.personalcenter.until.setVisible
 import kotlinx.android.synthetic.main.hp_activity_edit_category.*
@@ -98,6 +99,15 @@ class EditCategoryActivity : BaseActivity<GoodsManagerPresenter>() {
                     }
 
                 }
+                HttpApi.HTTP_EDIT_CATEGORY -> {
+                    if (it is EditCategoryResultBean){
+                        it.data?.let {req->
+                            mAdapter.editItem(selectPosition,req)
+                        }
+
+                    }
+
+                }
                 else -> showToast("系统异常")
             }
         })
@@ -107,10 +117,10 @@ class EditCategoryActivity : BaseActivity<GoodsManagerPresenter>() {
         selectPosition=position
          when(view?.id){
              R.id.tv_edit->{//编辑
-
+                 mPresenter?.showAddCategory(this@EditCategoryActivity,mAdapter.getItem(selectPosition))
              }
              R.id.tv_delete->{//删除
-                mPresenter?.deleteCategory(ReqGoodsList(mAdapter.getItem(selectPosition).id))
+                mPresenter?.deleteCategory(GoodsListReq(mAdapter.getItem(selectPosition).id))
              }
          }
 

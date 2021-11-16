@@ -23,7 +23,7 @@ import com.rw.homepage.R
 import com.rw.homepage.adapter.MenuAdapter
 import com.rw.homepage.bean.CategoryListBean
 import com.rw.homepage.bean.CategoryResultBean
-import com.rw.homepage.bean.ReqAddCategory
+import com.rw.homepage.bean.AddCategoryReq
 import com.rw.homepage.presenter.GoodsManagerPresenter
 import com.rw.homepage.ui.dialog.AddCategoryDialog
 import com.rw.homepage.ui.fragment.GoodsListFragment
@@ -151,13 +151,13 @@ class GoodsManagerActivity : BaseActivity<GoodsManagerPresenter>() {
                                     toast(getString(R.string.hp_input_category_desc))
                                     return@OnClickListener
                                 }
-                                val position=etPosition?.text.toString().trim()
-                                if (position.isEmpty()){
-                                    toast(getString(R.string.hp_input_position))
-                                    return@OnClickListener
-                                }
+//                                val position=etPosition?.text.toString().trim()
+//                                if (position.isEmpty()){
+//                                    toast(getString(R.string.hp_input_position))
+//                                    return@OnClickListener
+//                                }
 
-                                 mPresenter?.addCategory(ReqAddCategory(name,desc,position.toInt()))
+                                 mPresenter?.addCategory(AddCategoryReq(name,desc))
 
                                 dismiss()
                             }

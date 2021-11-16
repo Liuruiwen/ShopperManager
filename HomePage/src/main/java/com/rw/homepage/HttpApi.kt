@@ -10,6 +10,7 @@ object HttpApi {
     const val HTTP_ADD_CATEGORY="/s1/index/insertCategory"//添加品类
     const val HTTP_DELETE_CATEGORY="/s1/index/deleteCategory"//删除品类
     const val HTTP_GET_GOODS_LIST="/s1/index/getCategoryGoodsList"//获取商品列表
+    const val HTTP_EDIT_CATEGORY="/s1/order/editCategory"//编辑品类
     const val HTTP_ADD_GOODS="/s1/index/insertGoods"//添加商品
 
 }

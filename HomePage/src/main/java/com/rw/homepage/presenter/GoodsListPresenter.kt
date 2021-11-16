@@ -2,7 +2,7 @@ package com.rw.homepage.presenter
 
 import com.rw.homepage.HttpApi
 import com.rw.homepage.bean.GoodsBean
-import com.rw.homepage.bean.ReqGoodsList
+import com.rw.homepage.bean.GoodsListReq
 import com.rw.service.ServiceViewModule
 
 /**
@@ -20,7 +20,7 @@ class GoodsListPresenter : HomePagePresenter(){
             postBodyData(
                 0,
                 HttpApi.HTTP_GET_GOODS_LIST, GoodsBean::class.java, true,
-                mapOf("token" to bean.token), ReqGoodsList(id)
+                mapOf("token" to bean.token), GoodsListReq(id)
             )
         }
 

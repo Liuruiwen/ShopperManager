@@ -21,10 +21,17 @@ data class CategoryBean (
     var data: CategoryResultBean
 ) : BaseBean()
 
+/**
+ * 增加品类
+ */
+data class EditCategoryResultBean (
+    var data: EditCategoryReq?
+) : BaseBean()
+
 data class CategoryResultBean(
     val id:Int,
-    val categoryName:String?,
+    var categoryName:String?,
     val categoryPosition:Int?,
-    val categoryDesc:String?,
+    var categoryDesc:String?,
     val businessLicense:String?
 )

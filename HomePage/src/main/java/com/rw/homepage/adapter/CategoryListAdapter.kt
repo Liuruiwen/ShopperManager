@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.module.DraggableModule
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.rw.homepage.R
 import com.rw.homepage.bean.CategoryResultBean
+import com.rw.homepage.bean.EditCategoryReq
 
 /**
  * Created by Amuse
@@ -31,6 +32,13 @@ class CategoryListAdapter :BaseQuickAdapter<CategoryResultBean,BaseViewHolder>(R
             notifyItemRemoved(position)
             notifyItemRangeRemoved(position,data.size-position)
         }
+    }
+
+    fun editItem(position: Int,bean:EditCategoryReq){
+
+        data[position].categoryName=bean.categoryName
+        data[position].categoryDesc=bean.categoryDesc
+        notifyItemChanged(position)
     }
 
 

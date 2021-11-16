@@ -6,11 +6,22 @@ package com.rw.homepage.bean
  * Desc:请求bean
  */
 
-data class ReqAddCategory(
+data class AddCategoryReq(
    val  categoryName:String,
-   val  categoryDesc:String,
-   val  categoryPosition:Int
+   val  categoryDesc:String
 )
-data class ReqGoodsList(
+data class GoodsListReq(
    val id:Int
+)
+//"id": 2,
+//"categoryName": "霸王奶茶",
+//"categoryDesc": "你想喝不，交钱"
+
+/**
+ * 编辑商品品类
+ */
+data class EditCategoryReq(
+  val id:Int,
+  val categoryName:String?,
+  val categoryDesc:String?
 )
