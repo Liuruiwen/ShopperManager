@@ -23,6 +23,9 @@ import com.rw.personalcenter.until.setVisible
 import kotlinx.android.synthetic.main.hp_activity_edit_category.*
 import kotlinx.android.synthetic.main.hp_activity_goods_manager.*
 
+/**
+ * 品类管理
+ */
 class EditCategoryActivity : BaseActivity<GoodsManagerPresenter>() {
 
     private var selectPosition=-1
