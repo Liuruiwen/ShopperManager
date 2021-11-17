@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.hp_activity_goods_manager.*
 
 /**
  * 品类管理
+ *
  */
 class EditCategoryActivity : BaseActivity<GoodsManagerPresenter>() {
 
