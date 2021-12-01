@@ -11,11 +11,9 @@ data class AddCategoryReq(
    val  categoryDesc:String
 )
 data class GoodsListReq(
-   val id:Int
+   val categoryId:Int
 )
-//"id": 2,
-//"categoryName": "霸王奶茶",
-//"categoryDesc": "你想喝不，交钱"
+
 
 /**
  * 编辑商品品类
@@ -24,4 +22,20 @@ data class EditCategoryReq(
   val id:Int,
   val categoryName:String?,
   val categoryDesc:String?
+)
+
+
+
+/*
+  添加商品
+ */
+data class AddGoodsReq(
+    val categoryId:Int,
+    val goodsPrice:String,
+    val goodsName:String,
+    val goodsDesc:String,
+    val goodsImage:String,
+    val normsList:String,//规格列表json字符串
+    val shelvesType:Int//是否上下架
+
 )

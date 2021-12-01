@@ -12,7 +12,7 @@ import com.rw.service.ServiceViewModule
  */
 class GoodsListPresenter : HomePagePresenter(){
     /**
-     * 获取品类信息
+     * 获取商品列表
      */
     fun reqGoodsList(id:Int) {
 

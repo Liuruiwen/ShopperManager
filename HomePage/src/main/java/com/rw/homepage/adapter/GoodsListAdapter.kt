@@ -26,7 +26,7 @@ class GoodsListAdapter :BaseQuickAdapter<GoodsListBean,BaseViewHolder>(R.layout.
         holder.setText(R.id.tv_shelves,if (item.shelvesType==1) "下架" else "上架")
         val layoutAdd=holder.getView<LinearLayout>(R.id.layout_add)
         layoutAdd.setVisible(item.isShow)
-        initAttr(layoutAdd,item.list)
+        initAttr(layoutAdd,item.listNorms)
 
     }
 
@@ -35,9 +35,9 @@ class GoodsListAdapter :BaseQuickAdapter<GoodsListBean,BaseViewHolder>(R.layout.
             layoutAdd.removeAllViews()
         }
         list?.forEach {
-            layoutAdd.addView(getHeaderView(it.attributeName))
+            layoutAdd.addView(getHeaderView(it.normsName))
             it.listAttribute?.forEach{item->
-                layoutAdd.addView(getAttrView(item.name))
+                layoutAdd.addView(getAttrView(item.normsAttributeName))
             }
         }
 
