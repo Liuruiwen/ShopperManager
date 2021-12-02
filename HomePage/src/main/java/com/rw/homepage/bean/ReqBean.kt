@@ -39,3 +39,10 @@ data class AddGoodsReq(
     val shelvesType:Int//是否上下架
 
 )
+
+/**
+ * 删除商品
+ */
+data class DeleteGoodsReq(
+    val id:Int
+)

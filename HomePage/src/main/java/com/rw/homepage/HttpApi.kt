@@ -12,5 +12,6 @@ object HttpApi {
     const val HTTP_GET_GOODS_LIST="/s1/order/getCategoryGoodList"//获取商品列表
     const val HTTP_EDIT_CATEGORY="/s1/order/editCategory"//编辑品类
     const val HTTP_ADD_GOODS="/s1/order/insertOrderGoods"//添加商品
+    const val HTTP_DELETE_GOODS="/s1/order/deleteGoods"//删除商品
 
 }

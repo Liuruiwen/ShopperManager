@@ -26,6 +26,7 @@ import org.jetbrains.anko.toast
  */
 class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
     private var categoryId=0
+    private var selectPosition=-1
     private val mAdapter: GoodsListAdapter by lazy {
         GoodsListAdapter()
     }
@@ -76,6 +77,13 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
                     mAdapter.setNewInstance(it.data)
                     tv_add?.text=if (!data.data.isNullOrEmpty()) "管理" else "添加商品"
                 }
+                HttpApi.HTTP_DELETE_GOODS->{
+                    if (selectPosition>-1){
+                        mAdapter.remove(mAdapter.getItem(selectPosition))
+                        selectPosition=-1
+                    }
+
+                }
                 else -> showToast("系统异常")
             }
         })
@@ -92,12 +100,13 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
     }
 
     private fun childClick(view : View, position:Int){
+        selectPosition=position
         when(view.id){
             R.id.tv_shelves->{//上下架
 
             }
             R.id.tv_delete->{//删除
-
+                mPresenter?.reqDeleteGoods(mAdapter.getItem(position).id)
             }
             R.id.tv_show->{//展开、收起
               mAdapter.updateShow(position)
