@@ -3,7 +3,8 @@
     package="com.rw.homepage">
 
     <application>
-        <activity android:name=".ui.activity.GoodsSpecificationsActivity"></activity>
+        <activity android:name=".ui.activity.NormsListActivity"></activity>
+        <activity android:name=".ui.activity.GoodsSpecificationsActivity" />
         <activity android:name=".ui.activity.GoodsEditActivity" />
         <activity android:name=".ui.activity.EditCategoryActivity" />
         <activity android:name=".ui.activity.GoodsManagerActivity" />

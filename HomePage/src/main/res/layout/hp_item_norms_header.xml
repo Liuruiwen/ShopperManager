@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorWrite"
+    android:layout_height="wrap_content">
+     <TextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:id="@+id/tv_name"
+         android:textSize="16dp"
+         android:textStyle="bold"
+         android:padding="16dp"
+         android:textColor="@color/textMain"
+         tools:text="温度"
+         tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_delete"
+        android:textSize="16dp"
+        android:textColor="@color/textLight"
+        tools:text="@string/hp_delete"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintRight_toLeftOf="@id/tv_add"
+        tools:ignore="MissingConstraints" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_add"
+        android:textSize="16dp"
+        android:padding="16dp"
+        android:text="@string/hp_add_norms_attribute"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/colorPrimary"
+        tools:ignore="MissingConstraints" />
+</androidx.constraintlayout.widget.ConstraintLayout>

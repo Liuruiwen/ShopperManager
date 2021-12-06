@@ -10,4 +10,10 @@
     <string name="hp_input_goods_price">请输入价格</string>
     <string name="hp_delete">删除</string>
     <string name="hp_edit">编辑</string>
+    <string name="hp_add_norms_attribute">添加属性</string>
+    <string name="hp_add_goods">添加商品</string>
+    <string name="hp_goods_position">商品排序</string>
+    <string name="hp_norms">规格</string>
+    <string name="hp_add_norms">添加规格</string>
+    <string name="hp_edit_norms">编辑规格</string>
 </resources>

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.rw.basemvp.BaseActivity
 import com.rw.basemvp.widget.TitleView
@@ -15,6 +16,8 @@ import com.rw.homepage.bean.SpinnerBean
 import com.rw.homepage.presenter.GoodsEditPresenter
 import com.rw.personalcenter.until.setVisible
 import kotlinx.android.synthetic.main.hp_activity_goods_edit.*
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.textColor
 
 const val GOODS_EDIT_TYPE_ADD = 1//增加商品
 const val GOODS_EDIT_TYPE_EDIT = 2//编辑商品
@@ -38,6 +41,7 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
         tvRight = titleView.getView(R.id.tv_title_right)
         tvRight?.setVisible(true)
         tvRight?.text = "完成"
+        tvRight?.textColor= ContextCompat.getColor(this,R.color.colorPrimary)
         tvRight?.setOnClickListener {
              if (isCommit()){
                mPresenter?.reqAddGoods(AddGoodsReq(categroyId,
@@ -49,6 +53,9 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
                    spinnerType
                ))
              }
+        }
+        tv_add_norms.setOnClickListener {
+            startActivity<NormsListActivity>("categoryId" to categroyId.toString())
         }
         processSpinner()
         reqResult()

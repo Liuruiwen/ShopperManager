@@ -46,3 +46,7 @@ data class AddGoodsReq(
 data class DeleteGoodsReq(
     val id:Int
 )
+
+data class NormsListReq(
+    val categoryId:String
+)

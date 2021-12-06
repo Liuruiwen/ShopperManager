@@ -52,6 +52,9 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
         tv_add?.setOnClickListener {
             mContext?.startActivity<GoodsEditActivity>("type" to GOODS_EDIT_TYPE_ADD,"id" to categoryId)
         }
+        tv_add_goods?.setOnClickListener {
+            tv_add?.performClick()
+        }
     }
 
     override fun getPresenter(): GoodsListPresenter {
