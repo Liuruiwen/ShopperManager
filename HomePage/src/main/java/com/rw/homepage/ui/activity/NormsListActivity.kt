@@ -1,24 +1,28 @@
 package com.rw.homepage.ui.activity
 
+import android.content.Context
 import android.os.Bundle
+import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.rw.basemvp.BaseActivity
+import com.rw.basemvp.until.ViewHolder
 import com.rw.basemvp.widget.TitleView
 import com.rw.homepage.HttpApi
 import com.rw.homepage.R
 import com.rw.homepage.adapter.NormsListAdapter
 import com.rw.homepage.adapter.TYPE_NORMS_ITEM_ATTRIBUTE
 import com.rw.homepage.adapter.TYPE_NORMS_ITEM_HEADER
-import com.rw.homepage.bean.MultiItemBean
-import com.rw.homepage.bean.NormsItemBean
-import com.rw.homepage.bean.NormsListReq
+import com.rw.homepage.bean.*
 import com.rw.homepage.presenter.NormsListPresenter
+import com.rw.homepage.ui.dialog.AddCategoryDialog
 import com.rw.personalcenter.until.setVisible
 import kotlinx.android.synthetic.main.hp_norms_list.*
 import org.jetbrains.anko.textColor
+import org.jetbrains.anko.toast
 
 class NormsListActivity : BaseActivity<NormsListPresenter>() {
     private val listNorms = ArrayList<MultiItemBean>()
@@ -57,7 +61,12 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
         }
         mAdapter.apply {
             setGridSpanSizeLookup { _, _, position -> listNorms[position].getSpanSize() }
+            setOnItemClickListener { _, _, position ->  mAdapter.attributeClick(position)}
+            setOnItemChildClickListener { _, view, position -> childItemClick(view,position) }
+            addChildClickViewIds(R.id.tv_delete)
+            addChildClickViewIds(R.id.tv_add)
         }
+
     }
     private fun reqResult() {
         mPresenter?.getNormsList(NormsListReq(categoryId?:"2"))
@@ -81,6 +90,14 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
 
                    }
                 }
+                HttpApi.HTTP_ADD_ATTRIBUTE->{
+                           if (it is NormsAttributeResultBean){
+                               it.data?.let {attributeBean->
+                                   attributeBean.itemType= TYPE_NORMS_ITEM_ATTRIBUTE
+                                   mAdapter.addData(attributeBean)
+                               }
+                           }
+                }
                 else -> showToast("系统异常")
             }
         })
@@ -94,6 +111,57 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
             }
 
         })
+    }
+
+    private fun childItemClick(view: View,position:Int){
+        val item=mAdapter.getItem(position)
+
+        when(view.id){
+            R.id.tv_delete->{
+
+            }
+            R.id.tv_add->{
+
+                if (item is NormsHeaderBean){
+                    addNormsAttribute(item.id.toString())
+                }
+
+            }
+
+        }
+    }
+
+
+    fun addNormsAttribute(id:String?){
+
+        object : AddCategoryDialog(this){
+            override fun helper(helper: ViewHolder?) {
+                super.helper(helper)
+                val etName=helper?.getView<EditText>(R.id.et_name)
+                etName?.setVisible(false)
+                val etDesc=helper?.getView<EditText>(R.id.et_desc)
+                 etDesc?.hint="请输入属性名称"
+                helper?.setOnClickListener(View.OnClickListener {
+
+                    when(it?.id){
+                        R.id.tv_cancel->{
+                            dismiss()
+                        }
+                        R.id.tv_confirm->{
+
+                            val desc=etDesc?.text.toString().trim()
+                            if (desc.isEmpty()){
+                                context .toast("请输入属性名称")
+                                return@OnClickListener
+                            }
+                            mPresenter?.addNormsAttribute(AddNormsAttribute(desc,id?:""))
+                            dismiss()
+                        }
+                    }
+                }, R.id.tv_cancel, R.id.tv_confirm)
+            }
+        }.show()
+
     }
 
 }

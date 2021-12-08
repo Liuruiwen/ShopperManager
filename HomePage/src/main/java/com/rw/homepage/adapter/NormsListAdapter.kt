@@ -1,5 +1,6 @@
 package com.rw.homepage.adapter
 
+import androidx.core.content.ContextCompat
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.rw.homepage.R
@@ -48,6 +49,27 @@ class NormsListAdapter: BaseMultiItemQuickAdapter<MultiItemBean,BaseViewHolder>(
      * 处理属性
      */
     private fun processAttribute(holder: BaseViewHolder, item: NormsAttributeBean){
+          holder.setBackgroundResource(R.id.tv_attribute_name,if (item.selectType==1)   R.drawable.hp_button_bg_blue else R.drawable.hp_circle_bg_white)
+          holder.setTextColor(R.id.tv_attribute_name,ContextCompat.getColor(context,if (item.selectType==1)   R.color.colorWrite else R.color.textGray) )
           holder.setText(R.id.tv_attribute_name,item.normsAttributeName)
+    }
+
+    fun attributeClick(position:Int){
+        val item=data[position]
+        if (item is NormsAttributeBean){
+            item.selectType=if (item.selectType==1) 0 else 1
+            notifyItemChanged(position)
+        }
+    }
+
+    fun isSelectAttribute():Boolean{
+        for (index in 0 until  data.size){
+            val item=data[index]
+            if (item is NormsAttributeBean && item.selectType==1){
+                return true
+            }
+        }
+
+        return false
     }
 }

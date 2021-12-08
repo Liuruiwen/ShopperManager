@@ -32,9 +32,15 @@ data class NormsHeaderBean(
 }
 
 
+
+data class NormsAttributeResultBean  (
+    var data: NormsAttributeBean?
+) : BaseBean()
+
 data class NormsAttributeBean(
     val id:Int,
     val normsAttributeName:String,
+    var selectType:Int,
     val normsId:Int,
     override var itemType: Int=TYPE_NORMS_ITEM_ATTRIBUTE
 ):MultiItemBean {

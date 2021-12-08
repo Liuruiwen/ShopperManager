@@ -47,6 +47,17 @@ data class DeleteGoodsReq(
     val id:Int
 )
 
+/**
+ * 获取规格列表Req
+ */
 data class NormsListReq(
     val categoryId:String
+)
+
+/**
+ * 添加规格属性
+ */
+data class AddNormsAttribute(
+    val normsAttributeName:String,
+    val normsId:String
 )
