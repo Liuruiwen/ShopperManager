@@ -62,6 +62,11 @@ class NormsListAdapter: BaseMultiItemQuickAdapter<MultiItemBean,BaseViewHolder>(
         }
     }
 
+    fun addAttribute(item: NormsAttributeBean,position: Int){
+        data.add(position,item)
+        notifyDataSetChanged()
+    }
+
     fun isSelectAttribute():Boolean{
         for (index in 0 until  data.size){
             val item=data[index]

@@ -15,7 +15,7 @@ object HttpApi {
     const val HTTP_DELETE_GOODS="/s1/order/deleteGoods"//删除商品
     const val HTTP_ADD_NORMS="/s1/order/insertNorms"//新增商品规格
     const val HTTP_ADD_ATTRIBUTE="/s1/order/insertNormsAttribute"//新增规格属性
-    const val HTTP_DELETE_NORMS=""//删除商品规格
+    const val HTTP_DELETE_NORMS="/s1/order/deleteNorms"//删除商品规格
     const val HTTP_DELETE_ATTRIBUTE="/s1/order/deleteNormsAttribute"//删除规格属性
     const val HTTP_GET_NORMS_LIST="/s1/order/getNormsList"//查询规格列表
 

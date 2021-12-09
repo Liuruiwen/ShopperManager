@@ -27,6 +27,7 @@ import org.jetbrains.anko.toast
 class NormsListActivity : BaseActivity<NormsListPresenter>() {
     private val listNorms = ArrayList<MultiItemBean>()
     private var categoryId:String?=null
+    private var insertPosition=-1
     override fun setLayout(): Int {
         return R.layout.hp_norms_list
     }
@@ -93,8 +94,14 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
                 HttpApi.HTTP_ADD_ATTRIBUTE->{
                            if (it is NormsAttributeResultBean){
                                it.data?.let {attributeBean->
-                                   attributeBean.itemType= TYPE_NORMS_ITEM_ATTRIBUTE
-                                   mAdapter.addData(attributeBean)
+
+                                   if (insertPosition>-1){
+                                       insertPosition+=1
+                                       attributeBean.itemType= TYPE_NORMS_ITEM_ATTRIBUTE
+                                       mAdapter.addAttribute(attributeBean,insertPosition)
+                                       insertPosition=-1
+                                   }
+
                                }
                            }
                 }
@@ -123,6 +130,7 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
             R.id.tv_add->{
 
                 if (item is NormsHeaderBean){
+                    insertPosition=position
                     addNormsAttribute(item.id.toString())
                 }
 
