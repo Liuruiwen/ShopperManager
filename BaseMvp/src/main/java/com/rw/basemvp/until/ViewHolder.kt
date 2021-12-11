@@ -204,7 +204,7 @@ class ViewHolder constructor(var mConvertView:View){
     /**
      * 关于事件的
      */
-    fun setOnClickListener(
+    fun onClickListener(
         viewId: Int,
         listener: View.OnClickListener?
     ): ViewHolder? {
@@ -226,7 +226,7 @@ class ViewHolder constructor(var mConvertView:View){
     ): ViewHolder? {
         if (viewId != null && viewId.size > 0) {
             for (id in viewId) {
-                setOnClickListener(id, listener)
+                onClickListener(id, listener)
             }
         }
         return this

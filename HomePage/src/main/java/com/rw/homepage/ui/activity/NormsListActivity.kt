@@ -1,6 +1,5 @@
 package com.rw.homepage.ui.activity
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -19,6 +18,7 @@ import com.rw.homepage.adapter.TYPE_NORMS_ITEM_HEADER
 import com.rw.homepage.bean.*
 import com.rw.homepage.presenter.NormsListPresenter
 import com.rw.homepage.ui.dialog.AddCategoryDialog
+import com.rw.homepage.ui.dialog.MessageDialog
 import com.rw.personalcenter.until.setVisible
 import kotlinx.android.synthetic.main.hp_norms_list.*
 import org.jetbrains.anko.textColor
@@ -28,9 +28,12 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
     private val listNorms = ArrayList<MultiItemBean>()
     private var categoryId:String?=null
     private var insertPosition=-1
+    private var deletePosition=-1
+    private var deleteType=1
     override fun setLayout(): Int {
         return R.layout.hp_norms_list
     }
+    private var mMessageDialog:MessageDialog?=null
 
     private val mAdapter: NormsListAdapter by lazy {
         NormsListAdapter()
@@ -55,6 +58,26 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
     }
 
     private fun initView() {
+      mMessageDialog=  mPresenter?.showMessageDialog(this,
+          View.OnClickListener {
+
+              when(it?.id){
+                  R.id.tv_cancel->{
+                      mMessageDialog?.dismiss()
+                  }
+                  R.id.tv_confirm->{
+                      if (deletePosition!=-1){
+                          val item=mAdapter.getItem(deletePosition)
+                          if (deleteType==1 && item is NormsAttributeBean){
+                              mPresenter?.deleteNormsAttribute(DeleteNormsReq(item.id))
+                          }else if (item is NormsHeaderBean){
+                              mPresenter?.deleteNorms(DeleteNormsReq(item.id))
+                          }
+                      }
+                      mMessageDialog?.dismiss()
+                  }
+              }
+          },R.id.tv_cancel,R.id.tv_confirm)
         categoryId=intent.getStringExtra("categoryId")
         rv_norms.apply {
             layoutManager = GridLayoutManager(this@NormsListActivity, 6)
@@ -64,8 +87,10 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
             setGridSpanSizeLookup { _, _, position -> listNorms[position].getSpanSize() }
             setOnItemClickListener { _, _, position ->  mAdapter.attributeClick(position)}
             setOnItemChildClickListener { _, view, position -> childItemClick(view,position) }
+            setOnItemLongClickListener { _, _, position ->  longItemClick(position)}
             addChildClickViewIds(R.id.tv_delete)
             addChildClickViewIds(R.id.tv_add)
+            addChildLongClickViewIds()
         }
 
     }
@@ -105,6 +130,17 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
                                }
                            }
                 }
+                HttpApi.HTTP_DELETE_NORMS->{//删除规格
+                    if (deletePosition!=-1){
+                        mPresenter?.getNormsList(NormsListReq(categoryId?:"2"))
+                    }
+
+                }
+                HttpApi.HTTP_DELETE_ATTRIBUTE->{//删除规格属性
+                    if (deletePosition!=-1){
+                        mAdapter.remove(mAdapter.getItem(deletePosition))
+                    }
+                }
                 else -> showToast("系统异常")
             }
         })
@@ -125,7 +161,11 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
 
         when(view.id){
             R.id.tv_delete->{
-
+                if (item is NormsHeaderBean){
+                    deleteType=0
+                    deletePosition=position
+                    mMessageDialog?.showDialog("确定删除${item.normsName}商品规格？")
+                }
             }
             R.id.tv_add->{
 
@@ -139,8 +179,19 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
         }
     }
 
+    private fun longItemClick(position: Int):Boolean{
+        val item=mAdapter.getItem(position)
+        if (item is NormsAttributeBean){
+            deletePosition=position
+            deleteType=1
+            mMessageDialog?.showDialog("确定删除${item.normsAttributeName}规格属性？")
+        }
 
-    fun addNormsAttribute(id:String?){
+        return true
+    }
+
+
+    private fun addNormsAttribute(id:String?){
 
         object : AddCategoryDialog(this){
             override fun helper(helper: ViewHolder?) {

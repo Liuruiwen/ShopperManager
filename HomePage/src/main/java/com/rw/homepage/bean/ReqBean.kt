@@ -61,3 +61,7 @@ data class AddNormsAttribute(
     val normsAttributeName:String,
     val normsId:String
 )
+
+data class DeleteNormsReq(
+    val id:Int
+)

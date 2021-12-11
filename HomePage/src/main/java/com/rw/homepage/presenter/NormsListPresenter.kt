@@ -2,10 +2,7 @@ package com.rw.homepage.presenter
 
 import com.rw.basemvp.bean.BaseBean
 import com.rw.homepage.HttpApi
-import com.rw.homepage.bean.AddNormsAttribute
-import com.rw.homepage.bean.NormsAttributeResultBean
-import com.rw.homepage.bean.NormsItemBean
-import com.rw.homepage.bean.NormsListReq
+import com.rw.homepage.bean.*
 import com.rw.service.ServiceViewModule
 
 /**
@@ -39,6 +36,36 @@ class NormsListPresenter :HomePagePresenter() {
             postBodyData(
                 0,
                 HttpApi.HTTP_ADD_ATTRIBUTE, NormsAttributeResultBean::class.java, true,
+                mapOf("token" to bean.token), req
+            )
+        }
+
+    }
+
+    /**
+     * 删除规格属性
+     */
+    fun deleteNorms(req: DeleteNormsReq) {
+
+        ServiceViewModule.get()?.loginService?.value?.let { bean ->
+            postBodyData(
+                0,
+                HttpApi.HTTP_DELETE_NORMS, BaseBean::class.java, true,
+                mapOf("token" to bean.token), req
+            )
+        }
+
+    }
+
+    /**
+     * 删除规格属性
+     */
+    fun deleteNormsAttribute(req: DeleteNormsReq) {
+
+        ServiceViewModule.get()?.loginService?.value?.let { bean ->
+            postBodyData(
+                0,
+                HttpApi.HTTP_DELETE_ATTRIBUTE, BaseBean::class.java, true,
                 mapOf("token" to bean.token), req
             )
         }

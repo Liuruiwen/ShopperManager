@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/hp_dialog_bg_white"
+        android:paddingBottom="30dp"
+        tools:ignore="MissingConstraints">
+
+
+        <TextView
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:textColor="@color/textMain"
+            android:textSize="16dp"
+            android:id="@+id/tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="让我说点什么好"
+            />
+
+
+
+
+
+        <TextView
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:id="@+id/tv_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="30dp"
+            android:textSize="16sp"
+            android:textColor="@color/colorWrite"
+            android:background="@drawable/hp_button_bg_blue"
+            android:layout_marginBottom="64dp"
+            android:text="@string/hp_cancel"
+            android:gravity="center"
+            app:layout_constraintRight_toLeftOf="@id/tv_confirm"
+            app:layout_constraintHorizontal_weight="1"
+            android:textStyle="bold"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_message"
+            />
+
+        <TextView
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:id="@+id/tv_confirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/tv_cancel"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="40dp"
+            android:textSize="16sp"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/colorWrite"
+            android:background="@drawable/hp_button_bg_blue"
+            android:layout_marginBottom="64dp"
+            android:text="@string/hp_confirm"
+            android:gravity="center"
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_message"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

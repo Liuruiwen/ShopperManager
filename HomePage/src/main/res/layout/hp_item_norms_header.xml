@@ -22,7 +22,7 @@
         android:id="@+id/tv_delete"
         android:textSize="16dp"
         android:textColor="@color/textLight"
-        tools:text="@string/hp_delete"
+        android:text="@string/hp_delete"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
         app:layout_constraintRight_toLeftOf="@id/tv_add"
