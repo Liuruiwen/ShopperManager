@@ -33,7 +33,7 @@ data class GoodsListBean(
 //private int categoryId;//品类id
 data class AttributeBean(
    val id:Int,
-   val normsName:String,
+   val normsName:String?,
    val businessLicense:String,
    val listAttribute:List<ListAttributeBean>?
 )

@@ -79,6 +79,9 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
               }
           },R.id.tv_cancel,R.id.tv_confirm)
         categoryId=intent.getStringExtra("categoryId")
+        tv_add_norms.setOnClickListener {
+            addNormsAttribute(categoryId,"请输入规格名称",2)
+        }
         rv_norms.apply {
             layoutManager = GridLayoutManager(this@NormsListActivity, 6)
             adapter = mAdapter
@@ -101,6 +104,7 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
                 HttpApi.HTTP_GET_NORMS_LIST -> {
                    if (it is NormsItemBean){
                        if (!it.data.isNullOrEmpty()){
+                           listNorms.clear()
                            it.data?.forEach {hearBean->
                                hearBean.itemType= TYPE_NORMS_ITEM_HEADER
                                    listNorms.add(hearBean)
@@ -135,6 +139,16 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
                         mPresenter?.getNormsList(NormsListReq(categoryId?:"2"))
                     }
 
+                }
+                HttpApi.HTTP_ADD_NORMS->{//添加规格
+                    if (it is NormsResultBean){
+                        it.data?.let {normsBean->
+
+                            normsBean.itemType= TYPE_NORMS_ITEM_HEADER
+                            mAdapter.addAttribute(normsBean,0)
+
+                        }
+                    }
                 }
                 HttpApi.HTTP_DELETE_ATTRIBUTE->{//删除规格属性
                     if (deletePosition!=-1){
@@ -171,7 +185,7 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
 
                 if (item is NormsHeaderBean){
                     insertPosition=position
-                    addNormsAttribute(item.id.toString())
+                    addNormsAttribute(item.id.toString(),"请输入属性名称",1)
                 }
 
             }
@@ -191,7 +205,7 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
     }
 
 
-    private fun addNormsAttribute(id:String?){
+    private fun addNormsAttribute(id:String?,hint:String,type:Int){
 
         object : AddCategoryDialog(this){
             override fun helper(helper: ViewHolder?) {
@@ -199,7 +213,7 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
                 val etName=helper?.getView<EditText>(R.id.et_name)
                 etName?.setVisible(false)
                 val etDesc=helper?.getView<EditText>(R.id.et_desc)
-                 etDesc?.hint="请输入属性名称"
+                 etDesc?.hint=hint
                 helper?.setOnClickListener(View.OnClickListener {
 
                     when(it?.id){
@@ -210,10 +224,15 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
 
                             val desc=etDesc?.text.toString().trim()
                             if (desc.isEmpty()){
-                                context .toast("请输入属性名称")
+                                context .toast(hint)
                                 return@OnClickListener
                             }
-                            mPresenter?.addNormsAttribute(AddNormsAttribute(desc,id?:""))
+                            if (type==1){//添加属性
+                                mPresenter?.addNormsAttribute(AddNormsAttribute(desc,id?:""))
+                            }else{//添加规格
+                                mPresenter?.addNorms(AddNormsReq(desc,id?:""))
+                            }
+
                             dismiss()
                         }
                     }

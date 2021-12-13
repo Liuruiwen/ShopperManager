@@ -62,7 +62,7 @@ class NormsListAdapter: BaseMultiItemQuickAdapter<MultiItemBean,BaseViewHolder>(
         }
     }
 
-    fun addAttribute(item: NormsAttributeBean,position: Int){
+    fun addAttribute(item: MultiItemBean,position: Int){
         data.add(position,item)
         notifyDataSetChanged()
     }

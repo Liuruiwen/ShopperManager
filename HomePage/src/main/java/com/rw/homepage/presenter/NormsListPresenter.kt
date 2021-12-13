@@ -26,6 +26,21 @@ class NormsListPresenter :HomePagePresenter() {
 
     }
 
+    /**
+     * 添加规格
+     */
+    fun addNorms(req: AddNormsReq) {
+
+        ServiceViewModule.get()?.loginService?.value?.let { bean ->
+            postBodyData(
+                0,
+                HttpApi.HTTP_ADD_NORMS, NormsResultBean::class.java, true,
+                mapOf("token" to bean.token), req
+            )
+        }
+
+    }
+
 
     /**
      * 添加规格属性

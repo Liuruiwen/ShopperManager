@@ -35,7 +35,7 @@ class GoodsListAdapter :BaseQuickAdapter<GoodsListBean,BaseViewHolder>(R.layout.
             layoutAdd.removeAllViews()
         }
         list?.forEach {
-            layoutAdd.addView(getHeaderView(it.normsName))
+            layoutAdd.addView(getHeaderView(it.normsName?:""))
             it.listAttribute?.forEach{item->
                 layoutAdd.addView(getAttrView(item.normsAttributeName))
             }

@@ -31,7 +31,9 @@ data class NormsHeaderBean(
     }
 }
 
-
+data class NormsResultBean  (
+    var data: NormsHeaderBean?
+) : BaseBean()
 
 data class NormsAttributeResultBean  (
     var data: NormsAttributeBean?

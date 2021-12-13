@@ -62,6 +62,18 @@ data class AddNormsAttribute(
     val normsId:String
 )
 
+/**
+ * 添加规格属性
+ */
+data class AddNormsReq(
+    val normsName:String,
+    val categoryId:String
+)
+
+
+/**
+ * 删除规格
+ */
 data class DeleteNormsReq(
     val id:Int
 )
