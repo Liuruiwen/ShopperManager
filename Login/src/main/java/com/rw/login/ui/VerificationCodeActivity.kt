@@ -64,7 +64,15 @@ class VerificationCodeActivity : BaseActivity<LoginPresenter>() {
     private fun listener() {
         //获取验证码
         tv_verification_code.setOnClickListener {
-            countTime()
+            if (isInput()) {
+                mPresenter?.postBodyData(
+                    0,
+                    HttpApi.HTTP_GET_VERIFICATION_CODE, BaseBean::class.java, true,
+                    GetVerificationCode(user_name.text.toString().trim())
+                )
+
+            }
+
         }
 
         //账号输入监听
@@ -156,6 +164,7 @@ class VerificationCodeActivity : BaseActivity<LoginPresenter>() {
         getViewModel()?.baseBean?.observe(this, Observer {
             when (it?.requestType) {
                 HttpApi.HTTP_GET_VERIFICATION_CODE -> {
+                    countTime()
                     tv_login.text = "登录"
                     tv_login.visibility = View.VISIBLE
 
@@ -182,6 +191,7 @@ class VerificationCodeActivity : BaseActivity<LoginPresenter>() {
             it?.let { bean ->
                 when (bean.url) {
                     HttpApi.HTTP_GET_VERIFICATION_CODE -> {
+                        countTime()
                         tv_login.text = "注册"
                         tv_login.visibility = View.VISIBLE
                     }
@@ -201,40 +211,33 @@ class VerificationCodeActivity : BaseActivity<LoginPresenter>() {
      */
     @SuppressLint("SetTextI18n")
     private fun countTime() {
-        if (isInput()) {
-            mPresenter?.postBodyData(
-                0,
-                HttpApi.HTTP_GET_VERIFICATION_CODE, BaseBean::class.java, true,
-                GetVerificationCode(user_name.text.toString().trim())
-            )
-            tv_verification_code.isEnabled = false
-            tv_verification_code.text = "60s"
-            tv_verification_code.setTextColor(ContextCompat.getColor(this@VerificationCodeActivity,R.color.colorPrimary))
-            tv_verification_code.setBackgroundResource(R.drawable.login_button_bg_gray)
-            rxTimerUtil.interval(59,object :ResourceObserver<Long?>(){
-                override fun onComplete() {
+        tv_verification_code.isEnabled = false
+        tv_verification_code.text = "60s"
+        tv_verification_code.setTextColor(ContextCompat.getColor(this@VerificationCodeActivity,R.color.colorPrimary))
+        tv_verification_code.setBackgroundResource(R.drawable.login_button_bg_gray)
+        rxTimerUtil.interval(59,object :ResourceObserver<Long?>(){
+            override fun onComplete() {
 
-                }
+            }
 
-                override fun onNext(t: Long) {
+            override fun onNext(t: Long) {
 
-                    if (t <1.toLong()) {//当倒计时小于0,计时结束
-                        tv_verification_code?.text = "重新获取"
-                        tv_verification_code.isEnabled = true
-                        tv_verification_code.setTextColor(ContextCompat.getColor(this@VerificationCodeActivity,R.color.colorWrite))
-                        tv_verification_code.setBackgroundResource(R.drawable.login_button_bg_blue)
-                        rxTimerUtil.cancel()
-                        return//使用标记跳出方法
-                    }
-                    tv_verification_code.text = "${t}s"
-                }
-
-                override fun onError(e: Throwable) {
+                if (t <1.toLong()) {//当倒计时小于0,计时结束
+                    tv_verification_code?.text = "重新获取"
+                    tv_verification_code.isEnabled = true
+                    tv_verification_code.setTextColor(ContextCompat.getColor(this@VerificationCodeActivity,R.color.colorWrite))
+                    tv_verification_code.setBackgroundResource(R.drawable.login_button_bg_blue)
                     rxTimerUtil.cancel()
+                    return//使用标记跳出方法
                 }
+                tv_verification_code.text = "${t}s"
+            }
 
-            })
-        }
+            override fun onError(e: Throwable) {
+                rxTimerUtil.cancel()
+            }
+
+        })
     }
 
 

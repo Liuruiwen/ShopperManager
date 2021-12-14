@@ -25,7 +25,7 @@ import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
 
 class NormsListActivity : BaseActivity<NormsListPresenter>() {
-    private val listNorms = ArrayList<MultiItemBean>()
+//    private val listNorms = ArrayList<MultiItemBean>()
     private var categoryId:String?=null
     private var insertPosition=-1
     private var deletePosition=-1
@@ -87,7 +87,7 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
             adapter = mAdapter
         }
         mAdapter.apply {
-            setGridSpanSizeLookup { _, _, position -> listNorms[position].getSpanSize() }
+            setGridSpanSizeLookup { _, _, position ->  mAdapter.data[position].getSpanSize() }
             setOnItemClickListener { _, _, position ->  mAdapter.attributeClick(position)}
             setOnItemChildClickListener { _, view, position -> childItemClick(view,position) }
             setOnItemLongClickListener { _, _, position ->  longItemClick(position)}
@@ -104,18 +104,17 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
                 HttpApi.HTTP_GET_NORMS_LIST -> {
                    if (it is NormsItemBean){
                        if (!it.data.isNullOrEmpty()){
-                           listNorms.clear()
+                           mAdapter.data.clear()
+                           val listNorms=ArrayList<MultiItemBean>()
                            it.data?.forEach {hearBean->
                                hearBean.itemType= TYPE_NORMS_ITEM_HEADER
-                                   listNorms.add(hearBean)
+                               listNorms.add(hearBean)
                                hearBean.listAttribute?.forEach{attributeBean->
                                    attributeBean.itemType= TYPE_NORMS_ITEM_ATTRIBUTE
                                    listNorms.add(attributeBean)
                                }
                            }
                            mAdapter.setNewInstance(listNorms)
-                       }else{
-
                        }
 
                    }

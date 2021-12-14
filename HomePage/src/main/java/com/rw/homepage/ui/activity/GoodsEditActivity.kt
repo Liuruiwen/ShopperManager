@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.rw.basemvp.BaseActivity
@@ -29,6 +30,14 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
         intent.getIntExtra("id", 0)
     }
     private var tvRight: TextView?=null
+//    registerForActivityResult
+//    private val requestDataLauncher = registerFor(ActivityResultContracts.StartActivityForResult()) { result ->
+//        if (result.resultCode == RESULT_OK) {
+//            val data = result.data?.getStringExtra("data")
+//            // Handle data from SecondActivity
+//        }
+//    }
+
 
     override fun setLayout(): Int {
         return R.layout.hp_activity_goods_edit
