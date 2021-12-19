@@ -95,7 +95,7 @@
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
         android:text="@string/hp_norms"
-        android:textSize="14dp"
+        android:textSize="16dp"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -108,7 +108,7 @@
         android:id="@+id/tv_add_norms"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="@string/hp_add_norms"
-        android:textSize="14dp"
+        android:textSize="16dp"
         tools:ignore="MissingConstraints" />
 
     <androidx.recyclerview.widget.RecyclerView

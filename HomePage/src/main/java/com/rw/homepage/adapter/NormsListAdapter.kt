@@ -77,4 +77,6 @@ class NormsListAdapter: BaseMultiItemQuickAdapter<MultiItemBean,BaseViewHolder>(
 
         return false
     }
+
+
 }

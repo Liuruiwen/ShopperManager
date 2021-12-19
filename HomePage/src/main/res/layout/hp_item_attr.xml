@@ -2,8 +2,8 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/tv_attr"
-    android:textSize="14sp"
-    android:paddingStart="32dp"
+    android:textSize="14dp"
+    android:paddingStart="20dp"
     android:textColor="@color/textGray"
     android:layout_height="wrap_content"/>
 

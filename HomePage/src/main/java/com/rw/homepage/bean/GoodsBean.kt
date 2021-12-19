@@ -43,3 +43,8 @@ data class ListAttributeBean(
     val normsAttributeName:String,
     val normsId:Int
 )
+
+data class NormsId(
+    var normsId:Int,
+    var list:ArrayList<Int>
+)

@@ -16,6 +16,7 @@ import com.rw.homepage.adapter.NormsListAdapter
 import com.rw.homepage.adapter.TYPE_NORMS_ITEM_ATTRIBUTE
 import com.rw.homepage.adapter.TYPE_NORMS_ITEM_HEADER
 import com.rw.homepage.bean.*
+import com.rw.homepage.model.GoodsEditModel
 import com.rw.homepage.presenter.NormsListPresenter
 import com.rw.homepage.ui.dialog.AddCategoryDialog
 import com.rw.homepage.ui.dialog.MessageDialog
@@ -46,7 +47,10 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
         tvRight?.textColor = ContextCompat.getColor(this, R.color.colorPrimary)
         tvRight?.text = "完成"
         tvRight?.setOnClickListener {
-
+             if (mAdapter.isSelectAttribute()){
+                 GoodsEditModel.get()?.normsList?.value=mAdapter.data
+                 finish()
+             }
         }
         initView()
         reqResult()
@@ -98,7 +102,13 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
 
     }
     private fun reqResult() {
-        mPresenter?.getNormsList(NormsListReq(categoryId?:"2"))
+        val listNorms=GoodsEditModel.get()?.normsList?.value
+        if (!listNorms.isNullOrEmpty()){
+            mAdapter.setNewInstance(listNorms)
+        }else{
+            mPresenter?.getNormsList(NormsListReq(categoryId?:"2"))
+        }
+
         getViewModel()?.baseBean?.observe(this, Observer {
             when (it?.requestType) {
                 HttpApi.HTTP_GET_NORMS_LIST -> {

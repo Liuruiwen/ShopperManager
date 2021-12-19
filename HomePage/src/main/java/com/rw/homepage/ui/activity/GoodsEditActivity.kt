@@ -4,19 +4,21 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import com.rw.basemvp.BaseActivity
 import com.rw.basemvp.widget.TitleView
 import com.rw.homepage.HttpApi
 import com.rw.homepage.R
+import com.rw.homepage.adapter.GoodsEditNormsAdapter
 import com.rw.homepage.adapter.SpinnerAdapter
-import com.rw.homepage.bean.AddGoodsReq
-import com.rw.homepage.bean.SpinnerBean
+import com.rw.homepage.bean.*
+import com.rw.homepage.model.GoodsEditModel
 import com.rw.homepage.presenter.GoodsEditPresenter
 import com.rw.personalcenter.until.setVisible
 import kotlinx.android.synthetic.main.hp_activity_goods_edit.*
+import kotlinx.android.synthetic.main.hp_activity_goods_edit.tv_add_norms
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.textColor
 
@@ -31,6 +33,7 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
     }
     private var tvRight: TextView?=null
 //    registerForActivityResult
+
 //    private val requestDataLauncher = registerFor(ActivityResultContracts.StartActivityForResult()) { result ->
 //        if (result.resultCode == RESULT_OK) {
 //            val data = result.data?.getStringExtra("data")
@@ -38,6 +41,9 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
 //        }
 //    }
 
+    private val mAdapter:GoodsEditNormsAdapter by lazy {
+        GoodsEditNormsAdapter()
+    }
 
     override fun setLayout(): Int {
         return R.layout.hp_activity_goods_edit
@@ -53,12 +59,13 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
         tvRight?.textColor= ContextCompat.getColor(this,R.color.colorPrimary)
         tvRight?.setOnClickListener {
              if (isCommit()){
+//                 "[{\"normsId\":1,\"list\":[1,2,3]},{\"normsId\":2,\"list\":[6,7,8,9,10,11,12]}]",
                mPresenter?.reqAddGoods(AddGoodsReq(categroyId,
                    et_price.text.toString().trim(),
                    et_name.text.toString().trim(),
                    et_desc.text.toString().trim(),
                    "",
-                      "[{\"normsId\":1,\"list\":[1,2,3]},{\"normsId\":2,\"list\":[6,7,8,9,10,11,12]}]",
+                   mAdapter.getNormsId()?:"",
                    spinnerType
                ))
              }
@@ -66,6 +73,24 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
         tv_add_norms.setOnClickListener {
             startActivity<NormsListActivity>("categoryId" to categroyId.toString())
         }
+        rv_norms_list.apply {
+            layoutManager = GridLayoutManager(this@GoodsEditActivity, 6)
+            adapter = mAdapter
+        }
+        mAdapter.apply {
+            setGridSpanSizeLookup { _, _, position ->  mAdapter.data[position].getSpanSize() }
+        }
+
+
+        GoodsEditModel.get()?.normsList?.observe(this, Observer {list->
+             if (!list.isNullOrEmpty()){
+                 processNormsList(list)
+                 tv_add_norms.text=getString(R.string.hp_add_norms)
+             }else{
+                 tv_add_norms.text=getString(R.string.hp_edit_norms)
+             }
+        })
+
         processSpinner()
         reqResult()
     }
@@ -74,6 +99,10 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
         return GoodsEditPresenter()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        GoodsEditModel.destroy()
+    }
     private fun reqResult() {
         getViewModel()?.baseBean?.observe(this, Observer {
             when (it?.requestType) {
@@ -144,5 +173,24 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
             }
 
         }
+    }
+
+    /**
+     * 处理规格数据
+     */
+    private fun processNormsList(list:List<MultiItemBean>){
+        mAdapter.data.clear()
+        val listNorms=ArrayList<MultiItemBean>()
+        for (index in list.indices){
+            val item=list[index]
+           if (item is NormsAttributeBean && item.selectType==1){
+               val headerItem=list[index-1]
+               if (headerItem is NormsHeaderBean){
+                   listNorms.add(headerItem)
+               }
+               listNorms.add(item)
+           }
+        }
+        mAdapter.setNewInstance(listNorms)
     }
 }
