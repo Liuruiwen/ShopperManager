@@ -181,15 +181,20 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
     private fun processNormsList(list:List<MultiItemBean>){
         mAdapter.data.clear()
         val listNorms=ArrayList<MultiItemBean>()
+        var itemHeader:NormsHeaderBean?=null
         for (index in list.indices){
             val item=list[index]
-           if (item is NormsAttributeBean && item.selectType==1){
-               val headerItem=list[index-1]
-               if (headerItem is NormsHeaderBean){
-                   listNorms.add(headerItem)
-               }
-               listNorms.add(item)
-           }
+            if (item is NormsHeaderBean){
+                itemHeader=item
+            }else if (item is NormsAttributeBean && item.selectType==1){
+                    if (itemHeader!=null){
+                        listNorms.add(itemHeader)
+                        itemHeader=null
+                    }
+                    listNorms.add(item)
+                }
+
+
         }
         mAdapter.setNewInstance(listNorms)
     }

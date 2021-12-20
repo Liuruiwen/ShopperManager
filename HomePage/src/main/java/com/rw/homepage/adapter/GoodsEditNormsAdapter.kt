@@ -56,19 +56,17 @@ class GoodsEditNormsAdapter : BaseMultiItemQuickAdapter<MultiItemBean, BaseViewH
 
     fun getNormsId() :String?{
         val list=ArrayList<NormsId>()
-        var id=0
-        val listAttrId=ArrayList<Int>()
-        data.forEach {
+        for (index in data.indices){
+            val it=data[index]
             if (it is NormsHeaderBean){
-                if (id==0){
-                    id=it.id
-                }else{
-                    list.add(NormsId(id,listAttrId))
-                }
-                listAttrId.clear()
+                list.add(NormsId(it.id,ArrayList()))
+
             }else if (it is NormsAttributeBean){
-                listAttrId.add(it.id)
+                if (!list.isNullOrEmpty()){
+                    list[list.size-1].list.add(it.id)
+                }
             }
+
         }
 
         return Gson().toJson(list)
