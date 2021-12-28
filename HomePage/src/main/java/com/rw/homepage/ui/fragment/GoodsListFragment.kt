@@ -7,13 +7,11 @@ import com.rw.basemvp.BaseFragment
 import com.rw.homepage.HttpApi
 import com.rw.homepage.R
 import com.rw.homepage.adapter.GoodsListAdapter
-import com.rw.homepage.bean.CategoryBean
 import com.rw.homepage.bean.GoodsBean
 import com.rw.homepage.presenter.GoodsListPresenter
 import com.rw.homepage.ui.activity.GOODS_EDIT_TYPE_ADD
 import com.rw.homepage.ui.activity.GoodsEditActivity
-import com.rw.personalcenter.until.setVisible
-import kotlinx.android.synthetic.main.hp_activity_goods_manager.*
+import com.rw.homepage.until.setVisible
 import kotlinx.android.synthetic.main.hp_empty_state.*
 import kotlinx.android.synthetic.main.hp_fragment_goods_list.*
 import org.jetbrains.anko.startActivity

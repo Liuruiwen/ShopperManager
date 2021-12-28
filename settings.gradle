@@ -1,3 +1,4 @@
+include ':Map'
 include ':Messagge'
 include ':PersonalCenter'
 include ':HomePage'

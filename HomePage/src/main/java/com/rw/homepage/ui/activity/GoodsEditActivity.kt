@@ -16,7 +16,7 @@ import com.rw.homepage.adapter.SpinnerAdapter
 import com.rw.homepage.bean.*
 import com.rw.homepage.model.GoodsEditModel
 import com.rw.homepage.presenter.GoodsEditPresenter
-import com.rw.personalcenter.until.setVisible
+import com.rw.homepage.until.setVisible
 import kotlinx.android.synthetic.main.hp_activity_goods_edit.*
 import kotlinx.android.synthetic.main.hp_activity_goods_edit.tv_add_norms
 import org.jetbrains.anko.startActivity

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.rw.map">
+    <application>
+        <activity android:name=".AddAddressActivity"></activity>
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="d130cd4f2e0646f4e0017b7f851b0895">
+
+        </meta-data>
+    </application>
+
+</manifest>

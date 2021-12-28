@@ -3,12 +3,10 @@ package com.rw.homepage.ui.activity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.listener.OnItemDragListener
-import com.chad.library.adapter.base.listener.OnItemSwipeListener
 import com.rw.basemvp.BaseActivity
 import com.rw.basemvp.widget.TitleView
 import com.rw.homepage.HttpApi
@@ -19,9 +17,8 @@ import com.rw.homepage.bean.CategoryListBean
 import com.rw.homepage.bean.EditCategoryResultBean
 import com.rw.homepage.bean.GoodsListReq
 import com.rw.homepage.presenter.GoodsManagerPresenter
-import com.rw.personalcenter.until.setVisible
+import com.rw.homepage.until.setVisible
 import kotlinx.android.synthetic.main.hp_activity_edit_category.*
-import kotlinx.android.synthetic.main.hp_activity_goods_manager.*
 
 /**
  * 品类管理

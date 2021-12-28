@@ -20,7 +20,7 @@ import com.rw.homepage.model.GoodsEditModel
 import com.rw.homepage.presenter.NormsListPresenter
 import com.rw.homepage.ui.dialog.AddCategoryDialog
 import com.rw.homepage.ui.dialog.MessageDialog
-import com.rw.personalcenter.until.setVisible
+import com.rw.homepage.until.setVisible
 import kotlinx.android.synthetic.main.hp_norms_list.*
 import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast

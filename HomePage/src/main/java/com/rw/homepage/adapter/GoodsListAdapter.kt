@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.rw.homepage.R
 import com.rw.homepage.bean.AttributeBean
 import com.rw.homepage.bean.GoodsListBean
-import com.rw.personalcenter.until.setVisible
+import com.rw.homepage.until.setVisible
 
 /**
  * Created by Amuse

@@ -27,7 +27,7 @@ import com.rw.homepage.bean.AddCategoryReq
 import com.rw.homepage.presenter.GoodsManagerPresenter
 import com.rw.homepage.ui.dialog.AddCategoryDialog
 import com.rw.homepage.ui.fragment.GoodsListFragment
-import com.rw.personalcenter.until.setVisible
+import com.rw.homepage.until.setVisible
 import kotlinx.android.synthetic.main.hp_activity_goods_manager.*
 import kotlinx.android.synthetic.main.hp_activity_goods_manager.layout_empty
 import kotlinx.android.synthetic.main.hp_empty_state.*

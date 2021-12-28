@@ -9,7 +9,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.rw.homepage.R
 import com.rw.homepage.bean.SpinnerBean
-import com.rw.personalcenter.until.setVisible
+import com.rw.homepage.until.setVisible
 
 
 /**
