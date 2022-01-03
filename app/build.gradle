@@ -36,6 +36,16 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
+    }
+
+
 }
 kapt {
 
@@ -47,7 +57,7 @@ kapt {
 
 }
 dependencies {
-
+    implementation fileTree(include: '*.jar', dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation "androidx.appcompat:appcompat:$appcompat"

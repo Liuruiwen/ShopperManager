@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleOwner
  * Date:2021/4/15.
  * Desc:
  */
-class DefaultPresenter:MvpPresenter<BaseView> (){
+open class DefaultPresenter:MvpPresenter<BaseView> (){
     override fun getBaseUrl(): String {
         return ""
     }

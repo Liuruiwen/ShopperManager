@@ -16,7 +16,7 @@ import com.rw.homepage.ui.dialog.MessageDialog
  */
 open class HomePagePresenter:MvpPresenter<BaseView> (){
     override fun getBaseUrl(): String {
-       return "http://192.168.1.4:8080"
+       return "http://192.168.1.3:8080"
     }
 
     override fun getToken(): String {

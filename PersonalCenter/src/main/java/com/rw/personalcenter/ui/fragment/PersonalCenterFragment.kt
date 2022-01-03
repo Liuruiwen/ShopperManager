@@ -140,6 +140,16 @@ class PersonalCenterFragment : BaseFragment<PersonalCenterPresenter>() {
             mContext?.startActivity<EmployeesManagerActivity>()
         }
 
+        tv_address.setOnClickListener { //修改店铺地址
+            userBean?.let {
+                ARouter.getInstance().build("/map/AddAddressActivity")
+                    .withInt("id",it.data.shopAddress?.id?:0)
+                    .withString("latitude",it.data.shopAddress?.latitude?:"")
+                    .withString("longitude",it.data.shopAddress?.longitude?:"")
+                    .navigation()
+            }
+
+        }
         layout_user?.setOnClickListener {
             var desc=""
             userBean?.let {

@@ -32,6 +32,14 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
+    }
 }
 
 kapt {
@@ -45,11 +53,12 @@ kapt {
 }
 
 dependencies {
-
+    api fileTree(include: '*.jar', dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation "androidx.appcompat:appcompat:$appcompat"
     implementation "com.google.android.material:material:$appcompat"
+    api files('libs/Android_Map3D_SDK_V8.1.0_20211029.jar')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
