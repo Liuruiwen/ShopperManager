@@ -1,4 +1,4 @@
-package com.rw.map
+package com.rw.map.ui
 
 import android.os.Bundle
 import android.view.View
@@ -17,9 +17,12 @@ import com.amap.api.services.geocoder.RegeocodeQuery
 import com.amap.api.services.geocoder.RegeocodeResult
 import com.rw.basemvp.until.setVisible
 import com.rw.basemvp.widget.TitleView
+import com.rw.map.BaseMapActivity
+import com.rw.map.HttpApi
+import com.rw.map.R
 import com.rw.map.bean.MapReq
 import com.rw.map.presenter.MapPresenter
-import kotlinx.android.synthetic.main.activity_add_address.*
+import kotlinx.android.synthetic.main.map_activity_add_address.*
 
 @Route(path = "/map/AddAddressActivity")
 class AddAddressActivity : BaseMapActivity<MapPresenter>(),GeocodeSearch.OnGeocodeSearchListener  {
@@ -35,7 +38,7 @@ class AddAddressActivity : BaseMapActivity<MapPresenter>(),GeocodeSearch.OnGeoco
     }
 
     override fun setLayout(): Int {
-        return R.layout.activity_add_address
+        return R.layout.map_activity_add_address
     }
 
     override fun initData(savedInstanceState: Bundle?, titleView: TitleView) {

@@ -12,3 +12,19 @@ data class MapReq(
     val type:Int,//1、是增加，2、是修改
     val id:Int=0
 )
+
+/**
+ * 查询打卡状态
+ */
+data class ClockStateReq(
+    val clockTime:String
+)
+
+/**
+ * 打卡
+ */
+data class ClockWorkReq(
+    val clockTime:String,
+    val clockAddress:String,
+    val clockState:String
+)
