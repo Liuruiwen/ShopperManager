@@ -16,7 +16,7 @@ import com.rw.service.ServiceViewModule
  */
 class MapPresenter: DefaultPresenter() {
     override fun getBaseUrl(): String {
-        return "http://192.168.1.3:8080"
+        return "http://192.168.1.5:8080"
     }
     /**
      * 添加地址和修改地址

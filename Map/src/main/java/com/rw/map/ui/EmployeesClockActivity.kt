@@ -24,6 +24,7 @@ import androidx.lifecycle.Observer
 import com.amap.api.maps.AMapUtils
 import com.rw.map.bean.ClockStateResultBean
 import com.rw.map.bean.ClockWorkReq
+import com.rw.map.model.MapModel
 import kotlinx.android.synthetic.main.map_activity_employees_clock.*
 
 @Route(path = "/map/ClockActivity")
@@ -41,6 +42,7 @@ class EmployeesClockActivity : BaseMapActivity<MapPresenter>() {
     }
 
     override fun initData(savedInstanceState: Bundle?, titleView: TitleView) {
+        titleView.setTitle("员工打卡")
         mapView = findViewById(R.id.map)
         initMap(savedInstanceState)
     }
@@ -55,8 +57,18 @@ class EmployeesClockActivity : BaseMapActivity<MapPresenter>() {
             aMap = mapView?.map
             mUiSettings = aMap!!.uiSettings
         }
-        val latitude = intent.getStringExtra("latitude")
-        val longitude = intent.getStringExtra("longitude")
+        var latitude:String?=null
+        var longitude:String?=null
+        val mapMessage= MapModel.get()?.address?.value
+        if (mapMessage!=null){
+            latitude=mapMessage.latitude
+            longitude=mapMessage.longitude
+        }else{
+            latitude = intent.getStringExtra("latitude")
+            longitude = intent.getStringExtra("longitude")
+        }
+
+
         if (!latitude.isNullOrEmpty()&& !longitude.isNullOrEmpty()){
             shopperLatLng= LatLng(latitude.toDouble(),longitude.toDouble())
             aMap?.addCircle(
@@ -94,6 +106,11 @@ class EmployeesClockActivity : BaseMapActivity<MapPresenter>() {
             }
 
         })
+        tv_clock_work.text="打卡"
+        tv_go_clock.text="上班卡"
+
+        tv_clock_after_work.text="打卡"
+        tv_after_clock.text="下班卡"
         updateShapeColor(tv_clock_work,"#EEEEEE","#666666")
         updateShapeColor(tv_clock_after_work,"#EEEEEE","#666666")
         mPresenter?.getClockState(ClockStateReq(getCurrentDate("yyyy-MM-dd HH:mm:ss")?:""))

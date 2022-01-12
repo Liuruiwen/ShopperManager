@@ -2,47 +2,37 @@ package com.rw.homepage.presenter
 
 import android.content.Context
 import android.view.View
-import androidx.lifecycle.LifecycleOwner
-import com.rw.basemvp.presenter.BaseView
-import com.rw.basemvp.presenter.MvpPresenter
+import com.rw.basemvp.presenter.DefaultPresenter
 import com.rw.basemvp.until.ViewHolder
-import com.rw.homepage.R
+import com.rw.homepage.HttpApi
+import com.rw.homepage.bean.ShopperResultBean
 import com.rw.homepage.ui.dialog.MessageDialog
+import com.rw.service.ServiceViewModule
 
 /**
  * Created by Amuse
  * Date:2021/4/15.
  * Desc:
  */
-open class HomePagePresenter:MvpPresenter<BaseView> (){
+open class HomePagePresenter: DefaultPresenter(){
     override fun getBaseUrl(): String {
-       return "http://192.168.1.3:8080"
+       return "http://192.168.1.5:8080"
     }
 
-    override fun getToken(): String {
-       return ""
-    }
+    /**
+     * 获取规格属性列表
+     */
+    fun getShopperDetail() {
 
-    override fun onCreate(owner: LifecycleOwner) {
-
-    }
-
-    override fun onStart(owner: LifecycleOwner) {
-
-    }
-
-    override fun onStop(owner: LifecycleOwner) {
-
-    }
-
-    override fun onResume(owner: LifecycleOwner) {
+        ServiceViewModule.get()?.loginService?.value?.let { bean ->
+            postBodyData(
+                0,
+                HttpApi.HTTP_GET_SHOPPER_DETAIL, ShopperResultBean::class.java, true,
+                mapOf("token" to bean.token)
+            )
+        }
 
     }
-
-    override fun onPause(owner: LifecycleOwner) {
-
-    }
-
 
     fun showMessageDialog(context: Context, click:View.OnClickListener?,
                            cancelId: Int, confirm: Int

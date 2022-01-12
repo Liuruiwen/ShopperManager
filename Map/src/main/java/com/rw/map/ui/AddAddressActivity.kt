@@ -21,6 +21,7 @@ import com.rw.map.BaseMapActivity
 import com.rw.map.HttpApi
 import com.rw.map.R
 import com.rw.map.bean.MapReq
+import com.rw.map.model.MapModel
 import com.rw.map.presenter.MapPresenter
 import kotlinx.android.synthetic.main.map_activity_add_address.*
 
@@ -50,9 +51,11 @@ class AddAddressActivity : BaseMapActivity<MapPresenter>(),GeocodeSearch.OnGeoco
         tvRight?.text="提交修改"
         tvRight?.setOnClickListener {
                  if (!mLatitude.isNullOrEmpty()&&!mLongitude.isNullOrEmpty()){
-                    mPresenter?.addOrEditAddress(MapReq(tv_address.text.toString().trim()
-                             ,mLongitude?:"",mLatitude?:"",mapType,addressId
-                    ))
+                     val mapReq=MapReq(tv_address.text.toString().trim()
+                         ,mLongitude?:"",mLatitude?:"",mapType,addressId
+                     )
+                     MapModel.get()?.address?.value=mapReq
+                    mPresenter?.addOrEditAddress(mapReq)
                  }else{
                      showToast("请选择修改地址")
                  }
