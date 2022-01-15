@@ -1,5 +1,6 @@
 package com.rw.map.ui
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -43,8 +44,6 @@ class AddAddressActivity : BaseMapActivity<MapPresenter>(),GeocodeSearch.OnGeoco
     }
 
     override fun initData(savedInstanceState: Bundle?, titleView: TitleView) {
-        MapsInitializer.updatePrivacyShow(this,true,true)
-        MapsInitializer.updatePrivacyAgree(this,true)
         titleView.setTitle("让我说点什么好")
         val  tvRight=titleView.getView<TextView>(R.id.tv_title_right)
         tvRight?.setVisible(true)
@@ -138,6 +137,7 @@ class AddAddressActivity : BaseMapActivity<MapPresenter>(),GeocodeSearch.OnGeoco
             override fun onCameraChangeFinish(cameraPosition: CameraPosition?) {
                 cameraPosition?.target?.let {
                     getAddress(it)
+                    updateMapLocation(it)
                 }
                 tv_address.visibility=View.VISIBLE
 
@@ -202,10 +202,11 @@ class AddAddressActivity : BaseMapActivity<MapPresenter>(),GeocodeSearch.OnGeoco
             ))
         aMap?.clear()
         aMap?.addMarker(
-            MarkerOptions().position(LatLng(28.80, 113.3154950))
+            MarkerOptions().position(latLonPoint)
                 .icon(
-                    BitmapDescriptorFactory
-                        .defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
+                    BitmapDescriptorFactory.fromBitmap(
+                        BitmapFactory
+                        .decodeResource(resources,R.drawable.map_poi_marker_pressed))))
     }
 
     /**

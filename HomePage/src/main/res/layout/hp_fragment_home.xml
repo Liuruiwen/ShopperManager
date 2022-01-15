@@ -116,44 +116,97 @@
             app:layout_constraintHorizontal_weight="1"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         app:layout_constraintTop_toBottomOf="@id/layout_state"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:background="@drawable/hp_circle_bg_white"
+                android:layout_marginTop="20dp"
+                android:id="@+id/tv_goods_manager"
+                android:gravity="center"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/textMain"
+                android:text="商品管理"
+
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
         <TextView
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             android:background="@drawable/hp_circle_bg_white"
             android:layout_marginTop="20dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginLeft="16dp"
-            android:id="@+id/tv_goods_manager"
+            android:id="@+id/tv_order_management"
             android:gravity="center"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="@color/textMain"
-            android:text="商品管理"
-
+            android:text="订单管理"
             />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
         <TextView
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             android:background="@drawable/hp_circle_bg_white"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="16dp"
             android:id="@+id/tv_clock_work"
             android:gravity="center"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            app:layout_constraintLeft_toRightOf="@id/tv_goods_manager"
             android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="@color/textMain"
             android:text="员工打卡"
             />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+        <TextView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:background="@drawable/hp_circle_bg_white"
+            android:layout_marginTop="20dp"
+            android:id="@+id/tv_attendance_management"
+            android:gravity="center"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/textMain"
+            android:text="考勤管理"
+            />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </LinearLayout>
 
 
 

@@ -9,14 +9,24 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.amap.api.maps.MapsInitializer
 import com.rw.basemvp.adapter.TabAdapter
+import com.rw.basemvp.presenter.DefaultPresenter
+import com.rw.basemvp.widget.TitleView
+import com.rw.map.BaseMapActivity
 import com.rw.shoppermanager.R
 import kotlinx.android.synthetic.main.activity_main.*
 @Route(path = "/main/MainActivity")
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+class MainActivity : BaseMapActivity<DefaultPresenter>() {
+
+    override fun setLayout(): Int {
+        return R.layout.activity_main
+    }
+
+    override fun initData(savedInstanceState: Bundle?, titleView: TitleView) {
+        MapsInitializer.updatePrivacyShow(this,true,true)
+        MapsInitializer.updatePrivacyAgree(this,true)
+        showTitle(false)
         val homeFragment=ARouter.getInstance().build("/home/homePageFragment").navigation()
         val pcFragment=ARouter.getInstance().build("/pc/PersonalCenterFragment").navigation()
         val mcFragment=ARouter.getInstance().build("/message/MessageCenter").navigation()
@@ -60,11 +70,6 @@ class MainActivity : AppCompatActivity() {
             viewpager.currentItem=2
             setCurrent(2)
         }
-
-
-//        tv_login.setOnClickListener {
-//            startActivity(Intent(this@MainActivity,LoginActivity::class.java))
-//        }
     }
 
     private fun setCurrent(position:Int){
@@ -92,5 +97,9 @@ class MainActivity : AppCompatActivity() {
         val color=if (type==1) R.color.colorPrimary else R.color.textGray
         tv.setTextColor(ContextCompat.getColor(this,color))
         tv.typeface=if (type==1) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
+    }
+
+    override fun getPresenter(): DefaultPresenter {
+       return DefaultPresenter()
     }
 }
