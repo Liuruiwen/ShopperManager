@@ -11,6 +11,7 @@ import com.rw.homepage.bean.GoodsBean
 import com.rw.homepage.bean.ShopperResultBean
 import com.rw.homepage.presenter.HomePagePresenter
 import com.rw.homepage.ui.activity.GoodsManagerActivity
+import com.rw.homepage.ui.activity.OrderListActivity
 import com.rw.homepage.until.setVisible
 import kotlinx.android.synthetic.main.hp_empty_state.*
 import kotlinx.android.synthetic.main.hp_fragment_goods_list.*
@@ -73,6 +74,12 @@ import java.nio.channels.FileChannel
             mContext?.startActivity<GoodsManagerActivity>()
         }
         /**
+         * 订单管理
+         */
+        tv_order_management.setOnClickListener {
+            mContext?.startActivity<OrderListActivity>()
+        }
+        /**
          * 员工打卡
          */
         tv_clock_work.setOnClickListener {
@@ -81,5 +88,6 @@ import java.nio.channels.FileChannel
                 .withString("longitude",resultBean?.data?.address?.longitude?:"")
                 .navigation()
         }
+
     }
 }

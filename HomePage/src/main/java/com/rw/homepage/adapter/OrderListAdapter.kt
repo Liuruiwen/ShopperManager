@@ -39,8 +39,11 @@ class OrderListAdapter :BaseQuickAdapter<OrderItemBean,BaseViewHolder>(R.layout.
             stringBuild.append(it.goodsName)
             stringBuild.append("：")
             it.normsAttributeList?.forEach {attribute->
-                stringBuild.append(attribute.normsAttributeName)
-                stringBuild.append("& #160;& #160;")
+                attribute?.apply {
+                    stringBuild.append(attribute.normsAttributeName)
+                    stringBuild.append("&#160;&#160;")
+                }
+
             }
             tvGoods.text=stringBuild.toString()
             layout?.addView(view)

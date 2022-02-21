@@ -19,5 +19,6 @@ object HttpApi {
     const val HTTP_DELETE_ATTRIBUTE="/s1/order/deleteNormsAttribute"//删除规格属性
     const val HTTP_GET_NORMS_LIST="/s1/order/getNormsList"//查询规格列表
     const val HTTP_GET_SHOPPER_DETAIL="/s1/order/getShopperDetail"//获取店铺详情
+    const val HTTP_GET_ORDER_LIST="/s1/order/getOrderList"
 
 }

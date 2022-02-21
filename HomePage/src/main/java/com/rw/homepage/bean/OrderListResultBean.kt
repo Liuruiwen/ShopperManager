@@ -41,7 +41,7 @@ data class GoodsListItemBean(
 
 data class GoodsAttributeItemBean(
     val id:Int,
-    val normsAttributeName:String,
+    val normsAttributeName:String?,
     val normsId:Int,
     val attributeTime:String
 )
