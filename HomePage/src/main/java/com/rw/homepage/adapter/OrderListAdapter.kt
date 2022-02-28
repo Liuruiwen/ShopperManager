@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.module.LoadMoreModule
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.rw.homepage.R
 import com.rw.homepage.bean.GoodsListItemBean
@@ -14,7 +15,8 @@ import com.rw.homepage.bean.OrderItemBean
  * Date:2022/2/9.
  * Desc:
  */
-class OrderListAdapter :BaseQuickAdapter<OrderItemBean,BaseViewHolder>(R.layout.hp_item_order_list){
+class OrderListAdapter :BaseQuickAdapter<OrderItemBean,BaseViewHolder>(R.layout.hp_item_order_list),
+    LoadMoreModule {
 
     override fun convert(holder: BaseViewHolder, item: OrderItemBean) {
 
@@ -50,4 +52,6 @@ class OrderListAdapter :BaseQuickAdapter<OrderItemBean,BaseViewHolder>(R.layout.
         }
 
     }
+
+
 }

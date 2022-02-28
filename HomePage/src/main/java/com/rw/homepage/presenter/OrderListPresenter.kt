@@ -20,7 +20,7 @@ class OrderListPresenter:HomePagePresenter() {
         ServiceViewModule.get()?.loginService?.value?.let { bean ->
             postBodyData(
                 0,
-                HttpApi.HTTP_GET_ORDER_LIST, OrderListResultBean::class.java, true,
+                HttpApi.HTTP_GET_ORDER_LIST, OrderListResultBean::class.java, false,
                 mapOf("token" to bean.token),req
             )
         }

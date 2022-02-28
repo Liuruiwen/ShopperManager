@@ -3,12 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:ignore="MissingDefaultResource">
-
-    <androidx.recyclerview.widget.RecyclerView
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
+        android:id="@+id/refreshLayout"
         android:layout_height="match_parent"
-        android:id="@+id/rv_order"
-        />
+        app:srlEnableFooterFollowWhenLoadFinished="true"
+        app:srlEnableScrollContentWhenLoaded="true"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rv_order"
+            />
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
