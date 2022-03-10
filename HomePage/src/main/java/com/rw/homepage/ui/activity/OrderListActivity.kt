@@ -2,6 +2,7 @@ package com.rw.homepage.ui.activity
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.rw.basemvp.BaseActivity
 import com.rw.basemvp.widget.TitleView
 import com.rw.homepage.R
@@ -54,13 +55,22 @@ class OrderListActivity: BaseActivity<HomePagePresenter>() {
         listMenu.add(menuItem("已完成",2))
         listMenu.add(menuItem("已退款",3))
         menuAdapter.setNewInstance(listMenu)
+        menuAdapter.setOnItemClickListener { _, _, position -> rv_viewPage.currentItem=position }
         /**
          * viewpager处理
          */
         rv_viewPage?.apply {
             adapter=vpAdapter
         }
+        rv_viewPage?.offscreenPageLimit=listMenu.size
+        rv_viewPage?.registerOnPageChangeCallback(object :ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                menuAdapter.setSelectItem(position)
+            }
+        })
         vpAdapter.setNewData(arrayListOf(OrderListFragment(),OrderListFragment(),OrderListFragment()))
+
     }
     private fun menuItem(name:String,id:Int):CategoryResultBean{
         return CategoryResultBean(id,name,0,"","")

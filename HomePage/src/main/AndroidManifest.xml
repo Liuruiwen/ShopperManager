@@ -3,13 +3,13 @@
     package="com.rw.homepage">
 
     <application>
-        <activity android:name=".ui.activity.NormsListActivity"></activity>
+        <activity android:name=".ui.activity.EmployeesAttendanceActivity"></activity>
+        <activity android:name=".ui.activity.NormsListActivity" />
         <activity android:name=".ui.activity.GoodsSpecificationsActivity" />
         <activity android:name=".ui.activity.GoodsEditActivity" />
         <activity android:name=".ui.activity.EditCategoryActivity" />
         <activity android:name=".ui.activity.GoodsManagerActivity" />
         <activity android:name=".ui.activity.OrderListActivity" />
-
     </application>
 
 </manifest>
