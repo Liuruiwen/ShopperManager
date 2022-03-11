@@ -1,88 +1,84 @@
 package com.rw.homepage.ui.activity
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.rw.basemvp.BaseActivity
 import com.rw.basemvp.widget.TitleView
 import com.rw.homepage.R
+import com.rw.homepage.adapter.MenuAdapter
+import com.rw.homepage.adapter.OrderVpAdapter
+import com.rw.homepage.bean.CategoryResultBean
 import com.rw.homepage.presenter.HomePagePresenter
+import com.rw.homepage.ui.fragment.AttendanceFragment
+import kotlinx.android.synthetic.main.hp_activity_employees_attendance.*
+import kotlinx.android.synthetic.main.hp_activity_goods_manager.rv_menu
 
 class EmployeesAttendanceActivity : BaseActivity<HomePagePresenter>() {
 
+    private val menuAdapter: MenuAdapter by lazy {
+        MenuAdapter()
+    }
 
+    private val vpAdapter: OrderVpAdapter by lazy {
+        OrderVpAdapter(supportFragmentManager,lifecycle)
+    }
     override fun setLayout(): Int {
         return R.layout.hp_activity_employees_attendance
     }
 
     override fun initData(savedInstanceState: Bundle?, titleView: TitleView) {
         titleView.setTitle("考勤")
+        initView()
     }
 
     override fun getPresenter(): HomePagePresenter {
        return HomePagePresenter()
     }
 
-    /**
-     * 平年月天数数组
-     */
-    var commonYearMonthDay =
-        intArrayOf(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
-
-    /**
-     * 闰年月天数数组
-     */
-    var leapYearMonthDay =
-        intArrayOf(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
-
-    /**
-     * https://cloud.tencent.com/developer/article/1809973 日历
-     * 通过年月，获取这个月一共有多少天
-     */
-    private fun getDays(year: Int, month: Int): Int {
-        var days = 0
-        if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
-            if (month > 0 && month <= 12) {
-                days = leapYearMonthDay.get(month - 1)
+    private fun initView(){
+        /**
+         * 菜单处理
+         */
+        rv_menu.apply {
+            layoutManager= LinearLayoutManager(this@EmployeesAttendanceActivity).apply {
+                orientation= LinearLayoutManager.HORIZONTAL
             }
-        } else {
-            if (month > 0 && month <= 12) {
-                days = commonYearMonthDay.get(month - 1)
-            }
+            adapter=menuAdapter
         }
-        return days
+        val listMenu=ArrayList<CategoryResultBean>()
+        val listFragment=ArrayList<Fragment>()
+        for (index in 1 until 12){
+            listMenu.add(menuItem("$index",index))
+            val fragment=AttendanceFragment.getInstance(2022,index)
+            fragment?.apply {
+                listFragment.add(this)
+            }
+
+        }
+        menuAdapter.setNewInstance(listMenu)
+        menuAdapter.setOnItemClickListener { _, _, position -> vp_date.currentItem=position }
+
+
+
+        /**
+         * viewpager处理
+         */
+        vp_date?.apply {
+            adapter=vpAdapter
+        }
+        vp_date?.offscreenPageLimit=listMenu.size
+        vp_date?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                menuAdapter.setSelectItem(position)
+            }
+        })
+        vpAdapter.setNewData(listFragment)
+    }
+    private fun menuItem(name:String,id:Int):CategoryResultBean{
+        return CategoryResultBean(id,name,0,"","")
     }
 
-    /**
-     * 通过年，月获取当前月的第一天为星期几 ，返回0是星期天，1是星期一，依次类推
-     */
-    private fun getWeekDay(year: Int, month: Int): Int {
-        val dayOfWeek: Int
-        var goneYearDays = 0
-        var thisYearDays = 0
-        var isLeapYear = false //闰年
-        for (i in 1900 until year) { // 从1900年开始算起，1900年1月1日为星期一
-            goneYearDays = if (i % 4 == 0 && i % 100 != 0 || i % 400 == 0) {
-                goneYearDays + 366
-            } else {
-                goneYearDays + 365
-            }
-        }
-        if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
-            isLeapYear = true
-            for (i in 0 until month - 1) {
-                thisYearDays = thisYearDays + leapYearMonthDay[i]
-            }
-        } else {
-            isLeapYear = false
-            for (i in 0 until month - 1) {
-                thisYearDays = thisYearDays + commonYearMonthDay[i]
-            }
-        }
-        dayOfWeek = (goneYearDays + thisYearDays + 1) % 7
-//        Log.d(this.javaClass.name, "从1990到现在有" + (goneYearDays + thisYearDays + 1) + "天")
-//        Log.d(
-//            this.javaClass.name,
-//            year.toString() + "年" + month + "月" + 1 + "日是星期" + dayOfWeek
-//        )
-        return dayOfWeek
-    }
 }

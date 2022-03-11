@@ -10,6 +10,7 @@ import com.rw.homepage.R
 import com.rw.homepage.bean.GoodsBean
 import com.rw.homepage.bean.ShopperResultBean
 import com.rw.homepage.presenter.HomePagePresenter
+import com.rw.homepage.ui.activity.EmployeesAttendanceActivity
 import com.rw.homepage.ui.activity.GoodsManagerActivity
 import com.rw.homepage.ui.activity.OrderListActivity
 import com.rw.homepage.until.setVisible
@@ -89,5 +90,12 @@ import java.nio.channels.FileChannel
                 .navigation()
         }
 
+
+        /**
+         * 考勤管理
+         */
+        tv_attendance_management.setOnClickListener {
+            mContext?.startActivity<EmployeesAttendanceActivity>()
+        }
     }
 }
