@@ -50,7 +50,7 @@ class EmployeesAttendanceActivity : BaseActivity<HomePagePresenter>() {
         val listMenu=ArrayList<CategoryResultBean>()
         val listFragment=ArrayList<Fragment>()
         for (index in 1 until 12){
-            listMenu.add(menuItem("$index",index))
+            listMenu.add(menuItem("${index}月",index))
             val fragment=AttendanceFragment.getInstance(2022,index)
             fragment?.apply {
                 listFragment.add(this)
@@ -73,6 +73,7 @@ class EmployeesAttendanceActivity : BaseActivity<HomePagePresenter>() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 menuAdapter.setSelectItem(position)
+                rv_menu.scrollToPosition(position)
             }
         })
         vpAdapter.setNewData(listFragment)

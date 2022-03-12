@@ -32,7 +32,6 @@ class AddAddressActivity : BaseMapActivity<MapPresenter>(),GeocodeSearch.OnGeoco
     private var geocoderSearch: GeocodeSearch? = null
     private var mLatitude:String?=null//经度
     private var mLongitude:String?=null//纬度
-    private var mapType:Int=1
     private var  aMap:AMap?=null
     private var addressId:Int=0
     override fun getPresenter(): MapPresenter {
@@ -50,8 +49,9 @@ class AddAddressActivity : BaseMapActivity<MapPresenter>(),GeocodeSearch.OnGeoco
         tvRight?.text="提交修改"
         tvRight?.setOnClickListener {
                  if (!mLatitude.isNullOrEmpty()&&!mLongitude.isNullOrEmpty()){
+
                      val mapReq=MapReq(tv_address.text.toString().trim()
-                         ,mLongitude?:"",mLatitude?:"",mapType,addressId
+                         ,mLongitude?:"",mLatitude?:"",if (addressId>0) 2 else 1,addressId
                      )
                      MapModel.get()?.address?.value=mapReq
                     mPresenter?.addOrEditAddress(mapReq)
@@ -112,7 +112,7 @@ class AddAddressActivity : BaseMapActivity<MapPresenter>(),GeocodeSearch.OnGeoco
         super.locationMap()
        aMap = map.map
         if (!mLatitude.isNullOrEmpty()&&!mLongitude.isNullOrEmpty()){
-            mapType=2
+
             updateMapLocation(LatLng(mLatitude?.toDouble()?:0.0,mLongitude?.toDouble()?:0.0))
         }else{
             val myLocationStyle = MyLocationStyle() //初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
