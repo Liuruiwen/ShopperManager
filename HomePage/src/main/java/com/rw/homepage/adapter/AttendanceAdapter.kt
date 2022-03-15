@@ -18,8 +18,19 @@ class AttendanceAdapter : BaseQuickAdapter<AttendanceBean, BaseViewHolder>(R.lay
         holder.getView<TextView>(R.id.tv_date).setVisible(!item.days.isNullOrEmpty())
         holder.getView<TextView>(R.id.tv_state).setVisible(!item.days.isNullOrEmpty())
         holder.setText(R.id.tv_date, item.days)
-        val isClock = !item.clockTime.isNullOrEmpty() && !item.afterWorkTime.isNullOrEmpty()
-        holder.setText(R.id.tv_state, if (isClock) "已打卡" else "未打卡")
-        holder.setTextColor(R.id.tv_state,ContextCompat.getColor(context,if (isClock)R.color.colorPrimary else R.color.textLight))
+        if (item.clockType==1){
+            holder.setText(R.id.tv_state,  "已补卡")
+            holder.setTextColor(R.id.tv_state,ContextCompat.getColor(context,R.color.colorPrimary))
+        }else{
+            val isClock = !item.clockTime.isNullOrEmpty() && !item.afterWorkTime.isNullOrEmpty()
+            holder.setText(R.id.tv_state, if (isClock) "已打卡" else "未打卡")
+            holder.setTextColor(R.id.tv_state,ContextCompat.getColor(context,if (isClock)R.color.colorPrimary else R.color.textLight))
+        }
+
+    }
+
+    fun updateState(position:Int){
+        data[position].clockType=1
+        notifyItemChanged(position)
     }
 }

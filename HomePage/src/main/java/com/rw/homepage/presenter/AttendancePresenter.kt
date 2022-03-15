@@ -1,5 +1,6 @@
 package com.rw.homepage.presenter
 
+import com.rw.basemvp.bean.BaseBean
 import com.rw.homepage.HttpApi
 import com.rw.homepage.bean.AttendanceResultBean
 import com.rw.homepage.bean.OrderListResultBean
@@ -25,6 +26,22 @@ class AttendancePresenter :HomePagePresenter(){
                 0,
                 HttpApi.HTTP_GET_ATTENDANCE, AttendanceResultBean::class.java, true,
                 mapOf("token" to bean.token),req
+            )
+        }
+
+    }
+
+
+    /**
+     * 提交补卡信息
+     */
+    fun commitCard(req: String) {
+
+        ServiceViewModule.get()?.loginService?.value?.let { bean ->
+            postBodyData(
+                0,
+                HttpApi.HTTP_COMMIT_CARD, BaseBean::class.java, true,
+                mapOf("token" to bean.token),CommitCardReq(req)
             )
         }
 
@@ -115,5 +132,9 @@ class AttendancePresenter :HomePagePresenter(){
 
     data class AttendanceReq(
         var time:String
+    )
+
+    data class CommitCardReq(
+        var absenteeismTime:String
     )
 }

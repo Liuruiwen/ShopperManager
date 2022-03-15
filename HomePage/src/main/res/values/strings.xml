@@ -16,4 +16,5 @@
     <string name="hp_norms">规格</string>
     <string name="hp_add_norms">添加规格</string>
     <string name="hp_edit_norms">编辑规格</string>
+    <string name="hp_card_toast">号当天未打卡，是否提交补卡信息？</string>
 </resources>

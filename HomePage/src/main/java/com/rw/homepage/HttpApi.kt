@@ -21,5 +21,6 @@ object HttpApi {
     const val HTTP_GET_SHOPPER_DETAIL="/s1/order/getShopperDetail"//获取店铺详情
     const val HTTP_GET_ORDER_LIST="/s1/order/getOrderList"//获得订单列表
     const val HTTP_GET_ATTENDANCE="/s1/index/getEmployeesAttendance"//获取员工考勤
+    const val HTTP_COMMIT_CARD="/s1/index/commitCard"//获取员工考勤
 
 }

@@ -17,6 +17,6 @@ data class AttendanceBean(
     val clockTime:String?,
     val afterWorkTime:String?,
     val clockDate:String,
-    val clockType:Int,
+    var clockType:Int,
     var days: String
 )
