@@ -9,7 +9,7 @@ import com.rw.basemvp.presenter.MvpPresenter
  * Date:2021/8/24.
  * Desc:
  */
-class PersonalCenterPresenter :MvpPresenter<BaseView>(){
+open class PersonalCenterPresenter :MvpPresenter<BaseView>(){
     override fun getBaseUrl(): String {
         return "http://192.168.1.5:8080"
     }
