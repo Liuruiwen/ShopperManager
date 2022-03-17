@@ -24,13 +24,20 @@ class RequestCardAdapter:BaseQuickAdapter<RequestCardItem,BaseViewHolder>(R.layo
         val drawable = tvApproval.background
         if (drawable is GradientDrawable){
             if (item.cardState==1){
-                drawable.setColor(Color.parseColor("#999999"))
+                tvApproval.text="已审批"
+                drawable.setColor(Color.parseColor("#666666"))
                 tvApproval.setTextColor(ContextCompat.getColor(context,R.color.colorLine))
             }else{
+                tvApproval.text="审批"
                 drawable.setColor(Color.parseColor("#33a3dc"))
                 tvApproval.setTextColor(ContextCompat.getColor(context,R.color.colorWrite))
             }
         }
 
+    }
+
+    fun updateState(position:Int){
+        data[position].cardState=1
+        notifyItemChanged(position)
     }
 }

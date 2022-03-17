@@ -101,7 +101,7 @@ class AttendanceFragment  : BaseFragment<AttendancePresenter>(){
 
                 }
                 HttpApi.HTTP_COMMIT_CARD->{
-                    mAdapter.updateState(selectPosition)
+                    showToast("补卡提交成功，请静待审批！")
                    selectPosition=-1
                     mDays=null
                 }

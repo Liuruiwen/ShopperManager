@@ -19,9 +19,9 @@
         />
 
     <TextView
-        app:layout_constraintTop_toTopOf="@id/tv_delete"
-        app:layout_constraintBottom_toBottomOf="@id/tv_delete"
+        app:layout_constraintTop_toBottomOf="@id/tv_card_time"
         android:textColor="@color/textLight"
+        android:layout_marginTop="6dp"
         android:textSize="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,42 +31,46 @@
 
     <TextView
         android:textColor="@color/textMain"
-        android:layout_marginRight="16dp"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_width="wrap_content"
+        android:layout_marginTop="6dp"
         android:textSize="16dp"
         android:layout_height="wrap_content"
         tools:text="1882686640"
         android:id="@+id/tv_account"
-        tools:ignore="MissingConstraints" />
-    <TextView
-        android:textColor="@color/colorPrimary"
-        android:layout_marginRight="16dp"
-        android:textStyle="bold"
-        android:layout_marginTop="6dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_account"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="wrap_content"
-        android:textSize="16dp"
-        android:layout_height="wrap_content"
-        tools:text="@string/pc_delete"
-        android:id="@+id/tv_delete"
+        app:layout_constraintTop_toBottomOf="@id/tv_absenteeism_time"
         tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:layout_marginTop="8dp"
-        android:paddingRight="50dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:paddingLeft="50dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:textColor="@color/colorWrite"
-        android:gravity="center"
-        android:id="@+id/tv_approval"
-        android:background="@drawable/pc_button_bg_blue"
-        android:text="@string/pc_approval"
-        />
+
+        <TextView
+            android:textColor="@color/colorPrimary"
+            android:layout_marginRight="16dp"
+            android:textStyle="bold"
+            android:layout_marginTop="6dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="wrap_content"
+            android:textSize="16dp"
+            android:layout_height="wrap_content"
+            android:text="@string/pc_delete"
+            android:id="@+id/tv_delete"
+            tools:ignore="MissingConstraints" />
+        <TextView
+            android:layout_marginTop="8dp"
+            android:paddingRight="50dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:paddingLeft="50dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:textColor="@color/colorWrite"
+            android:gravity="center"
+            android:id="@+id/tv_approval"
+            android:background="@drawable/pc_button_bg_blue"
+            android:text="@string/pc_approval"
+            />
+
+
+
     <View
         android:layout_marginLeft="16dp"
         app:layout_constraintTop_toBottomOf="@id/tv_approval"

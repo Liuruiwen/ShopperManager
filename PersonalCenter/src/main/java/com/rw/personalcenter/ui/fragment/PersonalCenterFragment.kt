@@ -11,6 +11,7 @@ import com.rw.personalcenter.R
 import com.rw.personalcenter.bean.UserInfoBean
 import com.rw.personalcenter.presenter.PersonalCenterPresenter
 import com.rw.personalcenter.ui.activity.EmployeesManagerActivity
+import com.rw.personalcenter.ui.activity.RequestCardActivity
 import com.rw.personalcenter.ui.activity.SetActivity
 import com.rw.personalcenter.ui.activity.UserInfoActivity
 import com.rw.personalcenter.until.setVisible
@@ -157,6 +158,10 @@ class PersonalCenterFragment : BaseFragment<PersonalCenterPresenter>() {
             }
 
             mContext?.startActivity<UserInfoActivity>("user" to desc)
+        }
+
+        tv_request_crad_list.setOnClickListener {//员工缺勤记录点击
+            mContext?.startActivity<RequestCardActivity>()
         }
     }
 }
