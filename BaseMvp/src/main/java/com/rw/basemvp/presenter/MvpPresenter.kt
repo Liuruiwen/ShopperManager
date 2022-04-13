@@ -4,7 +4,9 @@ import com.google.gson.Gson
 import com.rw.basemvp.bean.BaseBean
 import com.rw.basemvp.http.RxRequestResult
 import okhttp3.MediaType
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.http.Body
 import java.util.*
 
 /*   
@@ -106,6 +108,13 @@ abstract class MvpPresenter<V :BaseView> :RetrofitPresenter<V>(){
         toSubscribe(getApi().rxBodyPost(url,map), RxRequestResult(position, bean, getView()), position)
     }
 
+
+    fun<T : BaseBean>   uploadImage(url: String, bean: Class<T>,isShow: Boolean, req:  MultipartBody.Part){
+        if (isShow) {
+            getView()?.onShowLoading()
+        }
+        toSubscribe(getApi().rxFileUpload(url,req), RxRequestResult(1, bean, getView()), 1)
+    }
 
     fun getRequestBody(objects: Any):RequestBody{
        return RequestBody.create(MediaType.parse("application/json; charset=utf-8"),Gson().toJson(objects))

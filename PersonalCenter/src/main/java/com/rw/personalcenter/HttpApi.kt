@@ -17,4 +17,5 @@ object HttpApi {
     const val HTTP_GET_REQUEST_CARD="/s1/index/getCardList"//获取员工缺勤列表
     const val HTTP_DELETE_REQUEST_CARD="/s1/index/deleteCard"//删除员工补卡申请
     const val HTTP_AGREE_REQUEST_CARD="/s1/index/configCard"//同意员工补卡申请
+    const val HTTP_UPLOAD_IMAGE="/s1/index/uploadAvatar"
 }

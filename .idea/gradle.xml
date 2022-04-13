@@ -21,6 +21,7 @@
             <option value="$PROJECT_DIR$/PersonalCenter" />
             <option value="$PROJECT_DIR$/Service" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/glidelibrary" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -142,6 +142,7 @@ interface HttpApi {
     @POST
     fun rxFileUpload(@Url url: String, @Part("description") description: RequestBody, @Part file: MultipartBody.Part): Observable<Response<ResponseBody>>
 
+
     /**
      * 单张图片上传
      * @param url
@@ -150,7 +151,7 @@ interface HttpApi {
      */
     @Multipart
     @POST
-    fun rxFileUpload(@Url url: String, @Part file: MultipartBody.Part): Observable<Response<ResponseBody>>
+    fun rxFileUpload(@Url url: String, @Part part: MultipartBody.Part ): Observable<Response<ResponseBody>>
 
 
     /**

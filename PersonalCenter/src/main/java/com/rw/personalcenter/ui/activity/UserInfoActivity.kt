@@ -1,12 +1,21 @@
 package com.rw.personalcenter.ui.activity
 
+import android.Manifest
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.EditText
+import androidx.annotation.RequiresApi
+import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
 import com.google.gson.Gson
+import com.ruiwenliu.glide.library.GlideManager
 import com.rw.basemvp.BaseActivity
 import com.rw.basemvp.bean.BaseBean
+import com.rw.basemvp.permission.RxPermission
 import com.rw.basemvp.until.ViewHolder
 import com.rw.basemvp.widget.TitleView
 import com.rw.personalcenter.HttpApi
@@ -14,13 +23,28 @@ import com.rw.personalcenter.R
 import com.rw.personalcenter.bean.UserInfoBean
 import com.rw.personalcenter.presenter.PersonalCenterPresenter
 import com.rw.personalcenter.ui.dialog.UserEditDialog
+import com.rw.personalcenter.until.FileStorage
 import com.rw.service.ServiceViewModule
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.pc_activity_user_info.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.jetbrains.anko.toast
+import java.io.File
+import java.util.function.Consumer
 
+const val TYPE_CAMERA_CROP = 2
+const val TYPE_CAMERA_CODE = 1
 class UserInfoActivity : BaseActivity<PersonalCenterPresenter>() {
     private var inputDesc:String?=null
     private var inputType=0
+    private var cameraUrl: String? = null
+    private var imageFile: File? = null
+    private var cropUri: Uri? = null
+    private val fileStore: FileStorage by lazy {
+        FileStorage()
+    }
 
     override fun setLayout(): Int {
         return R.layout.pc_activity_user_info
@@ -61,7 +85,11 @@ class UserInfoActivity : BaseActivity<PersonalCenterPresenter>() {
                   toast("更新成功")
 
                 }
-
+                HttpApi.HTTP_UPLOAD_IMAGE->{
+                    GlideManager
+                        .getInstance(this@UserInfoActivity)?.loadCircleImage(cameraUrl,iv_user_header)
+                    showToast("上传头像成功")
+                }
                 else -> showToast("系统异常")
             }
         })
@@ -89,6 +117,16 @@ class UserInfoActivity : BaseActivity<PersonalCenterPresenter>() {
         tv_get_age.setOnClickListener {
             showLevelDialog(getString(R.string.pc_input_address),tv_get_age.text.toString(),3)
         }
+        layout_header.setOnClickListener {
+            RxPermission(this@UserInfoActivity).request(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA).subscribe {
+                if (it){
+                    openCamera(false)
+                }
+            }
+
+        }
     }
 
     data class EditUserReq(
@@ -105,6 +143,14 @@ class UserInfoActivity : BaseActivity<PersonalCenterPresenter>() {
             HttpApi.HTTP_EDIT_USER, BaseBean::class.java, true,
             mapOf("token" to token), bean
         )
+    }
+
+    private fun uploadImage(path:File){
+        val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), path);
+        val imageBodyPart = MultipartBody.Part.createFormData("file", path.getName(), imageBody);
+
+
+        mPresenter?.uploadImage(HttpApi.HTTP_UPLOAD_IMAGE,BaseBean::class.java, true,imageBodyPart)
     }
 
 
@@ -145,4 +191,63 @@ class UserInfoActivity : BaseActivity<PersonalCenterPresenter>() {
             }
       }.show()
     }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            TYPE_CAMERA_CROP->{
+                imageFile?.let {
+
+                    uploadImage(it)
+                }
+            }
+            TYPE_CAMERA_CODE->{
+
+                imageFile?.let {
+                    uploadImage(it)
+                }
+
+            }
+        }
+    }
+
+
+    /**
+     * 打开系统相机获取图片
+     */
+    fun openCamera(isCrop: Boolean) {
+        imageFile = fileStore.createCameraFile()
+       imageFile?.let {
+           /*调用系统拍照*/
+           val intent = Intent()
+           cropUri = null
+           try {
+               //API>=24 android 7.0
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                   cropUri = FileProvider.getUriForFile(
+                       this@UserInfoActivity,
+                       "com.rw.shoppermanager.fileprovider",
+                       it
+                   )
+                   intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) //添加这一句表示对目标应用临时授权该Uri所代表的文件
+               } else { //<24
+                   cropUri = Uri.fromFile(imageFile)
+               }
+               intent.action = MediaStore.ACTION_IMAGE_CAPTURE //设置Action为拍照
+               intent.putExtra(MediaStore.EXTRA_OUTPUT, cropUri)
+               cameraUrl = String.format("%1s%2s", "file://", it.getPath()) //相机存储地址
+               startActivityForResult(
+                   intent,
+                   if (isCrop) TYPE_CAMERA_CROP  else TYPE_CAMERA_CODE
+               )
+           } catch (e: Exception) {
+               e.printStackTrace()
+           }
+       }
+
+
+    }
 }
+
+
