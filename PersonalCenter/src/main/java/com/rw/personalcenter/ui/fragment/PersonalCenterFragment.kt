@@ -5,10 +5,12 @@ import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
+import com.ruiwenliu.glide.library.GlideManager
 import com.rw.basemvp.BaseFragment
 import com.rw.personalcenter.HttpApi
 import com.rw.personalcenter.R
 import com.rw.personalcenter.bean.UserInfoBean
+import com.rw.personalcenter.model.UserModel
 import com.rw.personalcenter.presenter.PersonalCenterPresenter
 import com.rw.personalcenter.ui.activity.EmployeesManagerActivity
 import com.rw.personalcenter.ui.activity.RequestCardActivity
@@ -17,6 +19,8 @@ import com.rw.personalcenter.ui.activity.UserInfoActivity
 import com.rw.personalcenter.until.setVisible
 import com.rw.service.ServiceViewModule
 import kotlinx.android.synthetic.main.pc_fragment.*
+import kotlinx.android.synthetic.main.pc_fragment.tv_address
+import kotlinx.android.synthetic.main.pc_fragment.tv_nickname
 import org.jetbrains.anko.startActivity
 
 /**
@@ -94,8 +98,10 @@ class PersonalCenterFragment : BaseFragment<PersonalCenterPresenter>() {
                     val bean = it as UserInfoBean
                     userBean=bean
                     tv_account.text=bean.data.account
-                    tv_nickname.text=bean.data.employees?.nickName
+                    tv_nickname.text=bean.data.employees?.nickName+"\u3000\u3000${bean.data.userName}"
                     tv_desc.text="职责：${bean.data.employees?.content}"
+                    GlideManager
+                        .getInstance(context!!)?.loadCircleImage("${mPresenter?.getBaseUrl()+bean.data.headerUrl}",iv_header)
                     layout_employess.setVisible(bean.data.employees?.level==1)
                 }
                 else -> showToast("系统异常")
@@ -117,6 +123,14 @@ class PersonalCenterFragment : BaseFragment<PersonalCenterPresenter>() {
 
             }
 
+        })
+
+        UserModel.get()?.userInfo?.observe(viewLifecycleOwner, Observer {
+           it?.let { bean->
+               GlideManager
+                   .getInstance(context!!)?.loadCircleImage("${mPresenter?.getBaseUrl()+bean.headerUrl}",iv_header)
+
+           }
         })
     }
 

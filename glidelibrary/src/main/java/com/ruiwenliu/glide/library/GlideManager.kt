@@ -131,14 +131,17 @@ class GlideManager constructor( context: Context) {
      * @param image
      */
     fun loadCircleImage(url: String?, image: ImageView?) {
-        GlideApp.with(mContext!!)
-            .load(url)
-            .apply(
-                RequestOptions.circleCropTransform()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE) //不做磁盘缓存
-                    .skipMemoryCache(true) //不做内存缓存
-            )
-            .into(image!!)
+        if (image!=null&&mContext!=null){
+            GlideApp.with(mContext!!)
+                .load(url)
+                .apply(
+                    RequestOptions.circleCropTransform()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE) //不做磁盘缓存
+                        .skipMemoryCache(true) //不做内存缓存
+                )
+                .into(image)
+        }
+
     }
 
     /**
