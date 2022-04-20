@@ -25,7 +25,7 @@ class AttendancePresenter :HomePagePresenter(){
             postBodyData(
                 0,
                 HttpApi.HTTP_GET_ATTENDANCE, AttendanceResultBean::class.java, true,
-                mapOf("token" to bean.token),req
+                linkedMapOf("token" to bean.token),req
             )
         }
 
@@ -41,7 +41,7 @@ class AttendancePresenter :HomePagePresenter(){
             postBodyData(
                 0,
                 HttpApi.HTTP_COMMIT_CARD, BaseBean::class.java, true,
-                mapOf("token" to bean.token),CommitCardReq(req)
+                linkedMapOf("token" to bean.token),CommitCardReq(req)
             )
         }
 

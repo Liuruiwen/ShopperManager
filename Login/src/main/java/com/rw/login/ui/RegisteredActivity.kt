@@ -62,7 +62,7 @@ class RegisteredActivity : BaseActivity<LoginPresenter>() {
                         val token=ServiceViewModule.get()?.loginService?.value?.token?:""
                         mPresenter?.postBodyData(
                             1, HttpApi.HTTP_UPDATE_PASSWORD,
-                            BaseBean::class.java, true, mapOf("token" to token), UpdatePsdReqBean(
+                            BaseBean::class.java, true, linkedMapOf("token" to token), UpdatePsdReqBean(
                                 account,
                                 password.text.toString().trim(),
                                 shopper_license.text.toString().trim()

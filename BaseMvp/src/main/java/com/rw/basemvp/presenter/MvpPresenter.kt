@@ -8,6 +8,8 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import java.util.*
+import kotlin.collections.HashMap
+import kotlin.collections.LinkedHashMap
 
 /*   
 * @Author:      Amuser
@@ -85,9 +87,13 @@ abstract class MvpPresenter<V :BaseView> :RetrofitPresenter<V>(){
      * @param isShow 是否需要弹窗
      * @param <T>
     </T> */
-    fun <T : BaseBean> postBodyData(position: Int, url: String, bean: Class<T>, isShow: Boolean,map:Map<String,@JvmSuppressWildcards Any>, objects: Any) {
+    fun <T : BaseBean> postBodyData(position: Int, url: String, bean: Class<T>, isShow: Boolean,map:LinkedHashMap<String,String>, objects: Any) {
         if (isShow) {
             getView()?.onShowLoading()
+        }
+
+        map.apply {
+            put("Accept","application/json")
         }
         toSubscribe(getApi().rxBodyPost(url,map,getRequestBody(objects)), RxRequestResult(position, bean, getView()), position)
     }
@@ -101,9 +107,12 @@ abstract class MvpPresenter<V :BaseView> :RetrofitPresenter<V>(){
      * @param isShow 是否需要弹窗
      * @param <T>
     </T> */
-    fun <T : BaseBean> postBodyData(position: Int, url: String, bean: Class<T>, isShow: Boolean,map:Map<String,@JvmSuppressWildcards Any>) {
+    fun <T : BaseBean> postBodyData(position: Int, url: String, bean: Class<T>, isShow: Boolean,map:LinkedHashMap<String,String>) {
         if (isShow) {
             getView()?.onShowLoading()
+        }
+        map.apply {
+            put("Accept","application/json")
         }
         toSubscribe(getApi().rxBodyPost(url,map), RxRequestResult(position, bean, getView()), position)
     }

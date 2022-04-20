@@ -19,7 +19,7 @@ data class UserBean(
     val  employees: Employees?,
     val shopAddress : ShopAddress?,
     val address:String?,
-    val  headerUrl:String?
+    val  headerImage:String?
     )
 
 data class Employees(

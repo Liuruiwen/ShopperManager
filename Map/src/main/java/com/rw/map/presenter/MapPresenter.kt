@@ -16,7 +16,7 @@ import com.rw.service.ServiceViewModule
  */
 class MapPresenter: DefaultPresenter() {
     override fun getBaseUrl(): String {
-        return "http://192.168.1.5:8080"
+        return "http://192.168.1.4:8080"
     }
     /**
      * 添加地址和修改地址
@@ -27,7 +27,7 @@ class MapPresenter: DefaultPresenter() {
             postBodyData(
                 1,
                 HttpApi.HTTP_ADD_ADDRESS, BaseBean::class.java, true,
-                mapOf("token" to bean.token),req
+                linkedMapOf("token" to bean.token),req
             )
         }
 
@@ -41,7 +41,7 @@ class MapPresenter: DefaultPresenter() {
             postBodyData(
                 1,
                 HttpApi.HTTP_CLOCK_STATE, ClockStateResultBean::class.java, true,
-                mapOf("token" to bean.token),req
+                linkedMapOf("token" to bean.token),req
             )
         }
     }
@@ -54,7 +54,7 @@ class MapPresenter: DefaultPresenter() {
             postBodyData(
                 1,
                 HttpApi.HTTP_CLOCK_WORK, BaseBean::class.java, true,
-                mapOf("token" to bean.token),req
+                linkedMapOf("token" to bean.token),req
             )
         }
     }

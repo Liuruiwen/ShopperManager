@@ -69,6 +69,8 @@ class UserInfoActivity : BaseActivity<PersonalCenterPresenter>() {
            tv_get_age.text= bean?.data?.age.toString()
             tv_get_nickname.text= bean?.data?.userName
             tv_get_address.text=bean?.data?.address
+            GlideManager
+                .getInstance(this@UserInfoActivity)?.loadCircleImage("${mPresenter?.getBaseUrl()+bean?.data?.headerImage}",iv_user_header)
         }
 
     }
@@ -154,7 +156,7 @@ class UserInfoActivity : BaseActivity<PersonalCenterPresenter>() {
         mPresenter?.postBodyData(
             0,
             HttpApi.HTTP_EDIT_USER, BaseBean::class.java, true,
-            mapOf("token" to token), bean
+            linkedMapOf("token" to token), bean
         )
     }
 

@@ -21,7 +21,7 @@ class OrderListPresenter:HomePagePresenter() {
             postBodyData(
                 0,
                 HttpApi.HTTP_GET_ORDER_LIST, OrderListResultBean::class.java, false,
-                mapOf("token" to bean.token),req
+                linkedMapOf("token" to bean.token),req
             )
         }
 

@@ -22,7 +22,7 @@ class GoodsListPresenter : HomePagePresenter(){
             postBodyData(
                 0,
                 HttpApi.HTTP_GET_GOODS_LIST, GoodsBean::class.java, true,
-                mapOf("token" to bean.token), GoodsListReq(id)
+                linkedMapOf("token" to bean.token), GoodsListReq(id)
             )
         }
 
@@ -37,7 +37,7 @@ class GoodsListPresenter : HomePagePresenter(){
             postBodyData(
                 0,
                 HttpApi.HTTP_DELETE_GOODS, BaseBean::class.java, true,
-                mapOf("token" to bean.token), DeleteGoodsReq(id)
+                linkedMapOf("token" to bean.token), DeleteGoodsReq(id)
             )
         }
 

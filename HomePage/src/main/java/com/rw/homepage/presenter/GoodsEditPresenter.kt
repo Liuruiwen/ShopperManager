@@ -22,7 +22,7 @@ class GoodsEditPresenter : HomePagePresenter() {
             postBodyData(
                 0,
                 HttpApi.HTTP_ADD_GOODS, BaseBean::class.java, true,
-                mapOf("token" to bean.token), req
+                linkedMapOf("token" to bean.token), req
             )
         }
 

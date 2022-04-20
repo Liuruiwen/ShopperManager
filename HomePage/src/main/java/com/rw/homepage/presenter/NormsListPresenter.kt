@@ -20,7 +20,7 @@ class NormsListPresenter :HomePagePresenter() {
             postBodyData(
                 0,
                 HttpApi.HTTP_GET_NORMS_LIST, NormsItemBean::class.java, true,
-                mapOf("token" to bean.token), req
+                linkedMapOf("token" to bean.token), req
             )
         }
 
@@ -35,7 +35,7 @@ class NormsListPresenter :HomePagePresenter() {
             postBodyData(
                 0,
                 HttpApi.HTTP_ADD_NORMS, NormsResultBean::class.java, true,
-                mapOf("token" to bean.token), req
+                linkedMapOf("token" to bean.token), req
             )
         }
 
@@ -51,7 +51,7 @@ class NormsListPresenter :HomePagePresenter() {
             postBodyData(
                 0,
                 HttpApi.HTTP_ADD_ATTRIBUTE, NormsAttributeResultBean::class.java, true,
-                mapOf("token" to bean.token), req
+                linkedMapOf("token" to bean.token), req
             )
         }
 
@@ -66,7 +66,7 @@ class NormsListPresenter :HomePagePresenter() {
             postBodyData(
                 0,
                 HttpApi.HTTP_DELETE_NORMS, BaseBean::class.java, true,
-                mapOf("token" to bean.token), req
+                linkedMapOf("token" to bean.token), req
             )
         }
 
@@ -81,7 +81,7 @@ class NormsListPresenter :HomePagePresenter() {
             postBodyData(
                 0,
                 HttpApi.HTTP_DELETE_ATTRIBUTE, BaseBean::class.java, true,
-                mapOf("token" to bean.token), req
+                linkedMapOf("token" to bean.token), req
             )
         }
 

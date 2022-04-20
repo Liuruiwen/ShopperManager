@@ -22,7 +22,7 @@ class RequestCardPresenter :PersonalCenterPresenter(){
             postBodyData(
                 0,
                 HttpApi.HTTP_GET_REQUEST_CARD, RequestCardBean::class.java, true,
-                mapOf("token" to bean.token)
+                linkedMapOf("token" to bean.token)
             )
         }
 
@@ -37,7 +37,7 @@ class RequestCardPresenter :PersonalCenterPresenter(){
             postBodyData(
                 0,
                 HttpApi.HTTP_AGREE_REQUEST_CARD, BaseBean::class.java, true,
-                mapOf("token" to bean.token),req
+                linkedMapOf("token" to bean.token),req
             )
         }
 
@@ -51,7 +51,7 @@ class RequestCardPresenter :PersonalCenterPresenter(){
             postBodyData(
                 0,
                 HttpApi.HTTP_DELETE_REQUEST_CARD, BaseBean::class.java, true,
-                mapOf("token" to bean.token),req
+                linkedMapOf("token" to bean.token),req
             )
         }
 

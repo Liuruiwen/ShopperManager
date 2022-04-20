@@ -20,7 +20,7 @@ class TestHttpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test_http)
         btn.setOnClickListener {
-            model.getLogin( mapOf("username" to "Ruiwen","password" to "123456"))
+            model.getLogin( linkedMapOf("username" to "Ruiwen","password" to "123456"))
 
         }
         model.result.observe(this, Observer {

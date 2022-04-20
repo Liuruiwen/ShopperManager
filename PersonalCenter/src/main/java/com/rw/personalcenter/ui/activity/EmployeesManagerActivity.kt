@@ -81,7 +81,7 @@ class EmployeesManagerActivity : BaseActivity<PersonalCenterPresenter>() {
             mPresenter?.postBodyData(
                 0,
                 HttpApi.HTTP_EMPLOYEES_LIST, EmployeesManagerBean::class.java, true,
-                mapOf("token" to bean.token), EmployeesReq(bean.account, 1)
+                linkedMapOf("token" to bean.token), EmployeesReq(bean.account, 1)
             )
         }
 
@@ -94,7 +94,7 @@ class EmployeesManagerActivity : BaseActivity<PersonalCenterPresenter>() {
         mPresenter?.postBodyData(
             1,
             HttpApi.HTTP_EMPLOYEES_LEVEL_LIST, LevelDataBean::class.java, true,
-            mapOf("token" to bean.token)
+            linkedMapOf("token" to bean.token)
         )
     }
 
@@ -106,7 +106,7 @@ class EmployeesManagerActivity : BaseActivity<PersonalCenterPresenter>() {
         mPresenter?.postBodyData(
             2,
             HttpApi.HTTP_ADD_EMPLOYEES, BaseBean::class.java, true,
-            mapOf("token" to token), bean
+            linkedMapOf("token" to token), bean
         )
     }
 
@@ -118,7 +118,7 @@ class EmployeesManagerActivity : BaseActivity<PersonalCenterPresenter>() {
             mPresenter?.postBodyData(
                 3,
                 HttpApi.HTTP_DELETE_EMPLOYEES, BaseBean::class.java, true,
-                mapOf("token" to bean.token), DeleteEmployeesReq(account)
+                linkedMapOf("token" to bean.token), DeleteEmployeesReq(account)
             )
         }
 

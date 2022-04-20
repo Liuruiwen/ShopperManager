@@ -101,7 +101,7 @@ class PersonalCenterFragment : BaseFragment<PersonalCenterPresenter>() {
                     tv_nickname.text=bean.data.employees?.nickName+"\u3000\u3000${bean.data.userName}"
                     tv_desc.text="职责：${bean.data.employees?.content}"
                     GlideManager
-                        .getInstance(context!!)?.loadCircleImage("${mPresenter?.getBaseUrl()+bean.data.headerUrl}",iv_header)
+                        .getInstance(context!!)?.loadCircleImage("${mPresenter?.getBaseUrl()+bean.data.headerImage}",iv_header)
                     layout_employess.setVisible(bean.data.employees?.level==1)
                 }
                 else -> showToast("系统异常")
@@ -140,7 +140,7 @@ class PersonalCenterFragment : BaseFragment<PersonalCenterPresenter>() {
     private fun reqUserData(token:String){
 
         mPresenter?.postBodyData(0,
-            HttpApi.HTTP_GET_USER_INFO, UserInfoBean::class.java, true, mapOf("token" to token))
+            HttpApi.HTTP_GET_USER_INFO, UserInfoBean::class.java, true, linkedMapOf("token" to token))
     }
 
     /**

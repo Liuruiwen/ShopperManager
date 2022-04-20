@@ -28,7 +28,7 @@ class GoodsManagerPresenter : HomePagePresenter() {
             postBodyData(
                 0,
                 HttpApi.HTTP_GET_CATEGORY_LIST, CategoryListBean::class.java, true,
-                mapOf("token" to bean.token)
+                linkedMapOf("token" to bean.token)
             )
         }
 
@@ -44,7 +44,7 @@ class GoodsManagerPresenter : HomePagePresenter() {
             postBodyData(
                 1,
                 HttpApi.HTTP_ADD_CATEGORY, CategoryBean::class.java, true,
-                mapOf("token" to bean.token),category
+                linkedMapOf("token" to bean.token),category
             )
         }
 
@@ -59,7 +59,7 @@ class GoodsManagerPresenter : HomePagePresenter() {
             postBodyData(
                 2,
                 HttpApi.HTTP_DELETE_CATEGORY, BaseBean::class.java, true,
-                mapOf("token" to bean.token),category
+                linkedMapOf("token" to bean.token),category
             )
         }
 
@@ -74,7 +74,7 @@ class GoodsManagerPresenter : HomePagePresenter() {
             postBodyData(
                 3,
                 HttpApi.HTTP_EDIT_CATEGORY, EditCategoryResultBean::class.java, true,
-                mapOf("token" to bean.token),category
+                linkedMapOf("token" to bean.token),category
             )
         }
 

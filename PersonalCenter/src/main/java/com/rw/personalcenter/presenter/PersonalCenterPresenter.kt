@@ -11,7 +11,7 @@ import com.rw.basemvp.presenter.MvpPresenter
  */
 open class PersonalCenterPresenter :MvpPresenter<BaseView>(){
     override fun getBaseUrl(): String {
-        return "http://192.168.1.5:8080"
+        return "http://192.168.1.4:8080"
     }
 
     override fun getToken(): String {

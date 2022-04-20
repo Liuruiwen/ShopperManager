@@ -56,7 +56,7 @@ class SetActivity : BaseActivity<PersonalCenterPresenter>() {
      */
     private fun loginOut(token:String){
         mPresenter?.postBodyData(0,
-            HttpApi.HTTP_LOGIN_OUT, BaseBean::class.java, true, mapOf("token" to token))
+            HttpApi.HTTP_LOGIN_OUT, BaseBean::class.java, true, linkedMapOf("token" to token))
     }
 
 
