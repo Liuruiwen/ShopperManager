@@ -1,19 +1,26 @@
 package com.rw.homepage.ui.activity
 
 import android.os.Bundle
+import android.view.View
+import android.widget.TextView
+import android.widget.ViewFlipper
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.rw.basemvp.BaseActivity
+import com.rw.basemvp.until.ViewHolder
 import com.rw.basemvp.widget.TitleView
 import com.rw.homepage.R
 import com.rw.homepage.adapter.MenuAdapter
 import com.rw.homepage.adapter.OrderVpAdapter
 import com.rw.homepage.bean.CategoryResultBean
 import com.rw.homepage.presenter.HomePagePresenter
+import com.rw.homepage.ui.dialog.SelectYearDialog
 import com.rw.homepage.ui.fragment.AttendanceFragment
 import kotlinx.android.synthetic.main.hp_activity_employees_attendance.*
 import kotlinx.android.synthetic.main.hp_activity_goods_manager.rv_menu
+
 
 class EmployeesAttendanceActivity : BaseActivity<HomePagePresenter>() {
 
@@ -77,9 +84,36 @@ class EmployeesAttendanceActivity : BaseActivity<HomePagePresenter>() {
             }
         })
         vpAdapter.setNewData(listFragment)
+        tv_year?.setOnClickListener {
+
+                object : SelectYearDialog(this){
+                    override fun helper(helper: ViewHolder?) {
+                        super.helper(helper)
+
+                        val viewFlipper=helper?.getView<ViewFlipper>(R.id.view_flipper)
+                        val datas= arrayListOf("2020,2021,2022,2023,2024,2025,2026,2027")
+                        for (data in datas) {
+                            val view: View =
+                                layoutInflater.inflate(R.layout.hp_item_flipper_view, null)
+                            val textView = view.findViewById<TextView>(R.id.tv_flipper)
+                            textView.text = data
+                            textView.setOnClickListener {
+                                val fragment=AttendanceFragment.getInstance(textView.text.toString().toInt(),1)
+                            }
+                            viewFlipper?.addView(view)
+                        }
+
+                    }
+                }.show()
+
+
+        }
     }
     private fun menuItem(name:String,id:Int):CategoryResultBean{
         return CategoryResultBean(id,name,0,"","")
     }
+
+
+
 
 }

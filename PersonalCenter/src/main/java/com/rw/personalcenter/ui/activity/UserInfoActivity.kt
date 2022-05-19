@@ -1,7 +1,9 @@
 package com.rw.personalcenter.ui.activity
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -24,6 +26,7 @@ import com.rw.personalcenter.bean.UploadResultBean
 import com.rw.personalcenter.bean.UserInfoBean
 import com.rw.personalcenter.model.UserModel
 import com.rw.personalcenter.presenter.PersonalCenterPresenter
+import com.rw.personalcenter.ui.dialog.CameraDialog
 import com.rw.personalcenter.ui.dialog.UserEditDialog
 import com.rw.personalcenter.until.FileStorage
 import com.rw.service.ServiceViewModule
@@ -36,6 +39,9 @@ import java.io.File
 
 const val TYPE_CAMERA_CROP = 2
 const val TYPE_CAMERA_CODE = 1
+const val TYPE_PHONE_CROP = 4
+const val TYPE_PHONE_CODE = 3
+const val TYPE_CROP_CODE = 5
 class UserInfoActivity : BaseActivity<PersonalCenterPresenter>() {
     private var inputDesc:String?=null
     private var inputType=0
@@ -137,7 +143,9 @@ class UserInfoActivity : BaseActivity<PersonalCenterPresenter>() {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.CAMERA).subscribe {
                 if (it){
-                    openCamera(false)
+
+                    showCameraDialog()
+
                 }
             }
 
@@ -208,6 +216,32 @@ class UserInfoActivity : BaseActivity<PersonalCenterPresenter>() {
     }
 
 
+    private fun showCameraDialog(){
+        object : CameraDialog(this){
+            override fun helper(helper: ViewHolder?) {
+                super.helper(helper)
+
+                helper?.setOnClickListener(View.OnClickListener {
+
+                    when(it?.id){
+                        R.id.tv_camera->{
+                            openCamera(true)
+                            dismiss()
+                        }
+                        R.id.tv_phone->{
+                            openAlbum(true)
+                            dismiss()
+                        }
+                        R.id.tv_cancel->{
+                            dismiss()
+                        }
+                    }
+                }, R.id.tv_camera, R.id.tv_phone, R.id.tv_cancel)
+            }
+        }.show()
+    }
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -224,6 +258,21 @@ class UserInfoActivity : BaseActivity<PersonalCenterPresenter>() {
                 }
 
             }
+              TYPE_PHONE_CROP->{
+                  data?.data?.let {
+
+                  }
+                  if (data != null && data.getData() != null) {
+                     cropPhoto(data.getData());
+                  }
+
+              }
+            TYPE_CROP_CODE->{
+                imageFile?.let {
+                    uploadImage(it)
+                }
+            }
+
         }
     }
 
@@ -261,8 +310,50 @@ class UserInfoActivity : BaseActivity<PersonalCenterPresenter>() {
            }
        }
 
+    }
+
+
+    /**
+     * 打开系统相册获取图片
+     */
+    fun openAlbum(isCrop: Boolean) {
+
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
+        startActivityForResult(
+            intent,
+            if (isCrop) TYPE_PHONE_CROP else TYPE_PHONE_CODE
+        )
+    }
+
+    /**
+     * 调用系统裁剪功能
+     */
+    fun cropPhoto(uri: Uri?) {
+        imageFile = fileStore.createCameraFile()
+        imageFile?.let {
+            val outputUri = Uri.fromFile(it) //缩略图保存地址
+            val intent = Intent("com.android.camera.action.CROP")
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            intent.setDataAndType(uri, "image/*")
+            intent.putExtra("crop", "true")
+            intent.putExtra("aspectX", 1)
+            intent.putExtra("aspectY", 1)
+            intent.putExtra("scale", true)
+            intent.putExtra("return-data", false)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri)
+            intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString())
+            intent.putExtra("noFaceDetection", true)
+           val   cameraUrl = String.format("%1s%2s", "file://", outputUri.path) //相机存储地址
+           startActivityForResult(intent, TYPE_CROP_CODE)
+        }
+
 
     }
+
+
 }
 
 
