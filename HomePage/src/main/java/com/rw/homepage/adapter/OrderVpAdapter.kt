@@ -10,18 +10,21 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
  * Date:2022/2/21.
  * Desc:
  */
-class OrderVpAdapter(manager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(manager, lifecycle) {
+class OrderVpAdapter<T:Fragment>(manager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(manager, lifecycle) {
 
-    private var listFragment=ArrayList<Fragment>()
+    private var listFragment=ArrayList<T>()
 
-    fun addFragment(fragment:Fragment){
+    fun addFragment(fragment:T){
        listFragment.add(fragment)
         notifyDataSetChanged()
     }
 
-    fun setNewData(list: ArrayList<Fragment>){
-        listFragment=list
-        notifyDataSetChanged()
+    fun setNewData(list: ArrayList<T>?){
+        list?.let {
+            listFragment=it
+            notifyDataSetChanged()
+        }
+
     }
 
     override fun getItemCount(): Int {

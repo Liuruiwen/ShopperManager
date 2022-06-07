@@ -11,6 +11,8 @@
         android:layout_height="45dp"
         android:gravity="center"
         android:id="@+id/tv_year"
+        android:textStyle="bold"
+        android:textColor="@color/textMain"
         app:layout_constraintTop_toTopOf="parent"
         />
 

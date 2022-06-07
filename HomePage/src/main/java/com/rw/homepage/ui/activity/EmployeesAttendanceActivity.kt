@@ -3,33 +3,41 @@ package com.rw.homepage.ui.activity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import android.widget.ViewFlipper
-import androidx.core.view.get
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.rw.basemvp.BaseActivity
 import com.rw.basemvp.until.ViewHolder
 import com.rw.basemvp.widget.TitleView
 import com.rw.homepage.R
 import com.rw.homepage.adapter.MenuAdapter
 import com.rw.homepage.adapter.OrderVpAdapter
+import com.rw.homepage.adapter.SelectYearAdapter
 import com.rw.homepage.bean.CategoryResultBean
 import com.rw.homepage.presenter.HomePagePresenter
 import com.rw.homepage.ui.dialog.SelectYearDialog
 import com.rw.homepage.ui.fragment.AttendanceFragment
 import kotlinx.android.synthetic.main.hp_activity_employees_attendance.*
 import kotlinx.android.synthetic.main.hp_activity_goods_manager.rv_menu
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class EmployeesAttendanceActivity : BaseActivity<HomePagePresenter>() {
 
+    private var selectYear:Int=2022
+    private var tvYear:TextView?=null
     private val menuAdapter: MenuAdapter by lazy {
         MenuAdapter()
     }
 
-    private val vpAdapter: OrderVpAdapter by lazy {
-        OrderVpAdapter(supportFragmentManager,lifecycle)
+    private var attendanceFragment: AttendanceFragment?=null
+    private  var listFragment:ArrayList<AttendanceFragment>?=null
+
+    private val vpAdapter: OrderVpAdapter<AttendanceFragment> by lazy {
+        OrderVpAdapter<AttendanceFragment>(supportFragmentManager,lifecycle)
     }
     override fun setLayout(): Int {
         return R.layout.hp_activity_employees_attendance
@@ -45,6 +53,10 @@ class EmployeesAttendanceActivity : BaseActivity<HomePagePresenter>() {
     }
 
     private fun initView(){
+        tvYear=findViewById(R.id.tv_year)
+        selectYear=Calendar.getInstance().get(Calendar.YEAR)
+      val  currentMonth=Calendar.getInstance().get(Calendar.MONTH)
+
         /**
          * 菜单处理
          */
@@ -55,18 +67,20 @@ class EmployeesAttendanceActivity : BaseActivity<HomePagePresenter>() {
             adapter=menuAdapter
         }
         val listMenu=ArrayList<CategoryResultBean>()
-        val listFragment=ArrayList<Fragment>()
-        for (index in 1 until 12){
+         listFragment=ArrayList<AttendanceFragment>()
+        for (index in 1 until 13){
             listMenu.add(menuItem("${index}月",index))
-            val fragment=AttendanceFragment.getInstance(2022,index)
-            fragment?.apply {
-                listFragment.add(this)
+            val fragment=AttendanceFragment.getInstance(selectYear,index)
+            if (fragment is AttendanceFragment){
+                listFragment?.add(fragment)
             }
 
         }
         menuAdapter.setNewInstance(listMenu)
         menuAdapter.setOnItemClickListener { _, _, position -> vp_date.currentItem=position }
 
+
+        tvYear?.text=selectYear.toString()
 
 
         /**
@@ -79,29 +93,40 @@ class EmployeesAttendanceActivity : BaseActivity<HomePagePresenter>() {
         vp_date?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                menuAdapter.setSelectItem(position)
-                rv_menu.scrollToPosition(position)
+                setSelectDate(position)
+
             }
         })
         vpAdapter.setNewData(listFragment)
-        tv_year?.setOnClickListener {
+        vp_date.currentItem=currentMonth
+        tvYear?.setOnClickListener {
 
                 object : SelectYearDialog(this){
                     override fun helper(helper: ViewHolder?) {
                         super.helper(helper)
 
-                        val viewFlipper=helper?.getView<ViewFlipper>(R.id.view_flipper)
-                        val datas= arrayListOf("2020,2021,2022,2023,2024,2025,2026,2027")
-                        for (data in datas) {
-                            val view: View =
-                                layoutInflater.inflate(R.layout.hp_item_flipper_view, null)
-                            val textView = view.findViewById<TextView>(R.id.tv_flipper)
-                            textView.text = data
-                            textView.setOnClickListener {
-                                val fragment=AttendanceFragment.getInstance(textView.text.toString().toInt(),1)
-                            }
-                            viewFlipper?.addView(view)
+                        val viewFlipper=helper?.getView<RecyclerView>(R.id.rv_year)
+                        val yearAdapter= SelectYearAdapter()
+                        viewFlipper?.apply {
+                            layoutManager=LinearLayoutManager(context)
+                            adapter=yearAdapter
                         }
+                        val datas= arrayListOf("2020","2021","2022","2023","2024","2025","2026","2027")
+                        yearAdapter.setNewInstance(datas)
+                        yearAdapter.setSelectItem(selectYear.toString())
+                        viewFlipper?.scrollToPosition(datas.indexOf(selectYear.toString()))
+                        yearAdapter.setOnItemClickListener(object : OnItemClickListener{
+                            override fun onItemClick(p0: BaseQuickAdapter<*, *>, p1: View, position: Int) {
+                                val item=yearAdapter.getItem(position)
+                                tvYear?.text=item
+                                selectYear=item.toInt()
+                                yearAdapter.setSelectItem(item)
+                                attendanceFragment?.refreshData(selectYear)
+                                dismiss()
+                            }
+
+                        })
+
 
                     }
                 }.show()
@@ -114,6 +139,14 @@ class EmployeesAttendanceActivity : BaseActivity<HomePagePresenter>() {
     }
 
 
+    /**
+     * 设置选中事件
+     */
+    private fun setSelectDate(position:Int){
+        menuAdapter.setSelectItem(position)
+        rv_menu.scrollToPosition(position)
+        attendanceFragment=listFragment?.get(position)
+    }
 
 
 }

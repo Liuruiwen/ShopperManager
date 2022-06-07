@@ -16,7 +16,7 @@ import com.rw.service.ServiceViewModule
  */
 open class HomePagePresenter: DefaultPresenter(){
     override fun getBaseUrl(): String {
-       return "http://192.168.1.4:8080"
+       return "http://192.168.1.5:8080"
     }
 
     /**

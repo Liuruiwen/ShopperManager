@@ -9,11 +9,14 @@ import com.rw.basemvp.BaseFragment
 import com.rw.homepage.HttpApi
 import com.rw.homepage.R
 import com.rw.homepage.adapter.AttendanceAdapter
-import com.rw.homepage.bean.*
+import com.rw.homepage.bean.AttendanceBean
+import com.rw.homepage.bean.AttendanceResultBean
 import com.rw.homepage.presenter.AttendancePresenter
 import com.rw.homepage.ui.dialog.CommitCardDialog
 import com.rw.homepage.ui.dialog.MessageDialog
 import kotlinx.android.synthetic.main.hp_fragment_attendance.*
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.collections.ArrayList
 
 /**
@@ -46,6 +49,12 @@ class AttendanceFragment  : BaseFragment<AttendancePresenter>(){
         AttendanceAdapter()
     }
 
+    fun refreshData(year:Int){
+        if (year!=mYear){
+            lazyData()
+        }
+
+    }
     override fun lazyData() {
         super.lazyData()
         arguments?.apply {
@@ -117,10 +126,12 @@ class AttendanceFragment  : BaseFragment<AttendancePresenter>(){
 
    private  fun processDateResult(listAttendance:List<AttendanceBean>?){
        val weeks=mPresenter?.getWeekDay(mYear, mMonth)?:1//获取当月第一天是星期几
-       val days=mPresenter?.getDays(mYear, mMonth)?:0+weeks//获取总天数
+//       val days=mPresenter?.getDays(mYear, mMonth)?:0//获取总天数
+       val days=getDaysOfMonth("${mYear}-${mMonth}-1")
+       val monthDays=days+if (weeks==0)1 else weeks
        var countDay=0
        val listData=ArrayList<AttendanceBean>()
-       for (index in 1 until  days){
+       for (index in 1 until  monthDays){
            if (index>=weeks){
                countDay++
                var attendanceBean:AttendanceBean?=null
@@ -166,5 +177,18 @@ class AttendanceFragment  : BaseFragment<AttendancePresenter>(){
         }
 
     }
+
+
+    /**
+     * 获取当前总天数
+     */
+   private fun getDaysOfMonth(time: String): Int {
+        val sdf =  SimpleDateFormat("yyyy-MM-dd")
+        val date=sdf.parse(time)
+        val calendar: Calendar = Calendar.getInstance()
+       calendar.time = date
+        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+    }
+
 
 }

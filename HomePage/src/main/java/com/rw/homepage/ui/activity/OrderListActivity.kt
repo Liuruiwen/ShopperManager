@@ -24,8 +24,8 @@ class OrderListActivity: BaseActivity<HomePagePresenter>() {
         MenuAdapter()
     }
 
-    private val vpAdapter:OrderVpAdapter by lazy {
-        OrderVpAdapter(supportFragmentManager,lifecycle)
+    private val vpAdapter:OrderVpAdapter<OrderListFragment> by lazy {
+        OrderVpAdapter<OrderListFragment>(supportFragmentManager,lifecycle)
     }
     override fun getPresenter(): HomePagePresenter {
         return HomePagePresenter()
