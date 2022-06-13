@@ -24,7 +24,7 @@ data class GoodsListBean(
     val monthSales:Int,
     val annualSales:Int,
     val goodsPosition:Int,
-    val listNorms:List<AttributeBean>,
+    val listNorms:List<NormsHeaderBean>,
     var isShow:Boolean
 )
 //private int id;//规格id

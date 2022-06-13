@@ -10,11 +10,29 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="260dp">
+        <TextView
+            android:id="@+id/tv_year"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="请选择年份"
+            />
+        <View
+            app:layout_constraintTop_toBottomOf="@id/tv_year"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:id="@+id/view_line"
+            android:background="@color/color_F2F2F2"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
+            app:layout_constraintTop_toBottomOf="@id/view_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/rv_year"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>

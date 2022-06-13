@@ -7,20 +7,24 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.rw.basemvp.BaseActivity
 import com.rw.basemvp.widget.TitleView
 import com.rw.homepage.HttpApi
 import com.rw.homepage.R
 import com.rw.homepage.adapter.GoodsEditNormsAdapter
 import com.rw.homepage.adapter.SpinnerAdapter
+import com.rw.homepage.adapter.TYPE_NORMS_ITEM_ATTRIBUTE
+import com.rw.homepage.adapter.TYPE_NORMS_ITEM_HEADER
 import com.rw.homepage.bean.*
 import com.rw.homepage.model.GoodsEditModel
 import com.rw.homepage.presenter.GoodsEditPresenter
 import com.rw.homepage.until.setVisible
 import kotlinx.android.synthetic.main.hp_activity_goods_edit.*
-import kotlinx.android.synthetic.main.hp_activity_goods_edit.tv_add_norms
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.textColor
+
 
 const val GOODS_EDIT_TYPE_ADD = 1//增加商品
 const val GOODS_EDIT_TYPE_EDIT = 2//编辑商品
@@ -28,6 +32,7 @@ const val GOODS_EDIT_TYPE_EDIT = 2//编辑商品
 class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
 
     private var spinnerType=1
+    private var goodsBean:GoodsListBean?=null
     private val categroyId: Int by lazy {
         intent.getIntExtra("id", 0)
     }
@@ -51,7 +56,10 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
 
     override fun initData(savedInstanceState: Bundle?, titleView: TitleView) {
         val type = intent.getIntExtra("type", GOODS_EDIT_TYPE_ADD)
-
+        val goods=intent.getStringExtra("")
+        if (!goods.isNullOrEmpty()){
+            goodsBean= Gson().fromJson(goods, object : TypeToken<GoodsListBean>() {}.type)
+        }
         titleView.setTitle(if (type == GOODS_EDIT_TYPE_ADD) "添加商品" else "商品编辑")
         tvRight = titleView.getView(R.id.tv_title_right)
         tvRight?.setVisible(true)
@@ -93,6 +101,7 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
 
         processSpinner()
         reqResult()
+        processEditData()
     }
 
     override fun getPresenter(): GoodsEditPresenter {
@@ -198,4 +207,19 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
         }
         mAdapter.setNewInstance(listNorms)
     }
+
+    /**
+     * 处理编辑数据
+     */
+    private fun processEditData(){
+        goodsBean?.apply {
+            et_price?.setText(goodsPrice)
+            et_name?.setText(goodsName)
+            et_desc?.setText(goodsDesc)
+            spinner?.setSelection(if (shelvesType==1) 0 else 1)
+            processNormsList(listNorms)
+        }
+    }
+
+
 }

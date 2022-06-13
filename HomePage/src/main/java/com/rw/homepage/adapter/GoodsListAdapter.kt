@@ -9,6 +9,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.rw.homepage.R
 import com.rw.homepage.bean.AttributeBean
 import com.rw.homepage.bean.GoodsListBean
+import com.rw.homepage.bean.NormsHeaderBean
 import com.rw.homepage.until.setVisible
 
 /**
@@ -30,7 +31,7 @@ class GoodsListAdapter :BaseQuickAdapter<GoodsListBean,BaseViewHolder>(R.layout.
 
     }
 
-    private fun initAttr(layoutAdd:LinearLayout,list:List<AttributeBean>?){
+    private fun initAttr(layoutAdd:LinearLayout,list:List<NormsHeaderBean>?){
         if (layoutAdd.childCount>0){
             layoutAdd.removeAllViews()
         }

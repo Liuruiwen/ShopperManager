@@ -3,6 +3,7 @@ package com.rw.homepage.ui.fragment
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.rw.basemvp.BaseFragment
 import com.rw.homepage.HttpApi
 import com.rw.homepage.R
@@ -46,7 +47,7 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
         mAdapter.addChildClickViewIds(R.id.tv_shelves)
         mAdapter.addChildClickViewIds(R.id.tv_delete)
         mAdapter. addChildClickViewIds(R.id.tv_show)
-        mAdapter.setOnItemClickListener { adapter, view, position ->mContext?.toast("让我说点什么好")  }
+        mAdapter.setOnItemClickListener { _, _, position ->itemClick(position) }
         tv_add?.setOnClickListener {
             mContext?.startActivity<GoodsEditActivity>("type" to GOODS_EDIT_TYPE_ADD,"id" to categoryId)
         }
@@ -113,5 +114,10 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
               mAdapter.updateShow(position)
             }
         }
+    }
+
+    private fun itemClick(position: Int){
+        val item=mAdapter.getItem(position)
+        mContext?.startActivity<GoodsEditActivity>("type" to GOODS_EDIT_TYPE_ADD,"id" to categoryId,"goodsItem" to (Gson() to item))
     }
 }
