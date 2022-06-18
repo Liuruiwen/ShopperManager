@@ -6,6 +6,11 @@
     android:id="@+id/base_root_view"
     >
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/state_height"
+        />
     <com.rw.basemvp.widget.TitleView
         android:layout_width="match_parent"
         android:id="@+id/base_title_view"

@@ -12,6 +12,7 @@ object HttpApi {
     const val HTTP_GET_GOODS_LIST="/s1/order/getCategoryGoodList"//获取商品列表
     const val HTTP_EDIT_CATEGORY="/s1/order/editCategory"//编辑品类
     const val HTTP_ADD_GOODS="/s1/order/insertOrderGoods"//添加商品
+    const val HTTP_EDIT_GOODS="/s1/order/editOrderGoods"//编辑商品
     const val HTTP_DELETE_GOODS="/s1/order/deleteGoods"//删除商品
     const val HTTP_ADD_NORMS="/s1/order/insertNorms"//新增商品规格
     const val HTTP_ADD_ATTRIBUTE="/s1/order/insertNormsAttribute"//新增规格属性
@@ -22,5 +23,6 @@ object HttpApi {
     const val HTTP_GET_ORDER_LIST="/s1/order/getOrderList"//获得订单列表
     const val HTTP_GET_ATTENDANCE="/s1/index/getEmployeesAttendance"//获取员工考勤
     const val HTTP_COMMIT_CARD="/s1/index/commitCard"//获取员工考勤
+    const val HTTP_UPLOAD_IMAGE="/s1/index/uploadAvatar"//图片上传
 
 }

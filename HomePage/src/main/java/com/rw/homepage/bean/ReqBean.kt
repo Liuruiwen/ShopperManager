@@ -36,7 +36,8 @@ data class AddGoodsReq(
     val goodsDesc:String,
     val goodsImage:String,
     val normsList:String,//规格列表json字符串
-    val shelvesType:Int//是否上下架
+    val shelvesType:Int,//是否上下架
+    val id:Int=0
 
 )
 

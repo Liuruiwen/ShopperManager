@@ -2,10 +2,12 @@ package com.rw.homepage.adapter
 
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.ruiwenliu.glide.library.GlideManager
 import com.rw.homepage.R
 import com.rw.homepage.bean.AttributeBean
 import com.rw.homepage.bean.GoodsListBean
@@ -21,7 +23,8 @@ class GoodsListAdapter :BaseQuickAdapter<GoodsListBean,BaseViewHolder>(R.layout.
     override fun convert(holder: BaseViewHolder, item: GoodsListBean) {
 
         holder.setText(R.id.tv_name,item.goodsName)
-
+        GlideManager
+            .getInstance(context)?.loadRoundImage(item.goodsImage,holder.getView<ImageView>(R.id.iv_goods),15)
         holder.setText(R.id.tv_desc,item.goodsDesc)
         holder.setText(R.id.tv_price,"价格:${item.goodsPrice}")
         holder.setText(R.id.tv_shelves,if (item.shelvesType==1) "下架" else "上架")

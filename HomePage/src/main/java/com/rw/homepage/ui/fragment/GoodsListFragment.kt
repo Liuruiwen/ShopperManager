@@ -11,6 +11,7 @@ import com.rw.homepage.adapter.GoodsListAdapter
 import com.rw.homepage.bean.GoodsBean
 import com.rw.homepage.presenter.GoodsListPresenter
 import com.rw.homepage.ui.activity.GOODS_EDIT_TYPE_ADD
+import com.rw.homepage.ui.activity.GOODS_EDIT_TYPE_EDIT
 import com.rw.homepage.ui.activity.GoodsEditActivity
 import com.rw.homepage.until.setVisible
 import kotlinx.android.synthetic.main.hp_empty_state.*
@@ -118,6 +119,10 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
 
     private fun itemClick(position: Int){
         val item=mAdapter.getItem(position)
-        mContext?.startActivity<GoodsEditActivity>("type" to GOODS_EDIT_TYPE_ADD,"id" to categoryId,"goodsItem" to (Gson() to item))
+        val data=Gson().toJson(item)
+        mContext?.startActivity<GoodsEditActivity>("type" to GOODS_EDIT_TYPE_EDIT,
+            "id" to categoryId,
+            "goodsItem" to data,
+            "goodsId" to item.id)
     }
 }

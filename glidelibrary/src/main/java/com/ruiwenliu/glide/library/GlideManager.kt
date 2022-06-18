@@ -120,7 +120,7 @@ class GlideManager constructor( context: Context) {
     ) {
         GlideApp.with(mContext!!)
             .load(url)
-            .apply(RequestOptions.bitmapTransform(RoundedCorners(round)).override(50, 50))
+            .apply(RequestOptions.bitmapTransform(RoundedCorners(round)).override( x, y))
             .into(image!!)
     }
 

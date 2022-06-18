@@ -1,21 +1,31 @@
 package com.rw.basemvp
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.gyf.barlibrary.ImmersionBar
 import com.rw.basemvp.widget.TitleView
 import kotlinx.android.synthetic.main.base_layout.*
+
 
 abstract class BaseWrapperActivity : AppCompatActivity() {
 
     var mActivity: AppCompatActivity? = null
     var mToast: Toast? = null
-
+    var immersionBar: ImmersionBar?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         processBeforeLayout()
+        //状态栏https://github.com/hrandroid/ImmersionBar
+        immersionBar=ImmersionBar.with(this)
+        immersionBar?.transparentBar()?.statusBarDarkFont(true)?.init()
         setContentView(R.layout.base_layout)
+
+        state_height?.layoutParams?.height=getStatusBarHeight(this)
+
+
         mActivity = this
         intiBaseView()
         initData(savedInstanceState,base_title_view)
@@ -25,6 +35,11 @@ abstract class BaseWrapperActivity : AppCompatActivity() {
     override fun onBackPressed() {
         beforeFinish()
         super.onBackPressed()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        immersionBar?.destroy()
     }
 
     /**
@@ -68,5 +83,16 @@ abstract class BaseWrapperActivity : AppCompatActivity() {
         }
         mToast?.setText(msg);
         mToast?.show();
+    }
+
+    /**
+     * 获取状态栏的高度
+     */
+    private  fun getStatusBarHeight(activity: Activity): Int {
+        val resourceId =
+            activity.resources.getIdentifier("status_bar_height", "dimen", "android")
+        return if (resourceId > 0) {
+            activity.resources.getDimensionPixelSize(resourceId)
+        } else 0
     }
 }

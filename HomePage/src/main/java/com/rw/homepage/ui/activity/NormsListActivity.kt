@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.rw.basemvp.BaseActivity
 import com.rw.basemvp.until.ViewHolder
 import com.rw.basemvp.widget.TitleView
@@ -31,6 +33,7 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
     private var insertPosition=-1
     private var deletePosition=-1
     private var deleteType=1
+    private var listEditData:ArrayList<NormsAttributeBean>?=null
     override fun setLayout(): Int {
         return R.layout.hp_norms_list
     }
@@ -102,10 +105,16 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
 
     }
     private fun reqResult() {
+
         val listNorms=GoodsEditModel.get()?.normsList?.value
         if (!listNorms.isNullOrEmpty()){
             mAdapter.setNewInstance(listNorms)
         }else{
+            val data=intent.getStringExtra("data")
+            if (!data.isNullOrEmpty()){
+                listEditData= Gson().fromJson(data, object : TypeToken<List<NormsAttributeBean>>() {}.type)
+            }
+
             mPresenter?.getNormsList(NormsListReq(categoryId?:"2"))
         }
 
@@ -124,6 +133,20 @@ class NormsListActivity : BaseActivity<NormsListPresenter>() {
                                    listNorms.add(attributeBean)
                                }
                            }
+
+                           listEditData?.forEach {bean->
+                               if (bean is NormsAttributeBean){
+                                   for (i in listNorms.indices){
+                                       val normsItem=listNorms[i]
+                                       if (normsItem is NormsAttributeBean && bean.id==normsItem.id){
+                                           (listNorms[i] as NormsAttributeBean).selectType=1
+                                           break
+                                       }
+                                   }
+                               }
+                           }
+
+
                            mAdapter.setNewInstance(listNorms)
                        }
 

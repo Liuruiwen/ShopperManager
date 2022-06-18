@@ -88,6 +88,7 @@ class GoodsManagerActivity : BaseActivity<GoodsManagerPresenter>() {
     private fun setOnItem(position:Int){
         vp_body.currentItem = position
         mAdapter.setSelectItem(position)
+        rv_menu?.scrollToPosition(position)
     }
 
     private fun reqResult() {

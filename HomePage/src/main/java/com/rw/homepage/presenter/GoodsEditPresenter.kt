@@ -27,4 +27,19 @@ class GoodsEditPresenter : HomePagePresenter() {
         }
 
     }
+
+    /**
+     * 编辑商品
+     */
+    fun editGoods(req:AddGoodsReq){
+
+        ServiceViewModule.get()?.loginService?.value?.let { bean ->
+            postBodyData(
+                0,
+                HttpApi.HTTP_EDIT_GOODS, BaseBean::class.java, true,
+                linkedMapOf("token" to bean.token), req
+            )
+        }
+
+    }
 }

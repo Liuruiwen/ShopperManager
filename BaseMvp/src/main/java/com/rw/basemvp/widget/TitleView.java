@@ -3,15 +3,15 @@ package com.rw.basemvp.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.FrameLayout;
 
 
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import com.google.android.material.appbar.AppBarLayout;
 import com.rw.basemvp.R;
 
-public class TitleView  extends AppBarLayout {
+public class TitleView  extends FrameLayout {
     public TitleView(Context context) {
         super(context);
     }
