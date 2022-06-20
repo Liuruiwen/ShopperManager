@@ -8,7 +8,6 @@ import com.rw.basemvp.until.ViewHolder
 import com.rw.homepage.HttpApi
 import com.rw.homepage.R
 import com.rw.homepage.bean.*
-import com.rw.homepage.ui.activity.GoodsEditActivity
 import com.rw.homepage.ui.dialog.AddCategoryDialog
 import com.rw.service.ServiceViewModule
 import org.jetbrains.anko.toast
@@ -74,6 +73,22 @@ class GoodsManagerPresenter : HomePagePresenter() {
             postBodyData(
                 3,
                 HttpApi.HTTP_EDIT_CATEGORY, EditCategoryResultBean::class.java, true,
+                linkedMapOf("token" to bean.token),category
+            )
+        }
+
+    }
+
+
+    /**
+     * 更新品类序号
+     */
+    fun updateCategoryPosition(category: List<CategoryResultBean>) {
+
+        ServiceViewModule.get()?.loginService?.value?.let { bean ->
+            postBodyData(
+                3,
+                HttpApi.HTTP_UPDATE_POSITION, BaseBean::class.java, true,
                 linkedMapOf("token" to bean.token),category
             )
         }

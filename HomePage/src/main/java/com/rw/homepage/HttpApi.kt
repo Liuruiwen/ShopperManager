@@ -24,5 +24,6 @@ object HttpApi {
     const val HTTP_GET_ATTENDANCE="/s1/index/getEmployeesAttendance"//获取员工考勤
     const val HTTP_COMMIT_CARD="/s1/index/commitCard"//获取员工考勤
     const val HTTP_UPLOAD_IMAGE="/s1/index/uploadAvatar"//图片上传
+    const val HTTP_UPDATE_POSITION="/s1/index/updateCategoryPosition"//更改商品序号
 
 }

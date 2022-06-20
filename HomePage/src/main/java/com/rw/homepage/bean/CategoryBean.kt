@@ -31,7 +31,7 @@ data class EditCategoryResultBean (
 data class CategoryResultBean(
     val id:Int,
     var categoryName:String?,
-    val categoryPosition:Int?,
+    var categoryPosition:Int?,
     var categoryDesc:String?,
     val businessLicense:String?
 )

@@ -32,10 +32,7 @@ abstract class BaseWrapperActivity : AppCompatActivity() {
     }
 
 
-    override fun onBackPressed() {
-        beforeFinish()
-        super.onBackPressed()
-    }
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -55,7 +52,7 @@ abstract class BaseWrapperActivity : AppCompatActivity() {
   open  fun intiBaseView() {
         base_title_view.setChildClickListener(R.id.iv_title_left, ({
             beforeFinish()
-            finish()
+
         }))
         base_frame_layout.addView(layoutInflater.inflate(setLayout(), null))
     }
@@ -63,8 +60,8 @@ abstract class BaseWrapperActivity : AppCompatActivity() {
     /**
      * 按返回键之前操作
      */
-    protected fun beforeFinish() {
-
+    open fun beforeFinish() {
+        finish()
     }
 
     /**

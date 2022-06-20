@@ -12,10 +12,7 @@ import com.rw.basemvp.widget.TitleView
 import com.rw.homepage.HttpApi
 import com.rw.homepage.R
 import com.rw.homepage.adapter.CategoryListAdapter
-import com.rw.homepage.bean.CategoryBean
-import com.rw.homepage.bean.CategoryListBean
-import com.rw.homepage.bean.EditCategoryResultBean
-import com.rw.homepage.bean.GoodsListReq
+import com.rw.homepage.bean.*
 import com.rw.homepage.presenter.GoodsManagerPresenter
 import com.rw.homepage.until.setVisible
 import kotlinx.android.synthetic.main.hp_activity_edit_category.*
@@ -48,6 +45,13 @@ class EditCategoryActivity : BaseActivity<GoodsManagerPresenter>() {
         request()
     }
 
+    override fun onBackPressed() {
+        if (processClose()){
+            super.onBackPressed()
+        }
+
+
+    }
     override fun getPresenter(): GoodsManagerPresenter {
         return GoodsManagerPresenter()
     }
@@ -100,6 +104,9 @@ class EditCategoryActivity : BaseActivity<GoodsManagerPresenter>() {
                     }
 
                 }
+                HttpApi.HTTP_UPDATE_POSITION->{
+                    finish()
+                }
                 HttpApi.HTTP_EDIT_CATEGORY -> {
                     if (it is EditCategoryResultBean){
                         it.data?.let {req->
@@ -128,6 +135,39 @@ class EditCategoryActivity : BaseActivity<GoodsManagerPresenter>() {
     }
     private fun request(){
            mPresenter?.reqCategory()
+    }
+
+
+    /**
+     * 处理排序
+     */
+    private fun processClose():Boolean{
+        var isClose=true
+        val dataSize=mAdapter.data.size-1
+        for (index in mAdapter.data.indices ){
+            val item=mAdapter.getItem(index)
+            if (index!=item.categoryPosition){
+                var position=0
+                mAdapter.data.forEach{
+                    it.categoryPosition=position
+                    position++
+                }
+                isClose=false
+                mPresenter?.updateCategoryPosition(mAdapter.data)
+            }else if  (index==dataSize){
+                isClose=true
+
+                break
+            }
+
+        }
+        return isClose
+    }
+
+    override fun beforeFinish() {
+        if (processClose()){
+            finish()
+        }
     }
 
 }

@@ -78,3 +78,8 @@ data class AddNormsReq(
 data class DeleteNormsReq(
     val id:Int
 )
+
+data class ReqCategoryBean(
+    val id:Int,
+    val categoryPosition:Int
+)
