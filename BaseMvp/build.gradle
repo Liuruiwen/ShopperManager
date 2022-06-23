@@ -5,12 +5,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "29.0.3"
+    compileSdkVersion compile_SdkVersion
+    buildToolsVersion build_ToolsVersion
+
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion compile_SdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -36,15 +37,15 @@ android {
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.2.0'
     implementation "androidx.appcompat:appcompat:$appcompat"
-    implementation "com.google.android.material:material:$appcompat"
+    implementation "com.google.android.material:material:$compose_material"
     testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-
+    androidTestImplementation "androidx.test.ext:junit:$test_junit"
+    implementation "androidx.core:core-ktx:$core_version"
+    androidTestImplementation "androidx.test:espresso:espresso-core:$test_code"
     def lifecycle_version = "2.0.0"
 //    kapt "com.android.databinding:compiler:3.1.2"
+    implementation "androidx.recyclerview:recyclerview:$recycler_view"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     ///RxJava
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'

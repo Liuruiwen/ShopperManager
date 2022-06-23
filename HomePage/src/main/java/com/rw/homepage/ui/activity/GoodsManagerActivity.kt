@@ -1,6 +1,7 @@
 package com.rw.homepage.ui.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupWindow
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,11 +35,17 @@ import kotlinx.android.synthetic.main.hp_activity_goods_manager.layout_empty
 import kotlinx.android.synthetic.main.hp_empty_state.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
+import java.util.*
 
 class GoodsManagerActivity : BaseActivity<GoodsManagerPresenter>() {
    private val mAdapter: MenuAdapter by lazy {
        MenuAdapter()
    }
+    private var result=registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode==1001){
+                mPresenter?.reqCategory()
+            }
+    }
     private  var listFragment:ArrayList<Fragment>?=null
     private var tvRight:TextView?=null
 
@@ -188,7 +196,7 @@ class GoodsManagerActivity : BaseActivity<GoodsManagerPresenter>() {
                 popupWindow?.dismiss()
             }
             tvManager?.setOnClickListener {//管理品类
-                startActivity<EditCategoryActivity>()
+                result.launch(Intent(this,EditCategoryActivity::class.java))
                 popupWindow?.dismiss()
             }
             popupWindow?.contentView = view
