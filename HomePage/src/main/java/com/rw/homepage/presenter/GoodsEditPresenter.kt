@@ -36,7 +36,7 @@ class GoodsEditPresenter : HomePagePresenter() {
         ServiceViewModule.get()?.loginService?.value?.let { bean ->
             postBodyData(
                 0,
-                HttpApi.HTTP_EDIT_GOODS, BaseBean::class.java, true,
+                HttpApi.HTTP_EDIT_GOODS, GoodsBean::class.java, true,
                 linkedMapOf("token" to bean.token), req
             )
         }

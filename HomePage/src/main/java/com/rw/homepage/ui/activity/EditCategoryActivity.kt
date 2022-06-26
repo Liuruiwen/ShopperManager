@@ -106,7 +106,6 @@ class EditCategoryActivity : BaseActivity<GoodsManagerPresenter>() {
                 }
                 HttpApi.HTTP_UPDATE_POSITION->{
                     backPage()
-                    finish()
                 }
                 HttpApi.HTTP_EDIT_CATEGORY -> {
                     if (it is EditCategoryResultBean){
@@ -167,7 +166,6 @@ class EditCategoryActivity : BaseActivity<GoodsManagerPresenter>() {
 
     override fun beforeFinish() {
         if (processClose()){
-            finish()
             backPage()
         }
     }
@@ -175,6 +173,7 @@ class EditCategoryActivity : BaseActivity<GoodsManagerPresenter>() {
     private fun backPage(){
         intent.putExtra("isTrue",true)
         setResult(1001,intent)
+        finish()
     }
 
 }

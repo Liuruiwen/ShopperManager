@@ -67,4 +67,9 @@ class GoodsListAdapter :BaseQuickAdapter<GoodsListBean,BaseViewHolder>(R.layout.
         data[position].isShow= !data[position].isShow
         notifyItemChanged(position)
     }
+
+    fun updateItem(position: Int,item:GoodsListBean){
+        data[position]=item
+        notifyItemChanged(position)
+    }
 }

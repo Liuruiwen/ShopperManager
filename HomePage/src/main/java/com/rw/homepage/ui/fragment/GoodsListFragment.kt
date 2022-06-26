@@ -1,15 +1,20 @@
 package com.rw.homepage.ui.fragment
 
+import android.content.Intent
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.rw.basemvp.BaseFragment
 import com.rw.homepage.HttpApi
 import com.rw.homepage.R
 import com.rw.homepage.adapter.GoodsListAdapter
 import com.rw.homepage.bean.GoodsBean
+import com.rw.homepage.bean.GoodsListBean
 import com.rw.homepage.presenter.GoodsListPresenter
+import com.rw.homepage.ui.activity.EditCategoryActivity
 import com.rw.homepage.ui.activity.GOODS_EDIT_TYPE_ADD
 import com.rw.homepage.ui.activity.GOODS_EDIT_TYPE_EDIT
 import com.rw.homepage.ui.activity.GoodsEditActivity
@@ -17,7 +22,6 @@ import com.rw.homepage.until.setVisible
 import kotlinx.android.synthetic.main.hp_empty_state.*
 import kotlinx.android.synthetic.main.hp_fragment_goods_list.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 
 /**
  * Created by Amuse
@@ -27,8 +31,25 @@ import org.jetbrains.anko.toast
 class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
     private var categoryId=0
     private var selectPosition=-1
+    private var itemPosition=-1
     private val mAdapter: GoodsListAdapter by lazy {
         GoodsListAdapter()
+    }
+    private var result=registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode==2001){
+
+            if (itemPosition>-1&&!it.data?.getStringExtra("goods").isNullOrEmpty()){
+                val item=Gson().fromJson<GoodsListBean>(it.data?.getStringExtra("goods"), object : TypeToken<GoodsListBean>() {}.type)
+                item?.let { bean->
+                    mAdapter.updateItem(itemPosition,bean)
+                    itemPosition=-1
+                }
+            }else{
+                mPresenter?.reqGoodsList(categoryId)
+            }
+
+
+        }
     }
     override fun getViewLayout(): Int {
      return R.layout.hp_fragment_goods_list
@@ -75,8 +96,10 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
             when (it?.requestType) {
                 HttpApi.HTTP_GET_GOODS_LIST -> {
                     val data=it as GoodsBean
-                    goods_empty.setVisible(data.data.isNullOrEmpty())
-                    rv_goods.setVisible(!data.data.isNullOrEmpty())
+                    tv_add_goods?.setVisible(data.data.isNullOrEmpty())
+                    tv_goods_position?.setVisible(data.data.isNullOrEmpty())
+                    goods_empty?.setVisible(data.data.isNullOrEmpty())
+                    rv_goods?.setVisible(!data.data.isNullOrEmpty())
                     mAdapter.setNewInstance(it.data)
                     tv_add?.text=if (!data.data.isNullOrEmpty()) "管理" else "添加商品"
                 }
@@ -118,11 +141,17 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
     }
 
     private fun itemClick(position: Int){
+        itemPosition=position
         val item=mAdapter.getItem(position)
         val data=Gson().toJson(item)
-        mContext?.startActivity<GoodsEditActivity>("type" to GOODS_EDIT_TYPE_EDIT,
-            "id" to categoryId,
-            "goodsItem" to data,
-            "goodsId" to item.id)
+        val it=Intent(mContext, GoodsEditActivity::class.java)
+        it.apply {
+            putExtra("type", GOODS_EDIT_TYPE_EDIT)
+            putExtra("id", categoryId)
+            putExtra( "goodsItem", data)
+            putExtra("goodsId", item.id)
+        }
+        result.launch(it)
+
     }
 }

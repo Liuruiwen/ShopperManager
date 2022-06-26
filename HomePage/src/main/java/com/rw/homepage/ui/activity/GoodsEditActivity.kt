@@ -175,6 +175,7 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
             when (it?.requestType) {
                 HttpApi.HTTP_ADD_GOODS -> {
                     showToast("添加商品成功")
+                    setResult(2001)
                     finish()
                 }
                 HttpApi.HTTP_UPLOAD_IMAGE->{
@@ -188,7 +189,12 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
                     showToast("上传商品图片成功")
                 }
                 HttpApi.HTTP_EDIT_GOODS->{
-                    showToast("编辑商品成功")
+                    if (it is GoodsBean&&!it.data.isNullOrEmpty()){
+                        showToast("编辑商品成功")
+                      val item=Gson().toJson(it.data?.get(0))
+                        intent.putExtra("goods",item)
+                        setResult(2001,intent)
+                    }
                     finish()
                 }
                 else -> showToast("系统异常")
@@ -473,5 +479,8 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
 
 
     }
+
+
+
 
 }

@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProject/ShopperManager/HomePage/src/main/res/layout/hp_activity_goods_manager.xml" value="0.1" />
         <entry key="..\:/AndroidProject/ShopperManager/HomePage/src/main/res/layout/hp_fragment_goods_list.xml" value="0.9193548387096774" />
       </map>
     </option>

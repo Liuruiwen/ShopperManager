@@ -96,7 +96,6 @@ class GoodsManagerActivity : BaseActivity<GoodsManagerPresenter>() {
     private fun setOnItem(position:Int){
         vp_body.currentItem = position
         mAdapter.setSelectItem(position)
-        rv_menu?.scrollToPosition(position)
     }
 
     private fun reqResult() {
@@ -242,11 +241,12 @@ class GoodsManagerActivity : BaseActivity<GoodsManagerPresenter>() {
 
                 override fun onPageSelected(position: Int) {
                    mAdapter.setSelectItem(position)
+                    rv_menu?.scrollToPosition(position)
                 }
 
             })
         }
-
+        setOnItem(0)
     }
 
 }
