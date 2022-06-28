@@ -174,8 +174,14 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
         getViewModel()?.baseBean?.observe(this, Observer {
             when (it?.requestType) {
                 HttpApi.HTTP_ADD_GOODS -> {
+                    if (it is GoodsBean&&!it.data.isNullOrEmpty()){
+                        showToast("编辑商品成功")
+                        val item=Gson().toJson(it.data?.get(0))
+                        intent.putExtra("goods",item)
+                        setResult(2002,intent)
+                    }
                     showToast("添加商品成功")
-                    setResult(2001)
+
                     finish()
                 }
                 HttpApi.HTTP_UPLOAD_IMAGE->{

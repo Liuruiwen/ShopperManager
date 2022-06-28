@@ -36,19 +36,23 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
         GoodsListAdapter()
     }
     private var result=registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode==2001){
 
-            if (itemPosition>-1&&!it.data?.getStringExtra("goods").isNullOrEmpty()){
-                val item=Gson().fromJson<GoodsListBean>(it.data?.getStringExtra("goods"), object : TypeToken<GoodsListBean>() {}.type)
-                item?.let { bean->
-                    mAdapter.updateItem(itemPosition,bean)
-                    itemPosition=-1
+        when(it.resultCode){
+            2001, 2002->{
+                if (!it.data?.getStringExtra("goods").isNullOrEmpty()){
+                    val item=Gson().fromJson<GoodsListBean>(it.data?.getStringExtra("goods"), object : TypeToken<GoodsListBean>() {}.type)
+                    item?.let { bean->
+                        if (it.resultCode==2002){
+                            mAdapter.addData(0,bean)
+                            setDataState(true)
+
+                        }else{
+                            mAdapter.updateItem(itemPosition,bean)
+                        }
+                        itemPosition=-1
+                    }
                 }
-            }else{
-                mPresenter?.reqGoodsList(categoryId)
             }
-
-
         }
     }
     override fun getViewLayout(): Int {
@@ -70,8 +74,14 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
         mAdapter.addChildClickViewIds(R.id.tv_delete)
         mAdapter. addChildClickViewIds(R.id.tv_show)
         mAdapter.setOnItemClickListener { _, _, position ->itemClick(position) }
-        tv_add?.setOnClickListener {
-            mContext?.startActivity<GoodsEditActivity>("type" to GOODS_EDIT_TYPE_ADD,"id" to categoryId)
+        tv_add?.setOnClickListener {view->
+            val it=Intent(mContext, GoodsEditActivity::class.java)
+            it.apply {
+                putExtra("type", GOODS_EDIT_TYPE_ADD)
+                putExtra("id", categoryId)
+            }
+            result.launch(it)
+
         }
         tv_add_goods?.setOnClickListener {
             tv_add?.performClick()
@@ -96,17 +106,15 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
             when (it?.requestType) {
                 HttpApi.HTTP_GET_GOODS_LIST -> {
                     val data=it as GoodsBean
-                    tv_add_goods?.setVisible(data.data.isNullOrEmpty())
-                    tv_goods_position?.setVisible(data.data.isNullOrEmpty())
-                    goods_empty?.setVisible(data.data.isNullOrEmpty())
-                    rv_goods?.setVisible(!data.data.isNullOrEmpty())
+                    setDataState(!data.data.isNullOrEmpty())
                     mAdapter.setNewInstance(it.data)
-                    tv_add?.text=if (!data.data.isNullOrEmpty()) "管理" else "添加商品"
+                    tv_add?.text="添加商品"
                 }
                 HttpApi.HTTP_DELETE_GOODS->{
                     if (selectPosition>-1){
                         mAdapter.remove(mAdapter.getItem(selectPosition))
                         selectPosition=-1
+                        setDataState(!mAdapter.data.isNullOrEmpty())
                     }
 
                 }
@@ -153,5 +161,12 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
         }
         result.launch(it)
 
+    }
+
+    private fun setDataState(isTrue:Boolean){
+        tv_add_goods?.setVisible(isTrue)
+        tv_goods_position?.setVisible(isTrue)
+        goods_empty?.setVisible(!isTrue)
+        rv_goods?.setVisible(isTrue)
     }
 }
