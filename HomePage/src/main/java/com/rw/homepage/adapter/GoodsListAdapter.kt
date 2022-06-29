@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.ruiwenliu.glide.library.GlideManager
@@ -29,7 +30,9 @@ class GoodsListAdapter :BaseQuickAdapter<GoodsListBean,BaseViewHolder>(R.layout.
         holder.setText(R.id.tv_price,"价格:${item.goodsPrice}")
         holder.setText(R.id.tv_shelves,if (item.shelvesType==1) "下架" else "上架")
         val layoutAdd=holder.getView<LinearLayout>(R.id.layout_add)
-        layoutAdd.setVisible(item.isShow)
+//        layoutAdd.setVisible(item.isShow)
+//        holder.setText(R.id.tv_show,if (!item.isShow) "展开" else "收起")
+//        holder.setTextColor(R.id.tv_show,ContextCompat.getColor(context,if (!item.isShow) R.color.colorPrimary else R.color.textLight))
         initAttr(layoutAdd,item.listNorms)
 
     }
@@ -40,8 +43,16 @@ class GoodsListAdapter :BaseQuickAdapter<GoodsListBean,BaseViewHolder>(R.layout.
         }
         list?.forEach {
             layoutAdd.addView(getHeaderView(it.normsName?:""))
+            val tvName=LayoutInflater.from(context).inflate(R.layout.hp_item_attr,null)
+            val stringBuilder=StringBuilder()
             it.listAttribute?.forEach{item->
-                layoutAdd.addView(getAttrView(item.normsAttributeName))
+                stringBuilder.append(item.normsAttributeName)
+                stringBuilder.append("  ")
+
+            }
+            if (tvName is TextView){
+                tvName.text=stringBuilder.toString()
+                layoutAdd.addView(tvName)
             }
         }
 
@@ -55,13 +66,7 @@ class GoodsListAdapter :BaseQuickAdapter<GoodsListBean,BaseViewHolder>(R.layout.
         return textView
     }
 
-    private fun getAttrView(attr:String):View{
-        val textView=LayoutInflater.from(context).inflate(R.layout.hp_item_attr,null)
-        if (textView is  TextView){
-            textView.text=attr
-        }
-        return textView
-    }
+
 
     fun updateShow(position:Int){
         data[position].isShow= !data[position].isShow

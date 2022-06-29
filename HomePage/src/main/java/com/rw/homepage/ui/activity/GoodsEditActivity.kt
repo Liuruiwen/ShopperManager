@@ -61,6 +61,7 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
     private var imageFile: File? = null
     private var cropUri: Uri? = null
     private var goodsId:Int=0
+    var listNorm=ArrayList<NormsHeaderBean>()
     private val categroyId: Int by lazy {
         intent.getIntExtra("id", 0)
     }
@@ -176,6 +177,7 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
                 HttpApi.HTTP_ADD_GOODS -> {
                     if (it is GoodsBean&&!it.data.isNullOrEmpty()){
                         showToast("编辑商品成功")
+                        it.data?.get(0)?.listNorms=listNorm
                         val item=Gson().toJson(it.data?.get(0))
                         intent.putExtra("goods",item)
                         setResult(2002,intent)
@@ -197,6 +199,7 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
                 HttpApi.HTTP_EDIT_GOODS->{
                     if (it is GoodsBean&&!it.data.isNullOrEmpty()){
                         showToast("编辑商品成功")
+                        it.data?.get(0)?.listNorms=listNorm
                       val item=Gson().toJson(it.data?.get(0))
                         intent.putExtra("goods",item)
                         setResult(2001,intent)
@@ -273,12 +276,21 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
      */
     private fun processNormsList(list:List<MultiItemBean>){
         mAdapter.data.clear()
+        listNorm.clear()
         val listNorms=ArrayList<MultiItemBean>()
         var itemHeader:NormsHeaderBean?=null
         for (index in list.indices){
             val item=list[index]
             if (item is NormsHeaderBean){
                 itemHeader=item
+                val normsItem=ArrayList<NormsAttributeBean>()
+                item.listAttribute?.forEach {
+                    if (it.selectType==1){
+                        normsItem.add(it)
+                    }
+                }
+                itemHeader.listAttribute=normsItem
+                listNorm.add(itemHeader)
             }else if (item is NormsAttributeBean && item.selectType==1){
                     if (itemHeader!=null){
                         listNorms.add(itemHeader)
@@ -306,7 +318,8 @@ class GoodsEditActivity : BaseActivity<GoodsEditPresenter>() {
                 GlideManager
                     .getInstance(this@GoodsEditActivity)?.loadRoundImage(goodsImage,add_goods_image,15)
             }
-
+            listNorm.clear()
+            listNorm= listNorms as ArrayList<NormsHeaderBean>
             processEditNorms(listNorms)
         }
     }

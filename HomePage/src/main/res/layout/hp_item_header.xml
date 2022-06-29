@@ -4,6 +4,7 @@
     android:id="@+id/tv_attr"
     android:textSize="14dp"
     android:paddingStart="16dp"
+    android:paddingTop="4dp"
     android:textStyle="bold"
     android:textColor="@color/textMain"
     android:layout_height="wrap_content"/>

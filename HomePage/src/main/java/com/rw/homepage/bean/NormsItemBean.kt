@@ -23,7 +23,7 @@ data class NormsHeaderBean(
     val normsName:String,
     val businessLicense:String,
     val categoryId:Int,
-    val listAttribute:List<NormsAttributeBean>?,
+    var listAttribute:List<NormsAttributeBean>?,
     override var itemType: Int =TYPE_NORMS_ITEM_HEADER
 ):MultiItemBean {
     override fun getSpanSize(): Int {

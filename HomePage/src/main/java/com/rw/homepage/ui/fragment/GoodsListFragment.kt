@@ -14,14 +14,13 @@ import com.rw.homepage.adapter.GoodsListAdapter
 import com.rw.homepage.bean.GoodsBean
 import com.rw.homepage.bean.GoodsListBean
 import com.rw.homepage.presenter.GoodsListPresenter
-import com.rw.homepage.ui.activity.EditCategoryActivity
 import com.rw.homepage.ui.activity.GOODS_EDIT_TYPE_ADD
 import com.rw.homepage.ui.activity.GOODS_EDIT_TYPE_EDIT
 import com.rw.homepage.ui.activity.GoodsEditActivity
 import com.rw.homepage.until.setVisible
 import kotlinx.android.synthetic.main.hp_empty_state.*
 import kotlinx.android.synthetic.main.hp_fragment_goods_list.*
-import org.jetbrains.anko.startActivity
+
 
 /**
  * Created by Amuse
@@ -41,13 +40,18 @@ class GoodsListFragment :BaseFragment<GoodsListPresenter>(){
             2001, 2002->{
                 if (!it.data?.getStringExtra("goods").isNullOrEmpty()){
                     val item=Gson().fromJson<GoodsListBean>(it.data?.getStringExtra("goods"), object : TypeToken<GoodsListBean>() {}.type)
+
                     item?.let { bean->
                         if (it.resultCode==2002){
                             mAdapter.addData(0,bean)
                             setDataState(true)
 
                         }else{
-                            mAdapter.updateItem(itemPosition,bean)
+                            if (itemPosition>-1){
+                                bean.isShow=mAdapter.getItem(itemPosition).isShow
+                                mAdapter.updateItem(itemPosition,bean)
+                            }
+
                         }
                         itemPosition=-1
                     }
