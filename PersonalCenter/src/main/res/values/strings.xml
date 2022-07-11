@@ -1,6 +1,7 @@
 <resources>
     <string name="pc_login_out">退出登录</string>
     <string name="pc_delete">删除</string>
+    <string name="pc_attendance">考勤</string>
 
     <string name="pc_input_account">请输入账号</string>
     <string name="pc_input_password">请输入员工初次密码</string>

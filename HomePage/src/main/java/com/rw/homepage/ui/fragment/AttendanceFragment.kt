@@ -50,18 +50,29 @@ class AttendanceFragment  : BaseFragment<AttendancePresenter>(){
     }
 
     fun refreshData(year:Int){
-        if (year!=mYear){
+        if (mYear!=year&&year>0){
+            mYear=year
             lazyData()
+        }
+
+    }
+
+    /**
+     * 设置年份
+     */
+    fun setYear(year:Int){
+        if (isLoaded&&mYear!=year){
+            mYear=year
+            lazyData()
+        }else{
+            mYear=year
         }
 
     }
     override fun lazyData() {
         super.lazyData()
-        arguments?.apply {
-            mMonth=getInt("month",0)
-            mYear=getInt("year",0)
-            mPresenter?.getAttendance(AttendancePresenter.AttendanceReq("$mYear-$mMonth"))
-        }
+        mPresenter?.getAttendance(AttendancePresenter.AttendanceReq("$mYear-$mMonth"))
+
 
     }
 
@@ -70,6 +81,12 @@ class AttendanceFragment  : BaseFragment<AttendancePresenter>(){
     }
 
     override fun initView() {
+        arguments?.apply {
+            mMonth=getInt("month",0)
+            if (mYear==0){
+                mYear=getInt("year",0)
+            }
+        }
         mContext?.apply {
             mMessageDialog=  mPresenter?.showMessageDialog(this,
                 View.OnClickListener {

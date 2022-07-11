@@ -43,6 +43,21 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/tv_attendance"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="40dp"
+        android:text="@string/pc_attendance"
+        tools:text="考勤"
+        android:textStyle="bold"
+        android:paddingEnd="16dp"
+        android:textSize="14sp"
+        app:layout_constraintTop_toTopOf="@id/tv_age"
+        app:layout_constraintBottom_toBottomOf="@id/tv_age"
+        android:textColor="@color/colorPrimary"
+        tools:ignore="MissingConstraints" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/tv_name"
         app:layout_constraintTop_toBottomOf="@id/tv_account"
         android:layout_marginTop="6dp"

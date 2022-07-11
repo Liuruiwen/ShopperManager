@@ -13,13 +13,13 @@ data class EmployeesManagerBean(
 
 data class EmployeesBean(
     val id:Int,
-    val userName:String,
+    val userName:String?,
     val age:Int,
     val sex:Int,
-    val address:String,
+    val address:String?,
     val level:Int,
     val account:String,
-    val nickName:String,
+    val nickName:String?,
     val businessLicense:String
 
 )

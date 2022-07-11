@@ -163,7 +163,7 @@ abstract class BaseWrapperFragment<P : MvpPresenter<BaseView>> : Fragment(), Bas
     abstract fun getPresenter(): P
 
 
-    private var isLoaded = false
+    var isLoaded = false
 
     override fun onResume() {
         super.onResume()

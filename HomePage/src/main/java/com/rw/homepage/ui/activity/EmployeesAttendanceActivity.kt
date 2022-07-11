@@ -143,9 +143,11 @@ class EmployeesAttendanceActivity : BaseActivity<HomePagePresenter>() {
      * 设置选中事件
      */
     private fun setSelectDate(position:Int){
+        val fragment=listFragment?.get(position)
+        fragment?.setYear(selectYear)
         menuAdapter.setSelectItem(position)
         rv_menu.scrollToPosition(position)
-        attendanceFragment=listFragment?.get(position)
+        attendanceFragment=fragment
     }
 
 
